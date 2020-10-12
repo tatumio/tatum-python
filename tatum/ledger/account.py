@@ -25,7 +25,7 @@ def create_new_account(API_KEY, body_params):
 
 
 def list_all_accounts(API_KEY, query_params):
-    validator.list_all_accounts(query_params)
+    validator.page_size_query_params(query_params)
 
     headers = { 'x-api-key': API_KEY }
     if len(query_params) != 1:
