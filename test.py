@@ -1,4 +1,4 @@
-from tatum.ledger import account, virtual_currency, customer, transaction, subscription
+from tatum.ledger import account, virtual_currency, customer, transaction, subscription, order_book
 api = "4f7315df-b6ca-41c7-a45e-95d7e44d4d95"
 
 
@@ -33,7 +33,7 @@ api = "4f7315df-b6ca-41c7-a45e-95d7e44d4d95"
 # account.freeze_account(api, path_params)
 # account.unfreeze_account(api,path_params)
 
-# body_params = {'name': 'VC_mdoje', 'supply': '300', 'basePair': 'BTC'}
+# body_params = {'name': 'VC_CZK', 'supply': '300', 'basePair': 'BTC'}
 # virtual_currency.create_new_vitual_currency(api, body_params)
 
 # body_params = {'name': 'VC_moje', 'basePair': 'ETH'}
@@ -73,7 +73,7 @@ api = "4f7315df-b6ca-41c7-a45e-95d7e44d4d95"
 
 # body_params = {'id': '5f85717db0fb3d7676c269a9'}
 # account.get_account_balance(api, path_params)
-query_params = {'pageSize': 10}
+# query_params = {'pageSize': 10}
 # transaction.find_transactions_for_account(api, query_params, body_params)
 # body_params = {'id': '5f4fadd111a32373ca107544'}
 # transaction.find_transactions_for_customer_across_all_accounts_of_customer(api, query_params, body_params)
@@ -85,6 +85,32 @@ query_params = {'pageSize': 10}
 # subscription.list_all_active_subscriptions(api, query_params)
 # body_params = {"type":"ACCOUNT_BALANCE_LIMIT","attr":{"limit":"1000","typeOfBalance":"account"}}
 # subscription.create_new_subcription(api, body_params)
-path_params = {'id': '5f8591d0dc6c947705e83afa'}
+# path_params = {'id': '5f8591d0dc6c947705e83afa'}
 # subscription.cancel_existing_subscription(api, path_params)
-subscription.obtain_report_for_subscription(api, path_params)
+# subscription.obtain_report_for_subscription(api, path_params)
+
+# query_params = {'pageSize': 10}
+# order_book.list_all_historical_trades(api, query_params)
+# order_book.list_all_active_sell_trades(api, query_params)
+# order_book.list_all_active_buy_trades(api, query_params)
+
+# query_params = {'id': '5a9cfa6ac43321052e7497a6'}
+# order_book.get_existing_trade(api, query_params)
+
+# query_params = {'id': '5ed0b1e501b150287a7f6aac'}
+# order_book.cancel_existing_trade(api, query_params)
+
+# query_params = {'id': '5e9fe150392b786b9dc6f7d8'}
+# order_book.cancel_all_existing_trades_for_account(api, query_params)
+
+
+body_params = {
+	"type":"SELL",
+	"price":"1",
+	"amount":"10",
+	"pair":"VC_EUR/VC_CZK",
+	"currency1AccountId":"5f85b6dc03e34c3164a48b3a",
+	"currency2AccountId":"5f85b83e2aafd5315e3ab20b"
+}
+
+order_book.store_buy_sell_trade(api, body_params)
