@@ -1,4 +1,4 @@
-from tatum.ledger import account, virtual_currency, customer, transaction
+from tatum.ledger import account, virtual_currency, customer, transaction, subscription
 api = "4f7315df-b6ca-41c7-a45e-95d7e44d4d95"
 
 
@@ -73,12 +73,18 @@ api = "4f7315df-b6ca-41c7-a45e-95d7e44d4d95"
 
 # body_params = {'id': '5f85717db0fb3d7676c269a9'}
 # account.get_account_balance(api, path_params)
-# query_params = {'pageSize': 10}
+query_params = {'pageSize': 10}
 # transaction.find_transactions_for_account(api, query_params, body_params)
 # body_params = {'id': '5f4fadd111a32373ca107544'}
 # transaction.find_transactions_for_customer_across_all_accounts_of_customer(api, query_params, body_params)
 # body_params = {'account': '5f85717db0fb3d7676c269a9'}
 # transaction.find_transactions_for_ledger(api, query_params, body_params)
-path_params = {'reference': '9de8580a-4440-49c8-98d7-e3771eaeb6a8'}
-transaction.find_transactions_with_given_reference_across_all_accounts(api, path_params)
+# path_params = {'reference': '9de8580a-4440-49c8-98d7-e3771eaeb6a8'}
+# transaction.find_transactions_with_given_reference_across_all_accounts(api, path_params)
 
+# subscription.list_all_active_subscriptions(api, query_params)
+# body_params = {"type":"ACCOUNT_BALANCE_LIMIT","attr":{"limit":"1000","typeOfBalance":"account"}}
+# subscription.create_new_subcription(api, body_params)
+path_params = {'id': '5f8591d0dc6c947705e83afa'}
+# subscription.cancel_existing_subscription(api, path_params)
+subscription.obtain_report_for_subscription(api, path_params)

@@ -342,4 +342,42 @@ def create_new_supply_of_virtual_currency(body_params):
 
 
 # ___________________________________LEDGER/SUBSCRIPTION___________________________________
+
+def create_new_subcription(body_params):
+    v = cerberus.Validator()
+    body_schema = {
+            "type" : {"required": True, "type" : "string"},
+            "attr" : {"required": True, "type" : "dict", "schema": {'limit': {"required": True, "type" : "string", "maxlength": 38}, 'typeOfBalance': {"required": True, "type" : "string", "maxlength": 38}}
+            }
+         }
+
+    v.validate(body_params, body_schema)
+    erros_print(v)
+
+    types = ["ACCOUNT_BALANCE_LIMIT", "OFFCHAIN_WITHDRAWAL", "TRANSACTION_HISTORY_REPORT", "ACCOUNT_INCOMING_BLOCKCHAIN_TRANSACTION", "COMPLETE_BLOCKCHAIN_TRANSACTION"]
+    for type in types:
+        resultType = False
+        if body_params['type'] == type:
+            resultType = True
+            break
+    if resultType != True:
+        print(colored('{"type": is not allowed type}'))
+
+    not_allowed_chars = '^[+]?((\d+(\.\d*)?)|(\.\d+))$'
+    for i in range(len(not_allowed_chars)-1):
+        if not_allowed_chars[i] in body_params['attr']['limit']:
+            print(colored("{'amount': contains not allowed characters}", 'red'))
+            break
+
+    typeOfBalance = ["account", "available"]
+    resultTypeOfBalance = False
+    for i in range(0, len(typeOfBalance)-1):
+        if body_params['attr']['typeOfBalance'] == typeOfBalance[i]:
+            resultTypeOfBalance = True
+            break
+    if resultTypeOfBalance == False:
+        print(colored('{"typeOfBalance": is not allowed type}'))
+
+    
+
 # ___________________________________LEDGER/ORDER BOOK_____________________________________
