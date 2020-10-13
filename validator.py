@@ -93,8 +93,159 @@ def get_blocked_amounts_on_account(path_params, query_params):
     page_size_query_params(query_params)
 
 # ___________________________________LEDGER/TRANSACTION____________________________________
+def validate_transaction_type(body_params):
+    transactionType = ["FAILED", "DEBIT_PAYMENT", "CREDIT_PAYMENT", "CREDIT_DEPOSIT", "DEBIT_WITHDRAWAL", "CANCEL_WITHDRAWAL", "DEBIT_OUTGOING_PAYMENT", "EXCHANGE_BUY", "EXCHANGE_SELL", "DEBIT_TRANSACTION", "CREDIT_INCOMING_PAYMENT"]
+    for key in body_params.keys():
+        if key == "transactionType":
+            resultType = False
+            for type in transactionType:
+                if type == body_params["transactionType"]:
+                    resultType = True
+            if resultType == False:
+                print(colored('{"transactionType": is not allowed type }','red'))
 
+def validate_op_type(body_params):
+    opTypes = ["PAYMENT", "WITHDRAWAL", "BLOCKCHAIN_TRANSACTION", "EXCHANGE", "FAILED", "DEPOSIT", "MINT", "REVOKE"]
+    for key in body_params.keys():
+        if key == "opType":
+            resultOpType = False
+            for opType in opTypes:
+                if opType == body_params["opType"]:
+                    resultOpType = True
+                    
+            if resultOpType == False:
+                print(colored('{"opType": is not allowed type }','red'))
 
+def send_payment(body_params):
+    v = cerberus.Validator()
+    body_schema = {
+            "senderAccountId" : {"required": True, "type" : "string", "minlength": 24, "maxlength": 24},
+            "recipientAccountId" : {"required": True, "type" : "string", "minlength": 24, "maxlength": 24},
+            "amount" : {"required": True, "type" : "string", "maxlength": 38},
+            "anonymous" : {"type" : "boolean"},
+            "compliant" : {"type" : "boolean"},
+            "transactionCode":{"type" : "string","minlength": 1, "maxlength": 100},
+            "paymentId":{"type" : "string","minlength": 1, "maxlength": 100},
+            "recipientNote":{"type" : "string","minlength": 1, "maxlength": 500},
+            "baseRate":{"type" : "number","min": 0},
+            "senderNote":{"type" : "string","minlength": 1, "maxlength": 500},
+        }
+
+    v.validate(body_params, body_schema)
+    erros_print(v)
+
+    not_allowed_chars = '^[+]?((\d+(\.\d*)?)|(\.\d+))$'
+    for i in range(len(not_allowed_chars)-1):
+        if not_allowed_chars[i] in body_params['amount']:
+            print(colored("{'amount': contains not allowed characters}", 'red'))
+            break
+
+def find_transactions_for_account(query_params, body_params):
+    v = cerberus.Validator()
+
+    query_schema = {
+            "pageSize" : {"required": True, "type" : "integer", "min": 1, "max": 50},
+            "offset": {"type" : "integer"},
+            "count": {"type" : "string"}
+        }
+
+    v.validate(query_params, query_schema)
+    erros_print(v)
+
+    body_schema = {
+            "id" : {"required": True, "type" : "string", "minlength": 24, "maxlength": 24},
+            "counterAccount" : {"type" : "string", "minlength": 24, "maxlength": 24},
+            "from" : {"type" : "integer", "min": 0},
+            "to" : {"type" : "integer", "min": 0},
+            "currency" : {"type" : "string", "minlength": 1, "maxlength": 50},
+            "transactionType" : {"type" : "string"},
+            "opType" : {"type" : "string"},
+            "transactionCode":{"type" : "string","minlength": 1, "maxlength": 100},
+            "paymentId":{"type" : "string","minlength": 1, "maxlength": 100},
+            "recipientNote":{"type" : "string","minlength": 1, "maxlength": 500},
+            "senderNote":{"type" : "string","minlength": 1, "maxlength": 500},
+        }
+
+    v.validate(body_params, body_schema)
+    erros_print(v)
+
+    validate_transaction_type(body_params)
+    validate_op_type(body_params)
+
+def find_transactions_for_customer_across_all_accounts_of_customer(query_params, body_params):
+    v = cerberus.Validator()
+
+    query_schema = {
+            "pageSize" : {"required": True, "type" : "integer", "min": 1, "max": 50},
+            "offset": {"type" : "integer"},
+            "count": {"type" : "string"}
+        }
+
+    v.validate(query_params, query_schema)
+    erros_print(v)
+
+    body_schema = {
+            "id" : {"required": True, "type" : "string", "minlength": 24, "maxlength": 24},
+            "account" : {"type" : "string", "minlength": 24, "maxlength": 24},
+            "counterAccount" : {"type" : "string", "minlength": 24, "maxlength": 24},
+            "from" : {"type" : "integer", "min": 0},
+            "to" : {"type" : "integer", "min": 0},
+            "currency" : {"type" : "string", "minlength": 1, "maxlength": 50},
+            "transactionType" : {"type" : "string"},
+            "opType" : {"type" : "string"},
+            "transactionCode":{"type" : "string","minlength": 1, "maxlength": 100},
+            "paymentId":{"type" : "string","minlength": 1, "maxlength": 100},
+            "recipientNote":{"type" : "string","minlength": 1, "maxlength": 500},
+            "senderNote":{"type" : "string","minlength": 1, "maxlength": 500},
+        }
+
+    v.validate(body_params, body_schema)
+    erros_print(v)
+
+    validate_transaction_type(body_params)
+    validate_op_type(body_params)
+
+def find_transactions_for_ledger(query_params, body_params):
+    v = cerberus.Validator()
+
+    query_schema = {
+            "pageSize" : {"required": True, "type" : "integer", "min": 1, "max": 50},
+            "offset": {"type" : "integer"},
+            "count": {"type" : "string"}
+        }
+
+    v.validate(query_params, query_schema)
+    erros_print(v)
+
+    body_schema = {
+            "account" : {"type" : "string", "minlength": 24, "maxlength": 24},
+            "counterAccount" : {"type" : "string", "minlength": 24, "maxlength": 24},
+            "from" : {"type" : "integer", "min": 0},
+            "to" : {"type" : "integer", "min": 0},
+            "currency" : {"type" : "string", "minlength": 1, "maxlength": 50},
+            "transactionType" : {"type" : "string"},
+            "opType" : {"type" : "string"},
+            "transactionCode":{"type" : "string","minlength": 1, "maxlength": 100},
+            "paymentId":{"type" : "string","minlength": 1, "maxlength": 100},
+            "recipientNote":{"type" : "string","minlength": 1, "maxlength": 500},
+            "senderNote":{"type" : "string","minlength": 1, "maxlength": 500},
+        }
+
+    v.validate(body_params, body_schema)
+    erros_print(v)
+
+    validate_transaction_type(body_params)
+    validate_op_type(body_params)
+
+def find_transactions_with_given_reference_across_all_accounts(path_params):
+    v = cerberus.Validator()
+
+    path_schema = {
+            "reference" : {"required": True, "type" : "string", "minlength": 20, "maxlength": 100}
+        }
+
+    v.validate(path_params, path_schema)
+    erros_print(v)
 
 # ___________________________________LEDGER/CUSTOMER_______________________________________
 def update_customer(path_params, body_params):
@@ -106,6 +257,8 @@ def update_customer(path_params, body_params):
 
     v.validate(body_params, body_schema)
     erros_print(v)
+
+
 
 
 
