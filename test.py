@@ -1,4 +1,4 @@
-from tatum.ledger import account, virtual_currency
+from tatum.ledger import account, virtual_currency, customer
 api = "4f7315df-b6ca-41c7-a45e-95d7e44d4d95"
 
 
@@ -45,3 +45,16 @@ path_params = {'name': 'VC_moje'}
 # body_params= {'accountId': '5f8454d45f59ff320a40c114', 'amount': '5000'}
 # virtual_currency.create_new_supply_of_virtual_currency(api, body_params)
 # virtual_currency.destroy_supply_of_virtual_currency(api, body_params)
+
+
+# query_params = {'pageSize': 10, 'offset': 1}
+# customer.list_all_customers(api, query_params)
+path_params = {'id': '5f59e0804451331df3d8619c'}
+# customer.get_customer_details(api, path_params)
+
+# body_params = {'externalId': '123', "providerCountry": 'AD', "customerCountry": 'CZ', "accountingCurrency": 'CZK'}
+# customer.update_customer(api, path_params, body_params)
+# # customer.deactivate_customer(api, path_params)
+# # customer.activate_customer(api,path_params)
+# customer.disable_customer(api, path_params)
+# customer.enable_customer(api, path_params)

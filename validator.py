@@ -97,6 +97,17 @@ def get_blocked_amounts_on_account(path_params, query_params):
 
 
 # ___________________________________LEDGER/CUSTOMER_______________________________________
+def update_customer(path_params, body_params):
+    v = cerberus.Validator()
+    id_path_param(path_params)
+    body_schema = {
+        "externalId": {"required": True, "type" : "string", "minlength": 1, "maxlength": 100}, "providerCountry": {"type" : "string", "minlength": 2, "maxlength": 2}, 
+        "customerCountry": {"type" : "string", "minlength": 2, "maxlength": 2},           "accountingCurrency": {"type" : "string", "minlength": 3, "maxlength": 3} }
+
+    v.validate(body_params, body_schema)
+    erros_print(v)
+
+
 
 # ___________________________________LEDGER/VIRTUAL CURRENCY_______________________________
 def create_new_vitual_currency(body_params):
