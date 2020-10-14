@@ -1,15 +1,15 @@
 import cerberus
+import re
 from termcolor import colored
 
 def erros_print(v):
     if v.errors != {}:
         print(colored(v.errors, 'red'))
 
-def check_not_allowed_chars(not_allowed_chars, variableName, variableValue):
-    for i in range(len(not_allowed_chars)):
-        if not_allowed_chars[i] in variableValue:
-            print(colored("'{}': contains not allowed characters".format(variableName), 'red'))
-            break
+def check_allowed_chars(allowed_chars, variableName, variableValue):
+    match = re.search(allowed_chars, variableValue)
+    if match == None:
+        print(colored("'{}': contains not allowed characters".format(variableName), 'red'))
 
 def check_correct_value_from_define_list(list, variableName, variableValue):
     correct = False
@@ -71,7 +71,7 @@ def block_amount_on_account(path_params, body_params):
 
     v.validate(body_params, body_schema)
     erros_print(v)
-    check_not_allowed_chars('^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'amount', body_params['amount'])
+    check_allowed_chars('^^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'amount', body_params['amount'])
     
 
 def unlock_amount_on_account_and_perform_transaction(path_params, body_params):
@@ -92,7 +92,7 @@ def unlock_amount_on_account_and_perform_transaction(path_params, body_params):
     v.validate(body_params, body_schema)
     erros_print(v)
 
-    check_not_allowed_chars('^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'amount', body_params['amount'])
+    check_allowed_chars('^^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'amount', body_params['amount'])
 
 
 def get_blocked_amounts_on_account(path_params, query_params):
@@ -120,7 +120,7 @@ def send_payment(body_params):
     v.validate(body_params, body_schema)
     erros_print(v)
 
-    check_not_allowed_chars('^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'amount', body_params['amount'])
+    check_allowed_chars('^^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'amount', body_params['amount'])
 
 
 def find_transactions_for_account(query_params, body_params):
@@ -268,8 +268,8 @@ def create_new_vitual_currency(body_params):
 
     v.validate(body_params, body_schema)
     erros_print(v)
-    check_not_allowed_chars('^[a-zA-Z0-9_]+$', 'name', body_params['name'][3:])
-    check_not_allowed_chars('^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'supply', body_params['supply'])   
+    check_allowed_chars('^[a-zA-Z0-9_]+$', 'name', body_params['name'][3:])
+    check_allowed_chars('^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'supply', body_params['supply'])   
     
 
 def update_vitual_currency(body_params):
@@ -283,7 +283,7 @@ def update_vitual_currency(body_params):
     v.validate(body_params, body_schema)
     erros_print(v)
 
-    check_not_allowed_chars('^[a-zA-Z0-9_]+$', 'name', body_params['name'][3:])
+    check_allowed_chars('^^[a-zA-Z0-9_]+$', 'name', body_params['name'][3:])
 
 
 def get_virtual_currency(path_params):
@@ -311,7 +311,7 @@ def create_new_supply_of_virtual_currency(body_params):
     v.validate(body_params, body_schema)
     erros_print(v)
 
-    check_not_allowed_chars('^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'amount', body_params['amount'])
+    check_allowed_chars('^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'amount', body_params['amount'])
 
 
 
@@ -331,7 +331,7 @@ def create_new_subcription(body_params):
     types = ["ACCOUNT_BALANCE_LIMIT", "OFFCHAIN_WITHDRAWAL", "TRANSACTION_HISTORY_REPORT", "ACCOUNT_INCOMING_BLOCKCHAIN_TRANSACTION", "COMPLETE_BLOCKCHAIN_TRANSACTION"]
     check_correct_value_from_define_list(types, 'type', body_params['type'])
 
-    check_not_allowed_chars('^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'limit', body_params['attr']['limit'])
+    check_allowed_chars('^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'limit', body_params['attr']['limit'])
 
     typeOfBalance = ["account", "available"]
     check_correct_value_from_define_list(typeOfBalance, 'typeOfBalance', body_params['typeOfBalance'])
@@ -365,6 +365,6 @@ def store_buy_sell_trade(body_params):
     erros_print(v)
     types = ["BUY", "SELL"]
     check_correct_value_from_define_list(types, 'type', body_params['type'])
-    check_not_allowed_chars('^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'price', body_schema['price'])
-    check_not_allowed_chars('^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'amount', body_schema['amount'])
-    check_not_allowed_chars('^[A-a-zZ0-9_\-]+\/[A-Za-z0-9_\-]+$', 'pair', body_schema['pair'])
+    check_allowed_chars('^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'price', body_schema['price'])
+    check_allowed_chars('^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'amount', body_schema['amount'])
+    check_allowed_chars('[A-a-zZ0-9_\-]+\/[A-Za-z0-9_\-]+$', 'pair', body_schema['pair'])
