@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-conn = http.client.HTTPSConnection(os.environ['TATUM_PATH'])
+conn = http.client.HTTPSConnection(os.environ['API_URL'])
 API_KEY = os.environ['API_KEY']
 
 def send_payment(body_params):
