@@ -2,11 +2,16 @@ import http.client
 import json
 import validator
 import requests
+import os
+from dotenv import load_dotenv
 
-conn = http.client.HTTPSConnection("api.tatum.io")
+load_dotenv()
+
+conn = http.client.HTTPSConnection(os.environ['TATUM_PATH'])
+API_KEY = os.environ['API_KEY']
 
 
-def create_new_account(API_KEY, body_params):
+def create_new_account(body_params):
     validator.create_new_account(body_params)
 
     body_params = json.dumps(body_params)
@@ -24,7 +29,7 @@ def create_new_account(API_KEY, body_params):
     print(data.decode("utf-8"))
 
 
-def list_all_accounts(API_KEY, query_params):
+def list_all_accounts(query_params):
     validator.page_size_query_params(query_params)
 
     headers = { 'x-api-key': API_KEY }
@@ -41,7 +46,7 @@ def list_all_accounts(API_KEY, query_params):
     print(data.decode("utf-8"))
 
 
-def list_all_customer_accounts(API_KEY, path_params, query_params):
+def list_all_customer_accounts(path_params, query_params):
     validator.list_all_customer_accounts(path_params, query_params)
     headers = { 'x-api-key': API_KEY }
 
@@ -56,7 +61,7 @@ def list_all_customer_accounts(API_KEY, path_params, query_params):
 
     print(data.decode("utf-8"))
 
-def get_account_by_ID(API_KEY, path_params):
+def get_account_by_ID(path_params):
     validator.id_path_param(path_params)
     headers = { 'x-api-key': API_KEY }
 
@@ -68,7 +73,7 @@ def get_account_by_ID(API_KEY, path_params):
 
     print(data.decode("utf-8"))
 
-def get_account_balance(API_KEY, path_params):
+def get_account_balance(path_params):
     validator.id_path_param(path_params)
     headers = { 'x-api-key': API_KEY }
 
@@ -80,7 +85,7 @@ def get_account_balance(API_KEY, path_params):
 
     print(data.decode("utf-8"))
     
-def block_amount_on_account(API_KEY, path_params, body_params):
+def block_amount_on_account(path_params, body_params):
     validator.block_amount_on_account(path_params, body_params)
     body_params = json.dumps(body_params)
     headers = { 
@@ -95,7 +100,7 @@ def block_amount_on_account(API_KEY, path_params, body_params):
 
     print(data.decode("utf-8"))
 
-def unlock_amount_on_account_and_perform_transaction(API_KEY, path_params, body_params):
+def unlock_amount_on_account_and_perform_transaction(path_params, body_params):
     validator.unlock_amount_on_account_and_perform_transaction(path_params, body_params)
     body_params = json.dumps(body_params)
     headers = { 
@@ -110,7 +115,7 @@ def unlock_amount_on_account_and_perform_transaction(API_KEY, path_params, body_
 
     print(data.decode("utf-8"))
     
-def unblock_blocked_amount_on_account(API_KEY, path_params):
+def unblock_blocked_amount_on_account(path_params):
     validator.id_path_param(path_params)
     headers = { 
         'x-api-key': API_KEY }
@@ -123,7 +128,7 @@ def unblock_blocked_amount_on_account(API_KEY, path_params):
 
     print(data.decode("utf-8"))
 
-def get_blocked_amounts_on_account(API_KEY, path_params, query_params):
+def get_blocked_amounts_on_account(path_params, query_params):
     validator.get_blocked_amounts_on_account(path_params, query_params)
     headers = { 
         'x-api-key': API_KEY }
@@ -137,7 +142,7 @@ def get_blocked_amounts_on_account(API_KEY, path_params, query_params):
 
     print(data.decode("utf-8"))
 
-def unblock_all_blocked_amounts_on_account(API_KEY, path_params):
+def unblock_all_blocked_amounts_on_account(path_params):
     validator.id_path_param(path_params)
     headers = { 
         'x-api-key': API_KEY }
@@ -150,7 +155,7 @@ def unblock_all_blocked_amounts_on_account(API_KEY, path_params):
 
     print(data.decode("utf-8"))
 
-def activate_account(API_KEY, path_params):
+def activate_account(path_params):
     validator.id_path_param(path_params)
     headers = { 
         'x-api-key': API_KEY }
@@ -163,7 +168,7 @@ def activate_account(API_KEY, path_params):
 
     print(data.decode("utf-8"))
 
-def deactivate_account(API_KEY, path_params):
+def deactivate_account(path_params):
     validator.id_path_param(path_params)
     headers = { 
         'x-api-key': API_KEY }
@@ -176,7 +181,7 @@ def deactivate_account(API_KEY, path_params):
 
     print(data.decode("utf-8"))
 
-def freeze_account(API_KEY, path_params):
+def freeze_account(path_params):
     validator.id_path_param(path_params)
     headers = { 
         'x-api-key': API_KEY }
@@ -189,7 +194,7 @@ def freeze_account(API_KEY, path_params):
 
     print(data.decode("utf-8"))
 
-def unfreeze_account(API_KEY, path_params):
+def unfreeze_account(path_params):
     validator.id_path_param(path_params)
     headers = { 
         'x-api-key': API_KEY }

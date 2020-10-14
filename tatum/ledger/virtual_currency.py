@@ -2,11 +2,16 @@ import http.client
 import json
 import validator
 import requests
+import os
+from dotenv import load_dotenv
 
-conn = http.client.HTTPSConnection("api.tatum.io")
+load_dotenv()
+
+conn = http.client.HTTPSConnection(os.environ['TATUM_PATH'])
+API_KEY = os.environ['API_KEY']
 
 
-def create_new_vitual_currency(API_KEY, body_params):
+def create_new_vitual_currency(body_params):
     validator.create_new_vitual_currency(body_params)
     body_params = json.dumps(body_params)
     headers = {
@@ -23,7 +28,7 @@ def create_new_vitual_currency(API_KEY, body_params):
     data = res.read()
     print(data.decode("utf-8"))
 
-def update_vitual_currency(API_KEY, body_params):
+def update_vitual_currency(body_params):
     validator.update_vitual_currency(body_params)
     body_params = json.dumps(body_params)
     headers = {
@@ -40,7 +45,7 @@ def update_vitual_currency(API_KEY, body_params):
     print(data.decode("utf-8"))
 
 
-def get_virtual_currency(API_KEY, path_params):
+def get_virtual_currency(path_params):
     validator.get_virtual_currency(path_params)
     headers = {
         'x-api-key': API_KEY
@@ -54,7 +59,7 @@ def get_virtual_currency(API_KEY, path_params):
     data = res.read()
     print(data.decode("utf-8"))
 
-def create_new_supply_of_virtual_currency(API_KEY, body_params):
+def create_new_supply_of_virtual_currency(body_params):
     validator.create_new_supply_of_virtual_currency(body_params)
     body_params = json.dumps(body_params)
     headers = {
@@ -69,7 +74,7 @@ def create_new_supply_of_virtual_currency(API_KEY, body_params):
     data = res.read()
     print(data.decode("utf-8"))
 
-def destroy_supply_of_virtual_currency(API_KEY, body_params):
+def destroy_supply_of_virtual_currency(body_params):
     validator.create_new_supply_of_virtual_currency(body_params)
     body_params = json.dumps(body_params)
     headers = {

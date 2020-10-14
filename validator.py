@@ -8,8 +8,9 @@ def erros_print(v):
 
 def check_allowed_chars(allowed_chars, variableName, variableValue):
     match = re.search(allowed_chars, variableValue)
-    if match == None:
+    if match is None:
         print(colored("'{}': contains not allowed characters".format(variableName), 'red'))
+
 
 def check_correct_value_from_define_list(list, variableName, variableValue):
     correct = False
@@ -153,10 +154,12 @@ def find_transactions_for_account(query_params, body_params):
     erros_print(v)
 
     transactionType = ["FAILED", "DEBIT_PAYMENT", "CREDIT_PAYMENT", "CREDIT_DEPOSIT", "DEBIT_WITHDRAWAL", "CANCEL_WITHDRAWAL", "DEBIT_OUTGOING_PAYMENT", "EXCHANGE_BUY", "EXCHANGE_SELL", "DEBIT_TRANSACTION", "CREDIT_INCOMING_PAYMENT"]
-    check_correct_value_from_define_list(transactionType, 'transactionType', body_params['transactionType'])
+    if 'transactionType' in body_params.keys():
+        check_correct_value_from_define_list(transactionType, 'transactionType', body_params['transactionType'])
 
     opTypes = ["PAYMENT", "WITHDRAWAL", "BLOCKCHAIN_TRANSACTION", "EXCHANGE", "FAILED", "DEPOSIT", "MINT", "REVOKE"]
-    check_correct_value_from_define_list(opTypes, 'opType', body_params['opType'])
+    if 'opType' in body_params.keys():
+        check_correct_value_from_define_list(opTypes, 'opType', body_params['opType'])
 
 def find_transactions_for_customer_across_all_accounts_of_customer(query_params, body_params):
     v = cerberus.Validator()
@@ -189,10 +192,12 @@ def find_transactions_for_customer_across_all_accounts_of_customer(query_params,
     erros_print(v)
 
     transactionType = ["FAILED", "DEBIT_PAYMENT", "CREDIT_PAYMENT", "CREDIT_DEPOSIT", "DEBIT_WITHDRAWAL", "CANCEL_WITHDRAWAL", "DEBIT_OUTGOING_PAYMENT", "EXCHANGE_BUY", "EXCHANGE_SELL", "DEBIT_TRANSACTION", "CREDIT_INCOMING_PAYMENT"]
-    check_correct_value_from_define_list(transactionType, 'transactionType', body_params['transactionType'])
+    if 'transactionType' in body_params.keys():
+        check_correct_value_from_define_list(transactionType, 'transactionType', body_params['transactionType'])
 
     opTypes = ["PAYMENT", "WITHDRAWAL", "BLOCKCHAIN_TRANSACTION", "EXCHANGE", "FAILED", "DEPOSIT", "MINT", "REVOKE"]
-    check_correct_value_from_define_list(opTypes, 'opType', body_params['opType'])
+    if 'opType' in body_params.keys():
+        check_correct_value_from_define_list(opTypes, 'opType', body_params['opType'])
 
 def find_transactions_for_ledger(query_params, body_params):
     v = cerberus.Validator()
@@ -224,10 +229,12 @@ def find_transactions_for_ledger(query_params, body_params):
     erros_print(v)
 
     transactionType = ["FAILED", "DEBIT_PAYMENT", "CREDIT_PAYMENT", "CREDIT_DEPOSIT", "DEBIT_WITHDRAWAL", "CANCEL_WITHDRAWAL", "DEBIT_OUTGOING_PAYMENT", "EXCHANGE_BUY", "EXCHANGE_SELL", "DEBIT_TRANSACTION", "CREDIT_INCOMING_PAYMENT"]
-    check_correct_value_from_define_list(transactionType, 'transactionType', body_params['transactionType'])
+    if 'transactionType' in body_params.keys():
+        check_correct_value_from_define_list(transactionType, 'transactionType', body_params['transactionType'])
 
     opTypes = ["PAYMENT", "WITHDRAWAL", "BLOCKCHAIN_TRANSACTION", "EXCHANGE", "FAILED", "DEPOSIT", "MINT", "REVOKE"]
-    check_correct_value_from_define_list(opTypes, 'opType', body_params['opType'])
+    if 'opType' in body_params.keys():
+        check_correct_value_from_define_list(opTypes, 'opType', body_params['opType'])
 
 def find_transactions_with_given_reference_across_all_accounts(path_params):
     v = cerberus.Validator()
@@ -283,7 +290,7 @@ def update_vitual_currency(body_params):
     v.validate(body_params, body_schema)
     erros_print(v)
 
-    check_allowed_chars('^^[a-zA-Z0-9_]+$', 'name', body_params['name'][3:])
+    check_allowed_chars('^[a-zA-Z0-9_]+$', 'name', body_params['name'][3:])
 
 
 def get_virtual_currency(path_params):
@@ -365,6 +372,6 @@ def store_buy_sell_trade(body_params):
     erros_print(v)
     types = ["BUY", "SELL"]
     check_correct_value_from_define_list(types, 'type', body_params['type'])
-    check_allowed_chars('^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'price', body_schema['price'])
-    check_allowed_chars('^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'amount', body_schema['amount'])
-    check_allowed_chars('[A-a-zZ0-9_\-]+\/[A-Za-z0-9_\-]+$', 'pair', body_schema['pair'])
+    check_allowed_chars('^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'price', body_params['price'])
+    check_allowed_chars('^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'amount', body_params['amount'])
+    check_allowed_chars('^[A-a-zZ0-9_\-]+\/[A-Za-z0-9_\-]+$', 'pair', body_params['pair'])

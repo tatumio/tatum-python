@@ -2,10 +2,15 @@ import http.client
 import json
 import validator
 import requests
+import os
+from dotenv import load_dotenv
 
-conn = http.client.HTTPSConnection("api.tatum.io")
+load_dotenv()
 
-def list_all_customers(API_KEY, query_params):
+conn = http.client.HTTPSConnection(os.environ['TATUM_PATH'])
+API_KEY = os.environ['API_KEY']
+
+def list_all_customers(query_params):
     validator.page_size_query_params(query_params)
     headers = {'x-api-key': API_KEY}
     if len(query_params) != 1:
@@ -19,7 +24,7 @@ def list_all_customers(API_KEY, query_params):
     data = res.read()
     print(data.decode("utf-8"))
 
-def get_customer_details(API_KEY, path_params):
+def get_customer_details(path_params):
     validator.id_path_param(path_params)
     headers = {'x-api-key': API_KEY}
     conn.request("GET", "/v3/ledger/customer/{}".format(path_params['id']), headers=headers)
@@ -30,7 +35,7 @@ def get_customer_details(API_KEY, path_params):
     data = res.read()
     print(data.decode("utf-8"))
 
-def update_customer(API_KEY, path_params, body_params):
+def update_customer(path_params, body_params):
     validator.update_customer(path_params, body_params)
     body_params = json.dumps(body_params)
     headers = {
@@ -44,7 +49,7 @@ def update_customer(API_KEY, path_params, body_params):
     data = res.read()
     print(data.decode("utf-8"))
 
-def activate_customer(API_KEY, path_params):
+def activate_customer(path_params):
     validator.id_path_param(path_params)
     headers = {'x-api-key': API_KEY}
     conn.request("PUT", "/v3/ledger/customer/{}/activate".format(path_params['id']), headers=headers)
@@ -54,7 +59,7 @@ def activate_customer(API_KEY, path_params):
     data = res.read()
     print(data.decode("utf-8"))
 
-def deactivate_customer(API_KEY, path_params):
+def deactivate_customer(path_params):
     validator.id_path_param(path_params)
     headers = {'x-api-key': API_KEY}
     conn.request("PUT", "/v3/ledger/customer/{}/deactivate".format(path_params['id']), headers=headers)
@@ -64,7 +69,7 @@ def deactivate_customer(API_KEY, path_params):
     data = res.read()
     print(data.decode("utf-8"))
 
-def enable_customer(API_KEY, path_params):
+def enable_customer(path_params):
     validator.id_path_param(path_params)
     headers = {'x-api-key': API_KEY}
     conn.request("PUT", "/v3/ledger/customer/{}/enable".format(path_params['id']), headers=headers)
@@ -74,7 +79,7 @@ def enable_customer(API_KEY, path_params):
     data = res.read()
     print(data.decode("utf-8"))
 
-def disable_customer(API_KEY, path_params):
+def disable_customer(path_params):
     validator.id_path_param(path_params)
     headers = {'x-api-key': API_KEY}
     conn.request("PUT", "/v3/ledger/customer/{}/disable".format(path_params['id']), headers=headers)

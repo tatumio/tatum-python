@@ -2,10 +2,15 @@ import http.client
 import json
 import validator
 import requests
+import os
+from dotenv import load_dotenv
 
-conn = http.client.HTTPSConnection("api.tatum.io")
+load_dotenv()
 
-def send_payment(API_KEY, body_params):
+conn = http.client.HTTPSConnection(os.environ['TATUM_PATH'])
+API_KEY = os.environ['API_KEY']
+
+def send_payment(body_params):
     validator.send_payment(body_params)
     body_params = json.dumps(body_params)
     headers = {
@@ -22,7 +27,7 @@ def send_payment(API_KEY, body_params):
     data = res.read()
     print(data.decode("utf-8"))
 
-def find_transactions_for_account(API_KEY, query_params, body_params):
+def find_transactions_for_account(query_params, body_params):
     validator.find_transactions_for_account(query_params, body_params)
     body_params = json.dumps(body_params)
     headers = {
@@ -46,7 +51,7 @@ def find_transactions_for_account(API_KEY, query_params, body_params):
     data = res.read()
     print(data.decode("utf-8"))
 
-def find_transactions_for_customer_across_all_accounts_of_customer(API_KEY, query_params, body_params):
+def find_transactions_for_customer_across_all_accounts_of_customer(query_params, body_params):
     validator.find_transactions_for_customer_across_all_accounts_of_customer(query_params, body_params)
     body_params = json.dumps(body_params)
     headers = {
@@ -70,7 +75,7 @@ def find_transactions_for_customer_across_all_accounts_of_customer(API_KEY, quer
     data = res.read()
     print(data.decode("utf-8"))
 
-def find_transactions_for_ledger(API_KEY, query_params, body_params):
+def find_transactions_for_ledger(query_params, body_params):
     validator.find_transactions_for_ledger(query_params, body_params)
     body_params = json.dumps(body_params)
     headers = {
@@ -94,7 +99,7 @@ def find_transactions_for_ledger(API_KEY, query_params, body_params):
     data = res.read()
     print(data.decode("utf-8"))
 
-def find_transactions_with_given_reference_across_all_accounts(API_KEY, path_params):
+def find_transactions_with_given_reference_across_all_accounts(path_params):
     validator.find_transactions_with_given_reference_across_all_accounts(path_params)
 
     headers = {'x-api-key': API_KEY}
