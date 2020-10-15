@@ -1,7 +1,7 @@
 from tatum.ledger import account, virtual_currency, customer, transaction, subscription, order_book
 from tatum.security import key_management_system, address
 from tatum.offchain import account as offchainAccount
-from tatum.offchain import withdrawal
+from tatum.offchain import withdrawal, blockchain
 
 # body_params = {"currency": "BTC", 'customer':{'externalId': '3dss5'}}
 # account.create_new_account(body_params)

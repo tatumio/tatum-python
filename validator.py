@@ -499,3 +499,58 @@ def broadcast_signed_transaction_and_complete_withdrawal(body_params):
         }
     v.validate(body_params, body_schema)
     erros_print(v)
+
+# ___________________________________OFFCHAIN/ BLOCKCHAIN_________________________________________
+
+def send_from_tatum_account_to_address(body_params):
+    v = cerberus.Validator()
+    body_schema = {
+            "senderAccountId": {"required": True, "type" : "string", "minlength": 24, "maxlength": 24},
+            "address": {"required": True, "type" : "string", "minlength": 1, "maxlength": 100},
+            "amount": {"required": True, "type" : "string", "maxlength": 38},
+            "compliant": {"type": "boolean"},
+            "fee": {"type" : "string"},
+            "keyPair": {"type": "list", "schema": {"type": "dict", "schema": {"address": {"type": "string", "minlength": 1, "maxlength": 100}, "privateKey": {"type": "string", "minlength": 1, "maxlength": 100}}}},
+            "attr": {"type" : "string", "minlength": 1, "maxlength": 64},
+            "mnemonic": {"type" : "string", "minlength": 1, "maxlength": 500},
+            "signatureId": {"type" : "string", "minlength": 36, "maxlength": 36},
+            "xpub": {"type" : "string", "minlength": 1, "maxlength": 150},
+            "paymentId": {"type" : "string", "minlength": 1, "maxlength": 100},
+            "senderNote": {"type" : "string", "minlength": 1, "maxlength": 500}
+        }
+    v.validate(body_params, body_schema)
+    erros_print(v)
+    
+    if 'amount' in body_params.keys():
+        check_allowed_chars('^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'amount', body_params['amount'])
+    if 'fee' in body_params.keys():
+        check_allowed_chars('^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'fee', body_params['fee'])
+
+def send_ethereum_from_tatum_ledger_to_blockchain(body_params):
+    v = cerberus.Validator()
+    body_schema = {
+            "nonce": {"type": "integer", "min": 0},
+            "address": {"required": True, "type" : "string", "minlength": 42, "maxlength": 42},
+            "amount": {"required": True, "type" : "string", "maxlength": 38},
+            "currency": {"type": "string"},
+            "compliant": {"type": "boolean"},
+            "privateKey": {"type": "string", "minlength": 66, "maxlength": 66},
+            "signatureId": {"type" : "string", "minlength": 36, "maxlength": 36},
+            "index": {"type": "integer", "max": 4294967295},
+            "mnemonic": {"type" : "string", "minlength": 1, "maxlength": 500},
+            "paymentId": {"type" : "string", "minlength": 1, "maxlength": 100},
+            "senderAccountId" : {"required": True, "type" : "string", "minlength": 24, "maxlength": 24},
+            "senderNote": {"type" : "string", "minlength": 1, "maxlength": 500}
+         }
+    v.validate(body_params, body_schema)
+    erros_print(v)
+    
+    currencies = ["USDT", "LEO", "LINK", "FREE", "MKR", "USDC", "BAT", "TUSD", "PAX", "PAXG", "PLTC", "MMY", "XCON", "ETH"]
+    if 'currency' in body_params.keys():
+        check_correct_value_from_define_list(currencies, 'currency', body_params['currency'])
+
+
+    if 'amount' in body_params.keys():
+        check_allowed_chars('^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'amount', body_params['amount'])
+    if 'fee' in body_params.keys():
+        check_allowed_chars('^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'fee', body_params['fee'])
