@@ -465,3 +465,37 @@ def remove_address_for_account(path_params):
         }
     v.validate(path_params, path_schema)
     erros_print(v)
+
+# ___________________________________OFFCHAIN/ WITHDRAWAL_________________________________________
+
+
+def store_withdrawal(body_params):
+    v = cerberus.Validator()
+    body_schema = {
+            "senderAccountId": {"required": True, "type" : "string", "minlength": 24, "maxlength": 24},
+            "address": {"required": True, "type" : "string", "minlength": 1, "maxlength": 100},
+            "amount": {"required": True, "type" : "string", "maxlength": 38},
+            "attr": {"type" : "string", "minlength": 1, "maxlength": 64},
+            "compliant": {"type": "boolean"},
+            "fee": {"type" : "string"},
+            "paymentId": {"type" : "string", "minlength": 1, "maxlength": 100},
+            "senderBlockchainAddress": {"type" : "string", "minlength": 1, "maxlength": 100},
+            "senderNote": {"type" : "string", "minlength": 1, "maxlength": 500}
+        }
+    v.validate(body_params, body_schema)
+    erros_print(v)
+    if 'amount' in body_params.keys():
+        check_allowed_chars('^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'amount', body_params['amount'])
+    if 'fee' in body_params.keys():
+        check_allowed_chars('^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'fee', body_params['fee'])
+
+def broadcast_signed_transaction_and_complete_withdrawal(body_params):
+    v = cerberus.Validator()
+    body_schema = {
+            "currency": {"required": True, "type" : "string", "minlength": 2, "maxlength": 40},
+            "txData": {"required": True, "type" : "string", "minlength": 1, "maxlength": 500000},
+            "withdrawalId": {"type" : "string", "minlength": 24, "maxlength": 24},
+            "signatureId": {"type" : "string", "minlength": 24, "maxlength": 24},
+        }
+    v.validate(body_params, body_schema)
+    erros_print(v)

@@ -1,6 +1,7 @@
 from tatum.ledger import account, virtual_currency, customer, transaction, subscription, order_book
 from tatum.security import key_management_system, address
 from tatum.offchain import account as offchainAccount
+from tatum.offchain import withdrawal
 
 # body_params = {"currency": "BTC", 'customer':{'externalId': '3dss5'}}
 # account.create_new_account(body_params)
@@ -142,3 +143,23 @@ from tatum.offchain import account as offchainAccount
 path_params = {'address': 'bchtest:qpkn9k2h0h0cxzlg59gxfhpkj3508vgq6cfhvzkymf', 'id': '5e71d8a1ec60617c2e301b3a'}
 # offchainAccount.remove_address_for_account(path_params)
 # offchainAccount.assign_address_for_account(path_params)
+
+body_params = {
+  "address": "0x8c76887d2e738371bd750362fb55887343472346",
+  "amount": "0.0001",
+  "senderAccountId": "5e71dc0bba2ba02c332f62e2",
+  "senderBlockchainAddress":"0xe31aa662406f984556ac5fa79ef8ddba209ba1f3",
+  "fee":"0.000005"
+}
+# withdrawal.store_withdrawal(body_params)
+# withdrawal.check_withdrawal(body_params) 
+
+# path_params = {'id': '5f1aa020a3010936da0201e1', 'txId': '5f1aa020a3010936da0201e1'}
+# withdrawal.complete_withdrawal(path_params)
+
+# path_params = {'id': '5f1aa020a3010936da0201e1'}
+# withdrawal.cancel_withdrawal(path_params)
+
+
+# body_params = ?????
+# withdrawal.broadcast_signed_transaction_and_complete_withdrawal(body_params)
