@@ -375,3 +375,52 @@ def store_buy_sell_trade(body_params):
     check_allowed_chars('^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'price', body_params['price'])
     check_allowed_chars('^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'amount', body_params['amount'])
     check_allowed_chars('^[A-a-zZ0-9_\-]+\/[A-Za-z0-9_\-]+$', 'pair', body_params['pair'])
+
+# ___________________________________SECURITY/KEY MANAGEMENT SYSTEM_____________________________________
+
+def get_pending_transactions_to_sign(path_params):
+    v = cerberus.Validator()
+    path_schema = {
+            "chain": {"required": True, "type" : "string"},
+        }
+
+    v.validate(path_params, path_schema)
+    erros_print(v)
+
+    chains = ["BTC", "ETH", "XLM", "XRP", "BCH", "LTC", "VET"]
+    check_correct_value_from_define_list(chains, 'chain', path_params['chain'])
+
+def complete_pending_transaction_to_sign(path_params):
+    v = cerberus.Validator()
+    path_schema = {
+            "id": {"required": True, "type" : "string", "minlength": 24, "maxlength": 24},
+            "txId": {"required": True, "type" : "string", "minlength": 10, "maxlength": 80},
+        }
+
+    v.validate(path_params, path_schema)
+    erros_print(v)
+
+def delete_transaction(path_params, query_params):
+    v = cerberus.Validator()
+    id_path_param(path_params)
+    query_schema = {
+            "revert": {"type" : "string"},
+        }
+
+    v.validate(query_params, query_schema)
+    erros_print(v)
+    
+    if query_params != {}:
+        reverts = ["true", "false"]
+        check_correct_value_from_define_list(reverts, 'revert', query_params['revert'])
+
+# ___________________________________SECURITY/ADDRESS_____________________________________
+
+
+def check_malicous_address(path_params):
+    v = cerberus.Validator()
+    path_schema = {
+            "address": {"required": True, "type" : "string"},
+        }
+    v.validate(path_params, path_schema)
+    erros_print(v)
