@@ -1,5 +1,6 @@
 from tatum.ledger import account, virtual_currency, customer, transaction, subscription, order_book
 from tatum.security import key_management_system, address
+from tatum.offchain import account as offchainAccount
 
 # body_params = {"currency": "BTC", 'customer':{'externalId': '3dss5'}}
 # account.create_new_account(body_params)
@@ -129,3 +130,15 @@ from tatum.security import key_management_system, address
 
 # path_params = {'address': 'nevalidniemail@eoopy.com'}
 # address.check_malicous_address(path_params)
+
+# path_params = {'id': '5f887ae3e23af8bf1b813325'}
+# query_params = {'index': 3}
+# offchainAccount.create_new_deposit_address(path_params, query_params)
+# offchainAccount.get_all_deposit_addresses_for_account(path_params)
+
+# path_params = {'address': 'mrj2QoM9j6JrcAW8JiVfx8M6noK6i8REr9', 'currency': 'BTC'}
+# offchainAccount.check_if_deposit_address_is_asigned(path_params)
+
+path_params = {'address': 'bchtest:qpkn9k2h0h0cxzlg59gxfhpkj3508vgq6cfhvzkymf', 'id': '5e71d8a1ec60617c2e301b3a'}
+# offchainAccount.remove_address_for_account(path_params)
+# offchainAccount.assign_address_for_account(path_params)

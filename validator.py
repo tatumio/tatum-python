@@ -424,3 +424,44 @@ def check_malicous_address(path_params):
         }
     v.validate(path_params, path_schema)
     erros_print(v)
+
+# ___________________________________OFFCHAIN/ ACCOUNT_________________________________________
+
+
+def create_new_deposit_address(path_params, query_params):
+    v = cerberus.Validator()
+    id_path_param(path_params)
+
+    if query_params != {}:
+        query_schema = {
+                "index": {"type" : "integer"},
+            }
+
+        v.validate(query_params, query_schema)
+        erros_print(v)
+
+def check_if_deposit_address_is_asigned(path_params, query_params):
+    v = cerberus.Validator()
+    path_schema = {
+            "address": {"required": True, "type" : "string"},
+            "currency": {"required": True, "type" : "string"}
+        }
+    v.validate(path_params, path_schema)
+    erros_print(v)
+
+    if query_params != {}:
+        query_schema = {
+                "index": {"type" : "integer"},
+            }
+
+        v.validate(query_params, query_schema)
+        erros_print(v)
+
+def remove_address_for_account(path_params):
+    v = cerberus.Validator()
+    path_schema = {
+            "address": {"required": True, "type" : "string"},
+            "id": {"required": True, "type" : "string"}
+        }
+    v.validate(path_params, path_schema)
+    erros_print(v)
