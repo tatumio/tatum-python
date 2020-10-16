@@ -2,7 +2,7 @@ from tatum.ledger import account, virtual_currency, customer, transaction, subsc
 from tatum.security import key_management_system, address
 from tatum.offchain import account as offchainAccount
 from tatum.offchain import withdrawal, blockchain
-from tatum.blockchain import bitcoin, ethereum, bitcoin_cash
+from tatum.blockchain import bitcoin, ethereum, bitcoin_cash, litecoin
 
 # body_params = {"currency": "BTC", 'customer':{'externalId': '3dss5'}}
 # account.create_new_account(body_params)
@@ -268,3 +268,36 @@ path_params = {'hash': '7530722'}
 # query_params = {'skip': 1}
 
 # bitcoin_cash.get_bitcoin_cash_transaction_by_address(path_params, query_params)
+
+
+
+# litecoin.generate_litecoin_wallet()
+
+
+# path_params = {'index': 1,'xpub': 'ttub4gLJbfAoX8GS9s1ih2eu68M8XhPLRFy6tZyQQ6Ua1tF3WUyG6tGEGzEir7sxB2A2fp567qXFsr8pCjMrNRopFx2gAJmPgxiwVQYB4tWwQrD'}
+# litecoin.generate_litecoin_deposit_address_from_extended_public_key(path_params)
+
+# body_params = {
+#   "index": 1,
+#   "mnemonic": "brick buyer sniff prefer remind audit town stool awful asset pool state hire town leisure leader tiny coyote lock panda awesome hire bitter regular"
+# }
+# litecoin.generate_litecoin_private_key(body_params)
+
+# litecoin.get_litecoin_blockchain_information()
+
+# path_params = {'i': 1598649}
+# litecoin.get_litecoin_block_hash(path_params)
+
+
+# path_params = {'hash': '1598649'}
+# litecoin.get_litecoin_block_by_hash_or_height(path_params)
+
+# path_params = {'hash': '59eeec314fe5dfe7ffa06ac740884561a3723a9a56ecfcbd9bde4d06dc05f7af'}
+# litecoin.get_litecoin_transaction_by_hash(path_params)
+
+# path_params = {'address': 'LZMeooohf7QEU6FNyZcMXerdt5daTJu8gG'}
+# query_params = {'pageSize': 50}
+# litecoin.get_litecoin_transaction_by_address(path_params, query_params)
+
+path_params = {'hash': '2d96ec8dfdd2101e47c92e602944a341268b1be73c6dd98860db3faeb3a2c403', 'index': 2}
+litecoin.get_utxo_of_transaction(path_params)
