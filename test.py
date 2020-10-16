@@ -2,7 +2,7 @@ from tatum.ledger import account, virtual_currency, customer, transaction, subsc
 from tatum.security import key_management_system, address
 from tatum.offchain import account as offchainAccount
 from tatum.offchain import withdrawal, blockchain
-from tatum.blockchain import bitcoin
+from tatum.blockchain import bitcoin, ethereum
 
 # body_params = {"currency": "BTC", 'customer':{'externalId': '3dss5'}}
 # account.create_new_account(body_params)
@@ -204,3 +204,39 @@ body_params = {
               # }
               # bitcoin.broadcast_signed_bitcoin_transaction(body_params)
               # bitcoin.send_bitcoin_to_blockchain_addresses()
+
+# ethereum.generate_ethereum_wallet()
+
+# path_params = {'xpub': 'xpub6EZZ1UyZogf9rGwRn9ySSFDLHQbPqswbY8boHAbiLRZy6A79PTq3izy2p435H51e39uLcDzSi3SVYeJ7LtuDfjc6G2nczaZ8We14DmZHsVP', 'index': 1}
+# ethereum.generate_ethereum_account_address_from_extended_public_key(path_params)
+
+# body_params = {
+# "index":301,
+# "mnemonic": "palm mad orbit race shock call author blade write vicious leave charge powder banana task eternal wrap van observe depth surface citizen female bag"
+# }
+
+# ethereum.generate_ethereum_private_key(body_params)
+
+              # ethereum.web3_http_driver()
+# ethereum.get_current_block()
+
+path_params = {'hash': '7530722'}
+# ethereum.get_block_by_hash(path_params) 
+
+# path_params = {'address': '0x0ff64c166a462b31ed657c9d88c5ac4fef6b88b6'}
+# ethereum.get_ethereum_account_balance(path_params)
+
+# path_params = {'address': '0x811dfbff13adfbc3cf653dcc373c03616d3471c9'}
+# query_params = {'contractAddress': '0x494394c74bFF7f93C8EB390D4Ab3586Aa2BcAb0C'}
+# ethereum.get_ethereum_erc20_account_balance(path_params, query_params)
+
+# path_params = {'hash': '0xdb44e82ba5bdf5d323c766e3bdbd835e6e9a31ccfd7742b4cfc013d869dd6da'}
+# ethereum.get_ethereum_transaction(path_params)
+
+# path_params = {'address': '0x811dfbff13adfbc3cf653dcc373c03616d3471c9'}
+# ethereum.get_count_of_outgoing_ethereum_transactions(path_params)
+
+# path_params = {'address': '0xdb44e82ba5bdf5d323c766e3bdbd835e6e9a31ccfd7742b4cfc013d869dd6da'}
+# query_params = {'pageSize': 10}
+# ethereum.get_ethereum_transactions_by_address(path_params, query_params)
+

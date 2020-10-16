@@ -713,10 +713,10 @@ def create_xrp_based_asset(body_params):
     currencies = ["AED", "AFN", "ALL", "AMD", "ANG", "AOA", "ARS", "AUD", "AWG", "AZN", "BAM", "BAT", "BBD", "BCH", "BDT", "BGN", "BHD", "BIF", "BMD", "BND", "BOB", "BRL", "BSD", "BTC", "BTN", "BWP", "BYN", "BYR", "BZD", "CAD", "CDF", "CHF", "CLF", "CLP", "CNY", "COP", "CRC", "CUC", "CUP", "CVE", "CZK", "DJF", "DKK", "DOP", "DZD", "EGP", "ERN", "ETB", "ETH", "EUR", "FJD", "FKP", "FREE", "GBP", "GEL", "GGP", "GHS", "GIP", "GMD", "GNF", "GTQ", "GYD", "HKD", "HNL", "HRK", "HTG", "HUF", "IDR", "ILS", "IMP", "INR", "IQD", "IRR", "ISK", "JEP", "JMD", "JOD", "JPY", "KES", "KGS", "KHR", "KMF", "KPW", "KRW", "KWD", "KYD", "KZT", "LAK", "LBP", "LEO", "LINK", "LKR", "LRD", "LSL", "LTC", "LTL", "LVL", "LYD", "MAD", "MDL", "MGA", "MKD", "MKR", "MMK", "MMY", "MNT", "MOP", "MRO", "MUR", "MVR", "MWK", "MXN", "MYR", "MZN", "NAD", "NGN", "NIO", "NOK", "NPR", "NZD", "OMR", "PAB", "PAX", "PAXG", "PEN", "PGK", "PHP", "PKR", "PLN", "PLTC", "PYG", "QAR", "RON", "RSD", "RUB", "RWF", "SAR", "SBD", "SCR", "SDG", "SEK", "SGD", "SHP", "SLL", "SOS", "SRD", "STD", "SVC", "SYP", "SZL", "THB", "TJS", "TMT", "TND", "TOP", "TRY", "TTD", "TUSD", "TWD", "TZS", "UAH", "UGX", "USD", "USDC", "USDT", "UYU", "UZS", "VEF", "VND", "VUV", "WST", "XAF", "XAG", "XAU", "XCD", "XCON", "XDR", "XLM", "XOF", "XPF", "XRP", "YER", "ZAR", "ZMK", "ZMW", "ZWL"]
     check_correct_value_from_define_list(currencies, 'basePair', body_params['basePair'])
 
-# ___________________________________BLOCKCHAIN/ BITCOIN_________________________________________
+# ___________________________________BLOCKCHAIN_________________________________________
 
 
-def generate_bitcoin_wallet(query_params):
+def generate_wallet(query_params):
     v = cerberus.Validator()
     if query_params != {}:
         query_schema = {
@@ -726,7 +726,7 @@ def generate_bitcoin_wallet(query_params):
         v.validate(query_params, query_schema)
         erros_print(v)
 
-def generate_bitcoin_deposit_address_from_extended_public_key(path_params):
+def generate_deposit_address_from_extended_public_key(path_params):
     v = cerberus.Validator()
     path_schema = {
             "xpub": {"required": True, "type" : "string"},
@@ -736,7 +736,7 @@ def generate_bitcoin_deposit_address_from_extended_public_key(path_params):
     v.validate(path_params, path_schema)
     erros_print(v)
 
-def generate_bitcoin_private_key(body_params):
+def generate_private_key(body_params):
     v = cerberus.Validator()
     body_schema = {
             "mnemonic": {"required": True, "type" : "string", "minlength": 1, "maxlength": 500},
@@ -746,10 +746,19 @@ def generate_bitcoin_private_key(body_params):
     v.validate(body_params, body_schema)
     erros_print(v)
 
-def get_block_hash(path_params):
+def bitcoin_get_block_hash(path_params):
     v = cerberus.Validator()
     path_schema = {
             "i": {"required": True, "type" : "number"},
+        }
+
+    v.validate(path_params, path_schema)
+    erros_print(v)
+
+def ethereum_get_block_hash(path_params):
+    v = cerberus.Validator()
+    path_schema = {
+            "hash": {"required": True, "type" : "string"},
         }
 
     v.validate(path_params, path_schema)
@@ -788,13 +797,23 @@ def get_utxo_of_transaction(path_params):
 def send_bitcoin_to_blockchain_addresses(body_params):
     v = cerberus.Validator()
     body_schema = {
-            "fromAddress": {"type": "list", "schema": {"type": "dict", "schema": {"signatureId": {"type": "string", "minlength": 64, "maxlength": 128}, "address": {"required": True, "type": "string", "minlength": 30, "maxlength": 50}, {"privateKey": {"type": "string", "minlength": 52, "maxlength": 52}}}},
+            "fromAddress": {"type": "list", 
+                            "schema": {"type": "dict", 
+                                        "schema": 
+                                        {"signatureId": {"type": "string", "minlength": 64, "maxlength": 128}, 
+                                        "address": {"required": True, "type": "string", "minlength": 30, "maxlength": 50}, "privateKey": {"type": "string", "minlength": 52, "maxlength": 52}}}},
 
-            "fromUTXO": {"type": "list", "schema": {"type": "dict", "schema": {"txHash": {"required": True, "type": "string", "minlength": 64, "maxlength": 64}, "index": {"required": True, "type": "number", "min": 0, "max": 4294967295}, {"privateKey": {"type": "string", "minlength": 52, "maxlength": 52}}, {"signatureId": {"type": "string", "minlength": 64, "maxlength": 128}}}},
+            "fromUTXO": {"type": "list", 
+                        "schema": {"type": "dict", 
+                                    "schema": 
+                                    {"txHash": {"required": True, "type": "string", "minlength": 64, "maxlength": 64}, 
+                                    "index": {"required": True, "type": "number", "min": 0, "max": 4294967295}, 
+                                    "privateKey": {"type": "string", "minlength": 52, "maxlength": 52}, 
+                                    "signatureId": {"type": "string", "minlength": 64, "maxlength": 128}}}},
 
-            "to": {"required": True, "type": "list", "schema": {"type": "dict", "schema": {"address": {"required": True, "type": "string", "minlength": 30, "maxlength": 60}, "value": {"required": True, "type": "number", "min": 0},}}
+            "to": {"required": True, "type": "list", "schema": {"type": "dict", "schema": {"address": {"required": True, "type": "string", "minlength": 30, "maxlength": 60}, "value": {"required": True, "type": "number", "min": 0}}}}
 
-        }
+            }
     v.validate(body_params, body_schema)
     erros_print(v)
 
@@ -805,4 +824,44 @@ def broadcast_signed_bitcoin_transaction(body_params):
             "signatureId": {"type" : "string", "minlength": 24, "maxlength": 24},
         }
     v.validate(body_params, body_schema)
+    erros_print(v)
+
+def get_ethereum_account_balance(path_params):
+    v = cerberus.Validator()
+    path_schema = {
+            "address": {"required": True, "type" : "string"},
+        }
+
+    v.validate(path_params, path_schema)
+    erros_print(v)
+
+def get_ethereum_erc20_account_balance(path_params, query_params):
+    v = cerberus.Validator()
+    path_schema = {
+            "address": {"required": True, "type" : "string"},
+        }
+
+    v.validate(path_params, path_schema)
+    erros_print(v)
+
+    if query_params != {}:
+        query_schema = {
+                "currency": {"type" : "string"},
+                "contractAddress": {"type" : "string", "minlength": 42, "maxlength": 42},
+            }
+
+        v.validate(query_params, query_schema)
+        erros_print(v)
+
+        currencies = ["USDT", "LEO", "LINK", "FREE", "MKR", "USDC", "BAT", "TUSD", "PAX", "PAXG", "PLTC", "MMY", "XCON"]
+        if 'currency' in query_params.keys():
+            check_correct_value_from_define_list(currencies, 'currency', query_params['currency'])
+
+def get_count_of_outgoing_ethereum_transactions(path_params):
+    v = cerberus.Validator()
+    path_schema = {
+            "address": {"required": True, "type" : "string", "minlength": 42, "maxlength": 42 },
+        }
+
+    v.validate(path_params, path_schema)
     erros_print(v)

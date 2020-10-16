@@ -12,7 +12,7 @@ API_KEY = os.environ['API_KEY']
 
 
 def generate_bitcoin_wallet(query_params={}):
-    validator.generate_bitcoin_wallet(query_params)
+    validator.generate_wallet(query_params)
     headers = { 'x-api-key': API_KEY }
     if query_params != {}:
         conn.request("GET", "/v3/bitcoin/wallet?mnemonic={}".format(query_params['mnemonic']), headers=headers)
@@ -27,7 +27,7 @@ def generate_bitcoin_wallet(query_params={}):
     print(data.decode("utf-8"))
 
 def generate_bitcoin_deposit_address_from_extended_public_key(path_params):
-    validator.generate_bitcoin_deposit_address_from_extended_public_key(path_params)
+    validator.generate_deposit_address_from_extended_public_key(path_params)
     headers = { 'x-api-key': API_KEY }
     conn.request("GET", "/v3/bitcoin/address/{}/{}".format(path_params['xpub'], path_params['index']), headers=headers)
 #   _______________________________________________________________
@@ -38,7 +38,7 @@ def generate_bitcoin_deposit_address_from_extended_public_key(path_params):
     print(data.decode("utf-8"))
 
 def generate_bitcoin_private_key(body_params):
-    validator.generate_bitcoin_private_key(body_params)
+    validator.generate_private_key(body_params)
     body_params = json.dumps(body_params)
     headers = {
         'content-type': "application/json",
@@ -63,7 +63,7 @@ def get_blockchain_information():
     print(data.decode("utf-8"))
 
 def get_block_hash(path_params):
-    validator.get_block_hash(path_params)
+    validator.bitcoin_get_block_hash(path_params)
     headers = { 'x-api-key': API_KEY }
     conn.request("GET", "/v3/bitcoin/block/hash/{}".format(path_params['i']), headers=headers)
 #   _______________________________________________________________
