@@ -746,7 +746,7 @@ def generate_private_key(body_params):
     v.validate(body_params, body_schema)
     erros_print(v)
 
-def bitcoin_get_block_hash(path_params):
+def get_block_hash(path_params):
     v = cerberus.Validator()
     path_schema = {
             "i": {"required": True, "type" : "number"},
@@ -817,7 +817,7 @@ def send_bitcoin_to_blockchain_addresses(body_params):
     v.validate(body_params, body_schema)
     erros_print(v)
 
-def broadcast_signed_bitcoin_transaction(body_params):
+def broadcast_signed_transaction(body_params):
     v = cerberus.Validator()
     body_schema = {
             "txData": {"required": True, "type" : "string", "minlength": 1, "maxlength": 500000},
@@ -864,4 +864,46 @@ def get_count_of_outgoing_ethereum_transactions(path_params):
         }
 
     v.validate(path_params, path_schema)
+    erros_print(v)
+
+def bitcoin_cash_get_block_hash(path_params):
+    v = cerberus.Validator()
+    path_schema = {
+            "hash": {"required": True, "type" : "string"},
+        }
+
+    v.validate(path_params, path_schema)
+    erros_print(v)
+
+def get_bitcoin_cash_transaction_by_address(path_params, query_params):
+    v = cerberus.Validator()
+    path_schema = {
+            "address": {"required": True, "type" : "string"},
+        }
+
+    v.validate(path_params, path_schema)
+    erros_print(v)
+    if query_params != {}:
+        query_schema = {
+                "skip": {"type" : "integer"},
+            }
+
+        v.validate(query_params, query_schema)
+        erros_print(v)
+
+def send_bitcoin_cash_to_blockchain_addresses(body_params):
+    v = cerberus.Validator()
+    body_schema = {
+            "fromUTXO": {"type": "list", 
+                        "schema": {"type": "dict", 
+                                    "schema": 
+                                    {"txHash": {"required": True, "type": "string", "minlength": 64, "maxlength": 64}, 
+                                    "index": {"required": True, "type": "number", "min": 0, "max": 4294967295}, 
+                                    "privateKey": {"type": "string", "minlength": 52, "maxlength": 52}, 
+                                    "signatureId": {"type": "string", "minlength": 64, "maxlength": 128}}}},
+
+            "to": {"required": True, "type": "list", "schema": {"type": "dict", "schema": {"address": {"required": True, "type": "string", "minlength": 30, "maxlength": 60}, "value": {"required": True, "type": "number", "min": 0}}}}
+
+            }
+    v.validate(body_params, body_schema)
     erros_print(v)

@@ -2,7 +2,7 @@ from tatum.ledger import account, virtual_currency, customer, transaction, subsc
 from tatum.security import key_management_system, address
 from tatum.offchain import account as offchainAccount
 from tatum.offchain import withdrawal, blockchain
-from tatum.blockchain import bitcoin, ethereum
+from tatum.blockchain import bitcoin, ethereum, bitcoin_cash
 
 # body_params = {"currency": "BTC", 'customer':{'externalId': '3dss5'}}
 # account.create_new_account(body_params)
@@ -240,3 +240,31 @@ path_params = {'hash': '7530722'}
 # query_params = {'pageSize': 10}
 # ethereum.get_ethereum_transactions_by_address(path_params, query_params)
 
+# bitcoin_cash.generate_bitcoin_cash_wallet()
+
+# path_params = {'xpub': 'xpub6En1k99NzVdo3fg8QE6HjmukpLNcNqvunJRkeid12qfrkPJ4KHaCqtFWLXVGCfkdTfFYpfJbGCiWd57PgjK2iuLhys3CDNwXGhfAamSvxyC', 'index': 5}
+# bitcoin_cash.generate_bitcoin_cash_deposit_address_from_extended_public_key(path_params)
+
+
+# body_params = {
+#   "index": 0,
+#   "mnemonic": "snack style neutral purity dumb judge oak melody please track old practice"
+# }
+# bitcoin_cash.generate_bitcoin_cash_private_key(body_params)
+
+# bitcoin_cash.get_bitcoin_cash_blockchain_information()
+
+# path_params = {'hash': '0000000000ec41bc6deb8aea79a926c1b014eac4467c50f55fcbb9710dbdb066'}
+# bitcoin_cash.get_bitcoin_cash_block_by_hash(path_params)
+
+# path_params = {'i': 1372778}
+# bitcoin_cash.get_bitcoin_cash_block_hash(path_params)
+
+# path_params = {'hash': 'eaec3c2d3d093a83f406e8955fa141e62654bf5bcf108cd30168eaeb89f1ac33'}
+# bitcoin_cash.get_bitcoin_cash_transaction_by_hash(path_params)
+
+
+# path_params = {'address': 'bchtest:qrppgud79n5h5ehqt9s7x8uc82pcag82es0w9tada0'}
+# query_params = {'skip': 1}
+
+# bitcoin_cash.get_bitcoin_cash_transaction_by_address(path_params, query_params)

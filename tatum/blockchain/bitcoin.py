@@ -63,7 +63,7 @@ def get_blockchain_information():
     print(data.decode("utf-8"))
 
 def get_block_hash(path_params):
-    validator.bitcoin_get_block_hash(path_params)
+    validator.get_block_hash(path_params)
     headers = { 'x-api-key': API_KEY }
     conn.request("GET", "/v3/bitcoin/block/hash/{}".format(path_params['i']), headers=headers)
 #   _______________________________________________________________
@@ -135,7 +135,7 @@ def send_bitcoin_to_blockchain_addresses(body_params):
     print(data.decode("utf-8"))
 
 def broadcast_signed_bitcoin_transaction(body_params):
-    validator.broadcast_signed_bitcoin_transaction(body_params)
+    validator.broadcast_signed_transaction(body_params)
     body_params = json.dumps(body_params)
     headers = {
         'content-type': "application/json",
