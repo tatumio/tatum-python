@@ -2,6 +2,7 @@ from tatum.ledger import account, virtual_currency, customer, transaction, subsc
 from tatum.security import key_management_system, address
 from tatum.offchain import account as offchainAccount
 from tatum.offchain import withdrawal, blockchain
+from tatum.blockchain import bitcoin
 
 # body_params = {"currency": "BTC", 'customer':{'externalId': '3dss5'}}
 # account.create_new_account(body_params)
@@ -163,3 +164,43 @@ body_params = {
 
 # body_params = ?????
 # withdrawal.broadcast_signed_transaction_and_complete_withdrawal(body_params)
+
+
+# bitcoin.generate_bitcoin_wallet()
+
+# path_params = {'xpub': 'tpubDEwc9DswWvzSoRWF2L2KJssX5ejwX66k9XK8genoBFVPS96ZRCsgAfDsxotgz8nJGE9LbvhWyAcuhCDh9qrRY48yAkNX8X4gHWZ8XtPECBW', 'index': 2} 
+# bitcoin.generate_bitcoin_deposit_address_from_extended_public_key(path_params)
+
+# body_params = {
+#   "index":1, 
+#   "mnemonic": "airport organ level bubble autumn rigid spike girl coffee senior health donate air genuine impulse camp cement fluid coin tell border sport narrow liar"
+# }
+# bitcoin.generate_bitcoin_private_key(body_params)
+
+# bitcoin.get_blockchain_information()
+
+# path_params = {'i': 1670150}
+# bitcoin.get_block_hash(path_params)
+
+# path_params = {'hash': '1670150'}
+# bitcoin.get_block_by_hash_or_height(path_params)
+# path_params = {'hash': '000000000000006fb7a0612c92addf7b7e6c55b2d307433fe65f551adf8454b4'}
+# bitcoin.get_block_by_hash_or_height(path_params)
+
+# path_params = {'hash': 'ad18541c8efa384e49f6da092f0580c646b367de2a48648f19a9e5b8e5e202ae'}
+# bitcoin.get_transaction_by_hash(path_params)
+
+
+# path_params = {'address': 'mrbNHC32JvsBdP4LapQFmNfgHw4oJMCASJ'}
+# query_params = {'pageSize': 50, 'offset': 1}
+# bitcoin.get_transaction_by_address(path_params, query_params)
+
+# path_params = {'hash': '5b6430975de264abc9b44a7d7261accd3f80f234e6d1ed55893e16a87bc35e38', 'index': 0}
+# bitcoin.get_utxo_of_transaction(path_params)
+
+
+              # body_params = {
+              # "txData":" "
+              # }
+              # bitcoin.broadcast_signed_bitcoin_transaction(body_params)
+              # bitcoin.send_bitcoin_to_blockchain_addresses()
