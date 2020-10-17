@@ -2,7 +2,7 @@ from tatum.ledger import account, virtual_currency, customer, transaction, subsc
 from tatum.security import key_management_system, address
 from tatum.offchain import account as offchainAccount
 from tatum.offchain import withdrawal, blockchain
-from tatum.blockchain import bitcoin, ethereum, bitcoin_cash, litecoin
+from tatum.blockchain import bitcoin, ethereum, bitcoin_cash, litecoin, xrp
 
 # body_params = {"currency": "BTC", 'customer':{'externalId': '3dss5'}}
 # account.create_new_account(body_params)
@@ -299,5 +299,25 @@ path_params = {'hash': '7530722'}
 # query_params = {'pageSize': 50}
 # litecoin.get_litecoin_transaction_by_address(path_params, query_params)
 
-path_params = {'hash': '2d96ec8dfdd2101e47c92e602944a341268b1be73c6dd98860db3faeb3a2c403', 'index': 2}
-litecoin.get_utxo_of_transaction(path_params)
+# path_params = {'hash': '2d96ec8dfdd2101e47c92e602944a341268b1be73c6dd98860db3faeb3a2c403', 'index': 2}
+# litecoin.get_utxo_of_transaction(path_params)
+
+
+query_params = {'pageSize': 50}
+# xrp.generate_xrp_account()
+# xrp.get_xrp_blockchain_information()
+# xrp.get_actual_blockchain_fee()
+
+# path_params = {'account': 'rPh8bRqJgokvRaSMNPk2wQXFnYFxiSnRsa'}
+# xrp.get_account_transactions(path_params)
+
+# path_params = {'i': 1}
+# xrp.get_ledger(path_params)
+
+
+# path_params = {'hash': '773EBE4272BE03919CFFFC135721CE0662A2FB1360849056898BC704F4A7246E'}
+# xrp.get_xrp_transaction_by_hash(path_params)
+
+path_params = {'account': 'rPh8bRqJgokvRaSMNPk2wQXFnYFxiSnRsa'}
+# xrp.get_account_info(path_params)
+# xrp.get_account_balance(path_params)

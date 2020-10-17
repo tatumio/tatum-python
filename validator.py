@@ -907,3 +907,41 @@ def send_bitcoin_cash_to_blockchain_addresses(body_params):
             }
     v.validate(body_params, body_schema)
     erros_print(v)
+
+def get_account_transactions(path_params, query_params):
+    v = cerberus.Validator()
+    path_schema = {
+            "account": {"required": True, "type" : "string"},
+        }
+
+    v.validate(path_params, path_schema)
+    erros_print(v)
+    if query_params != {}:
+        query_schema = {
+                "min": {"type" : "number"},
+                "marker": {"type" : "string"},
+            }
+
+        v.validate(query_params, query_schema)
+        erros_print(v)
+
+def get_ledger(path_params):
+    v = cerberus.Validator()
+    path_schema = {
+            "i": {"required": True, "type" : "number", 'min': 0},
+        }
+
+    v.validate(path_params, path_schema)
+    erros_print(v)
+
+def get_account_info(path_params):
+    v = cerberus.Validator()
+    path_schema = {
+            "account": {"required": True, "type" : "string"},
+        }
+
+    v.validate(path_params, path_schema)
+    erros_print(v)
+    
+def send_xrp_to_blockchain_addresses(body_params):
+    pass
