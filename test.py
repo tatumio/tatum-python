@@ -321,3 +321,30 @@ query_params = {'pageSize': 50}
 path_params = {'account': 'rPh8bRqJgokvRaSMNPk2wQXFnYFxiSnRsa'}
 # xrp.get_account_info(path_params)
 # xrp.get_account_balance(path_params)
+
+
+body_params = {
+"fromAccount": "rPh8bRqJgokvRaSMNPk2wQXFnYFxiSnRsa",
+"fromSecret": "ssVCfc6t5topqeHVxTHiW1iBbay85", 
+"rippling": False
+}
+
+# xrp.modify_xrp_account(body_params)
+
+body_params = {
+  "fromAccount": "rU96Vo5z9HCES8CF3HUqfWs3jZDywgcnpJ",
+  "fromSecret": "snRr2gksVnuRYSfm4TeU1Rb7X5FcX",
+  "issuerAccount": "rpdqTe353R8W2pL3XwdWY9saj7Xn7tXb4B",
+  "limit": "10000",
+  "token": "2939A3EE5E6B4B0D3255BFEF95601890AFD80700"
+}
+# xrp.create_update_delete_xrp_trust_line(body_params)
+
+body_params = {
+	"fromAccount":"rPh8bRqJgokvRaSMNPk2wQXFnYFxiSnRsa", 
+	"fromSecret":"ssVCfc6t5topqeHVxTHiW1iBbay85",
+	"to":"rf7FX2X8AVrJuNoT71xKgJZXNhxrXtXsfd",
+	"amount": "100"
+}
+
+# xrp.send_xrp_to_blockchain_addresses(body_params)

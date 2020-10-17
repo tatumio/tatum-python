@@ -942,6 +942,61 @@ def get_account_info(path_params):
 
     v.validate(path_params, path_schema)
     erros_print(v)
-    
+
 def send_xrp_to_blockchain_addresses(body_params):
-    pass
+    v = cerberus.Validator()
+    body_schema = {
+            "fromAccount": {"required": True, "type" : "string", "minlength": 33, "maxlength": 34},
+            "to": {"required": True, "type" : "string", "minlength": 33, "maxlength": 34},
+            "amount": {"required": True, "type" : "string"},
+            "fromSecret": {"type" : "string", "minlength": 29, "maxlength": 29},
+            "signatureId": {"type" : "string", "minlength": 36, "maxlength": 36},
+            "fee": {"type" : "string"},
+            "sourceTag": {"type" : "integer"},
+            "destinationTag": {"type" : "integer"},
+            "issuerAccount": {"type" : "string", "minlength": 33, "maxlength": 34},
+            "token": {"type" : "string", "minlength": 40, "maxlength": 40}
+        }
+
+    v.validate(body_params, body_schema)
+    erros_print(v)
+    if 'fee' in body_params.keys():
+        check_allowed_chars('^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'fee', body_params['fee'])
+    check_allowed_chars('^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'amount', body_params['amount'])
+    if 'token' in body_params.keys():
+        check_allowed_chars('^[A-F0-9]{40}$', 'token', body_params['token'])
+
+def create_update_delete_xrp_trust_line(body_params):
+    v = cerberus.Validator()
+    body_schema = {
+            "fromAccount": {"required": True, "type" : "string", "minlength": 33, "maxlength": 34},
+            "issuerAccount": {"required": True, "type" : "string", "minlength": 33, "maxlength": 34},
+            "limit": {"required": True, "type" : "string"},
+            "token": {"required": True, "type" : "string", "minlength": 40, "maxlength": 40},
+            "fromSecret": {"type" : "string", "minlength": 29, "maxlength": 29},
+            "signatureId": {"type" : "string", "minlength": 36, "maxlength": 36},
+            "fee": {"type" : "string"}
+        }
+
+    v.validate(body_params, body_schema)
+    erros_print(v)
+    if 'fee' in body_params.keys():
+        check_allowed_chars('^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'fee', body_params['fee'])
+    check_allowed_chars('^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'limit', body_params['limit'])
+    check_allowed_chars('^[A-F0-9]{40}$', 'token', body_params['token'])
+
+def modify_xrp_account(body_params):
+    v = cerberus.Validator()
+    body_schema = {
+            "fromAccount": {"required": True, "type" : "string", "minlength": 33, "maxlength": 34},
+            "fromSecret": {"type" : "string", "minlength": 29, "maxlength": 29},
+            "signatureId": {"type" : "string", "minlength": 36, "maxlength": 36},
+            "fee": {"type" : "string"},
+            "rippling": {"type" : "boolean"},
+            "requireDestinationTag": {"type" : "boolean"}
+        }
+
+    v.validate(body_params, body_schema)
+    erros_print(v)
+    if 'fee' in body_params.keys():
+        check_allowed_chars('^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'fee', body_params['fee'])

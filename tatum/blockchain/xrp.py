@@ -138,7 +138,29 @@ def broadcast_signed_xrp_transaction(body_params):
     print(data.decode("utf-8"))
 
 def create_update_delete_xrp_trust_line(body_params):
-    pass
+    validator.create_update_delete_xrp_trust_line(body_params)
+    body_params = json.dumps(body_params)
+    headers = {
+        'content-type': "application/json",
+        'x-api-key': API_KEY
+        }
+    conn.request("POST", "/v3/xrp/trust", body_params, headers)
+#   _______________________________________________________________
+
+    res = conn.getresponse()
+    data = res.read()
+    print(data.decode("utf-8"))
 
 def modify_xrp_account(body_params):
-    pass
+    validator.modify_xrp_account(body_params)
+    body_params = json.dumps(body_params)
+    headers = {
+        'content-type': "application/json",
+        'x-api-key': API_KEY
+        }
+    conn.request("POST", "/v3/xrp/account/settings", body_params, headers)
+#   _______________________________________________________________
+
+    res = conn.getresponse()
+    data = res.read()
+    print(data.decode("utf-8"))
