@@ -7,14 +7,15 @@ v = cerberus.Validator()
 def erros_print(v):
     if v.errors != {}:
         print(colored(v.errors, 'red'))
-        
+        return False
+    else:
+        return True        
 
 def check_allowed_chars(allowed_chars, variableName, variableValue):
     match = re.search(allowed_chars, variableValue)
     if match is None:
         print(colored("'{}': contains not allowed characters".format(variableName), 'red'))
-
-
+        
 def check_correct_value_from_define_list(list, variableName, variableValue):
     correct = False
     for i in range(0, len(list)):
@@ -44,6 +45,14 @@ def page_size_query_params(query_params):
 # ___________________________________BLOCKCHAIN_________________________________________
 
 
+def generate_litecoin_wallet(query_params):
+    if query_params != {}:
+        query_schema = {
+                "mnemonic": {"type" : "string", "maxlength": 500},
+            }
+
+        v.validate(query_params, query_schema)
+
 def generate_wallet(query_params):
     if query_params != {}:
         query_schema = {
@@ -51,7 +60,6 @@ def generate_wallet(query_params):
             }
 
         v.validate(query_params, query_schema)
-        erros_print(v)
 
 def generate_deposit_address_from_extended_public_key(path_params):
     path_schema = {
@@ -352,7 +360,7 @@ def send_ethereum_erc20_from_account_to_account(body_params):
             "nonce": {"type" : "string",  "minlength": 0},
             "to": {"required": True, "type" : "string", "minlength": 42, "maxlength": 42},
             "currency": {"required": True, "type" : "string"},
-            "fee": {"type" : "dict", 'schema': {'gasLimit': {"required": True, "type" : "string"}, 'gasPrice': {"required": True, "type" : "string"}}}
+            "fee": {"type" : "dict", 'schema': {'gasLimit': {"required": True, "type" : "string"}, 'gasPrice': {"required": True, "type" : "string"}}},
             "amount": {"required": True, "type" : "string"},
             "fromPrivateKey": {"type" : "string", "minlength": 66, "maxlength": 66},
             "signatureId": {"type" : "string", "minlength": 36, "maxlength": 36},
@@ -384,17 +392,17 @@ def invoke_smart_contract_method(body_params):
         check_allowed_chars('^[+]?\d+$', 'gasPrice', body_params['fee']['gasPrice'])
 
 def deploy_ethereum_erc20_smart_contract(body_params):
-        body_schema = {
-            "symbol": {"required": True, "type" : "string", "minlength": 1, "maxlength": 30},
-            "name": {"required": True, "type" : "string", "minlength": 1, "maxlength": 100},
-            "supply": {"required": True, "type" : "string", "maxlength": 38},
-            "digits": {"required": True, "type" : "number", "min": 1, "max": 30},
-            "address": {"required": True, "type" : "string", "minlength": 42, "maxlength": 42},
-            "fromPrivateKey": {"type" : "string", "minlength": 66, "maxlength": 66},
-            "signatureId": {"type" : "string", "minlength": 36, "maxlength": 36},
-            "nonce": {"type" : "string",  "minlength": 0},
-            "fee": {"type" : "dict", 'schema': {'gasLimit': {"required": True, "type" : "string"}, 'gasPrice': {"required": True, "type" : "string"}}}
-        }
+    body_schema = {
+        "symbol": {"required": True, "type" : "string", "minlength": 1, "maxlength": 30},
+        "name": {"required": True, "type" : "string", "minlength": 1, "maxlength": 100},
+        "supply": {"required": True, "type" : "string", "maxlength": 38},
+        "digits": {"required": True, "type" : "number", "min": 1, "max": 30},
+        "address": {"required": True, "type" : "string", "minlength": 42, "maxlength": 42},
+        "fromPrivateKey": {"type" : "string", "minlength": 66, "maxlength": 66},
+        "signatureId": {"type" : "string", "minlength": 36, "maxlength": 36},
+        "nonce": {"type" : "string",  "minlength": 0},
+        "fee": {"type" : "dict", 'schema': {'gasLimit': {"required": True, "type" : "string"}, 'gasPrice': {"required": True, "type" : "string"}}},
+    }
 
     v.validate(body_params, body_schema)
     erros_print(v)
@@ -405,16 +413,16 @@ def deploy_ethereum_erc20_smart_contract(body_params):
         check_allowed_chars('^[+]?\d+$', 'gasPrice', body_params['fee']['gasPrice'])
 
 def transfer_ethereum_erc20(body_params):
-        body_schema = {
-            "to": {"required": True, "type" : "string", "minlength": 1, "maxlength": 50},
-            "amount": {"required": True, "type" : "string"},
-            "contractAddress": {"required": True, "type" : "string", "minlength": 42, "maxlength": 42},
-            "digits": {"required": True, "type" : "number", "min": 1, "max": 30},
-            "fromPrivateKey": {"type" : "string", "minlength": 66, "maxlength": 66},
-            "signatureId": {"type" : "string", "minlength": 36, "maxlength": 36},
-            "nonce": {"type" : "string",  "minlength": 0},
-            "fee": {"type" : "dict", 'schema': {'gasLimit': {"required": True, "type" : "string"}, 'gasPrice': {"required": True, "type" : "string"}}}
-        }
+    body_schema = {
+        "to": {"required": True, "type" : "string", "minlength": 1, "maxlength": 50},
+        "amount": {"required": True, "type" : "string"},
+        "contractAddress": {"required": True, "type" : "string", "minlength": 42, "maxlength": 42},
+        "digits": {"required": True, "type" : "number", "min": 1, "max": 30},
+        "fromPrivateKey": {"type" : "string", "minlength": 66, "maxlength": 66},
+        "signatureId": {"type" : "string", "minlength": 36, "maxlength": 36},
+        "nonce": {"type" : "string",  "minlength": 0},
+        "fee": {"type" : "dict", 'schema': {'gasLimit': {"required": True, "type" : "string"}, 'gasPrice': {"required": True, "type" : "string"}}}
+    }
 
     v.validate(body_params, body_schema)
     erros_print(v)
@@ -512,27 +520,27 @@ def burn_ethereum_erc721(body_params):
         check_allowed_chars('^[+]?\d+$', 'gasPrice', body_params['fee']['gasPrice'])
 
 def get_ethereum_erc721_account_balance(path_params):
-    body_schema = {
+    path_schema = {
         "address": {"required": True, "type" : "string"},
         "contractAddress": {"required": True, "type" : "string"},
     }
 
-    v.validate(body_params, body_schema)
+    v.validate(path_params, path_schema)
     erros_print(v)
 
 def get_ethereum_erc721_token(path_params):
-    body_schema = {
+    path_schema = {
         "address": {"required": True, "type" : "string"},        
         "index": {"required": True, "type" : "number"},
         "contractAddress": {"required": True, "type" : "string"},
     }
-    v.validate(body_params, body_schema)
+    v.validate(path_params, path_schema)
     erros_print(v)
 
 def get_ethereum_erc721_token_metadata(path_params):
-    body_schema = {
+    path_schema = {
         "token": {"required": True, "type" : "string", "maxlength": 32},        
         "contractAddress": {"required": True, "type" : "string"},
     }
-    v.validate(body_params, body_schema)
+    v.validate(path_params, path_schema)
     erros_print(v)

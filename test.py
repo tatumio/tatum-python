@@ -2,10 +2,10 @@ from tatum.ledger import account, virtual_currency, customer, transaction, subsc
 from tatum.security import key_management_system, address
 from tatum.offchain import account as offchainAccount
 from tatum.offchain import withdrawal, blockchain
-from tatum.blockchain import bitcoin, ethereum, bitcoin_cash, litecoin, xrp,xlm
+from tatum.blockchain import bitcoin, ethereum, bitcoin_cash, litecoin, xrp, xlm
 
-# body_params = {"currency": "BTC", 'customer':{'externalId': '3dss5'}}
-# account.create_new_account(body_params)
+body_params = {"currency": "BTC", 'customer':{'externalId': '3dss5'}}
+print(account.create_new_account(body_params))
 
 # query_params = {'pageSize': 10, 'offset': 1}
 # account.list_all_accounts(query_params)
@@ -75,7 +75,7 @@ from tatum.blockchain import bitcoin, ethereum, bitcoin_cash, litecoin, xrp,xlm
 
 # body_params = {'id': '5f85717db0fb3d7676c269a9'}
 # account.get_account_balance(path_params)
-query_params = {'pageSize': 10}
+# query_params = {'pageSize': 10}
 # transaction.find_transactions_for_account(query_params, body_params)
 # body_params = {'id': '5f4fadd111a32373ca107544'}
 # transaction.find_transactions_for_customer_across_all_accounts_of_customer(query_params, body_params)
@@ -133,7 +133,7 @@ query_params = {'pageSize': 10}
 # path_params = {'address': 'nevalidniemail@eoopy.com'}
 # address.check_malicous_address(path_params)
 
-path_params = {'id': '5f887ae3e23af8bf1b813325'}
+# path_params = {'id': '5f887ae3e23af8bf1b813325'}
 # query_params = {'index': 3}
 # offchainAccount.create_new_deposit_address(path_params, query_params)
 # offchainAccount.get_all_deposit_addresses_for_account(path_params)
@@ -141,17 +141,17 @@ path_params = {'id': '5f887ae3e23af8bf1b813325'}
 # path_params = {'address': 'mrj2QoM9j6JrcAW8JiVfx8M6noK6i8REr9', 'currency': 'BTC'}
 # offchainAccount.check_if_deposit_address_is_asigned(path_params)
 
-path_params = {'address': 'bchtest:qpkn9k2h0h0cxzlg59gxfhpkj3508vgq6cfhvzkymf', 'id': '5e71d8a1ec60617c2e301b3a'}
+# path_params = {'address': 'bchtest:qpkn9k2h0h0cxzlg59gxfhpkj3508vgq6cfhvzkymf', 'id': '5e71d8a1ec60617c2e301b3a'}
 # offchainAccount.remove_address_for_account(path_params)
 # offchainAccount.assign_address_for_account(path_params)
 
-body_params = {
-  "address": "0x8c76887d2e738371bd750362fb55887343472346",
-  "amount": "0.0001",
-  "senderAccountId": "5e71dc0bba2ba02c332f62e2",
-  "senderBlockchainAddress":"0xe31aa662406f984556ac5fa79ef8ddba209ba1f3",
-  "fee":"0.000005"
-}
+# body_params = {
+#   "address": "0x8c76887d2e738371bd750362fb55887343472346",
+#   "amount": "0.0001",
+#   "senderAccountId": "5e71dc0bba2ba02c332f62e2",
+#   "senderBlockchainAddress":"0xe31aa662406f984556ac5fa79ef8ddba209ba1f3",
+#   "fee":"0.000005"
+# }
 # withdrawal.store_withdrawal(body_params)
 # withdrawal.check_withdrawal(body_params) 
 
@@ -220,7 +220,7 @@ body_params = {
               # ethereum.web3_http_driver()
 # ethereum.get_current_block()
 
-path_params = {'hash': '7530722'}
+# path_params = {'hash': '7530722'}
 # ethereum.get_block_by_hash(path_params) 
 
 # path_params = {'address': '0x0ff64c166a462b31ed657c9d88c5ac4fef6b88b6'}
@@ -270,8 +270,8 @@ path_params = {'hash': '7530722'}
 # bitcoin_cash.get_bitcoin_cash_transaction_by_address(path_params, query_params)
 
 
-
-# litecoin.generate_litecoin_wallet()
+# query_params = {'mnemonic': "sknack style nejtral prthrtity durthmb judge oak melody please rack old practice"}
+# litecoin.generate_litecoin_wallet(query_params)
 
 
 # path_params = {'index': 1,'xpub': 'ttub4gLJbfAoX8GS9s1ih2eu68M8XhPLRFy6tZyQQ6Ua1tF3WUyG6tGEGzEir7sxB2A2fp567qXFsr8pCjMrNRopFx2gAJmPgxiwVQYB4tWwQrD'}
@@ -303,7 +303,7 @@ path_params = {'hash': '7530722'}
 # litecoin.get_utxo_of_transaction(path_params)
 
 
-query_params = {'pageSize': 50}
+# query_params = {'pageSize': 50}
 # xrp.generate_xrp_account()
 # xrp.get_xrp_blockchain_information()
 # xrp.get_actual_blockchain_fee()
@@ -318,34 +318,34 @@ query_params = {'pageSize': 50}
 # path_params = {'hash': '773EBE4272BE03919CFFFC135721CE0662A2FB1360849056898BC704F4A7246E'}
 # xrp.get_xrp_transaction_by_hash(path_params)
 
-path_params = {'account': 'rPh8bRqJgokvRaSMNPk2wQXFnYFxiSnRsa'}
-xrp.get_account_info(path_params)
+# path_params = {'account': 'rPh8bRqJgokvRaSMNPk2wQXFnYFxiSnRsa'}
+# xrp.get_account_info(path_params)
 # xrp.get_account_balance(path_params)
 
 
-body_params = {
-"fromAccount": "rPh8bRqJgokvRaSMNPk2wQXFnYFxiSnRsa",
-"fromSecret": "ssVCfc6t5topqeHVxTHiW1iBbay85", 
-"rippling": False
-}
+# body_params = {
+# "fromAccount": "rPh8bRqJgokvRaSMNPk2wQXFnYFxiSnRsa",
+# "fromSecret": "ssVCfc6t5topqeHVxTHiW1iBbay85", 
+# "rippling": False
+# }
 
 # xrp.modify_xrp_account(body_params)
 
-body_params = {
-  "fromAccount": "rU96Vo5z9HCES8CF3HUqfWs3jZDywgcnpJ",
-  "fromSecret": "snRr2gksVnuRYSfm4TeU1Rb7X5FcX",
-  "issuerAccount": "rpdqTe353R8W2pL3XwdWY9saj7Xn7tXb4B",
-  "limit": "10000",
-  "token": "2939A3EE5E6B4B0D3255BFEF95601890AFD80700"
-}
+# body_params = {
+#   "fromAccount": "rU96Vo5z9HCES8CF3HUqfWs3jZDywgcnpJ",
+#   "fromSecret": "snRr2gksVnuRYSfm4TeU1Rb7X5FcX",
+#   "issuerAccount": "rpdqTe353R8W2pL3XwdWY9saj7Xn7tXb4B",
+#   "limit": "10000",
+#   "token": "2939A3EE5E6B4B0D3255BFEF95601890AFD80700"
+# }
 # xrp.create_update_delete_xrp_trust_line(body_params)
 
-body_params = {
-	"fromAccount":"rPh8bRqJgokvRaSMNPk2wQXFnYFxiSnRsa", 
-	"fromSecret":"ssVCfc6t5topqeHVxTHiW1iBbay85",
-	"to":"rf7FX2X8AVrJuNoT71xKgJZXNhxrXtXsfd",
-	"amount": "100"
-}
+# body_params = {
+# 	"fromAccount":"rPh8bRqJgokvRaSMNPk2wQXFnYFxiSnRsa", 
+# 	"fromSecret":"ssVCfc6t5topqeHVxTHiW1iBbay85",
+# 	"to":"rf7FX2X8AVrJuNoT71xKgJZXNhxrXtXsfd",
+# 	"amount": "100"
+# }
 
 # xrp.send_xrp_to_blockchain_addresses(body_params)
 
@@ -372,16 +372,26 @@ body_params = {
 # xlm.send_xlm_from_address_to_address(body_params)
 
 
-body_params ={
-  "txData": "4351ddfb1d240138893f2817452e1a2cdff1334c73f325019cf59f63a0943a58"
-}
+# body_params ={
+#   "txData": "4351ddfb1d240138893f2817452e1a2cdff1334c73f325019cf59f63a0943a58"
+# }
 # xlm.broadcast_signed_xlm_transaction(body_params)
 
-body_params = {
-	"fromAccount":"GA442JNOFCOX2R5ZGUCHV65CTEY5KRTU7R7CQLYQQNK7FHKFOTRT4NCP",
-	"fromSecret":"SCKXIEAFDAFF7GN26IMXUNUXRHPH4KHIIYZVIEDA4N4GOLUBFE4TSQMD",
-	"issuerAccount":"GDYX2H3E53LOU3BTKCLWVAP4DYTNEFT5XQ47KOC6PT4MFJ6KABB7PBND",
-	"limit":"1000",
-	"token":"patek"
-}
+# body_params = {
+# 	"fromAccount":"GA442JNOFCOX2R5ZGUCHV65CTEY5KRTU7R7CQLYQQNK7FHKFOTRT4NCP",
+# 	"fromSecret":"SCKXIEAFDAFF7GN26IMXUNUXRHPH4KHIIYZVIEDA4N4GOLUBFE4TSQMD",
+# 	"issuerAccount":"GDYX2H3E53LOU3BTKCLWVAP4DYTNEFT5XQ47KOC6PT4MFJ6KABB7PBND",
+# 	"limit":"1000",
+# 	"token":"patek"
+# }
 # xlm.create_update_delete_xlm_trust_line(body_params)
+
+# path_params = {'address': '0x811dfbff13adfbc3cf653dcc373c03616d3471c9', 'contractAddress': '0x494394c74bFF7f93C8EB390D4Ab3586Aa2BcAb0C'}
+# ethereum.get_ethereum_erc721_account_balance(path_params)
+
+# path_params = {'address': '0x8c76887d2e738371bd750362fb55887343472346', 'index': 1,'contractAddress': '0x3621381e663883a1d2e483c7da404f68dc0d6d8a'}
+# ethereum.get_ethereum_erc721_token(path_params)
+
+# path_params = {'token': '2', 'contractAddress': '0xf9a2d14b1150c2b5d76cedb00f49fa1ea52b5a6c'}
+# ethereum.get_ethereum_erc721_token_metadata(path_params)
+# ethereum.get_ethereum_erc721_token_owner(path_params)

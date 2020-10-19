@@ -12,7 +12,7 @@ API_KEY = os.environ['API_KEY']
 
 
 def generate_litecoin_wallet(query_params={}):
-    blockchain_validator.generate_wallet(query_params)
+    blockchain_validator.generate_litecoin_wallet(query_params)
     headers = { 'x-api-key': API_KEY }
     if query_params != {}:
         conn.request("GET", "/v3/litecoin/wallet?mnemonic={}".format(query_params['mnemonic']), headers=headers)
