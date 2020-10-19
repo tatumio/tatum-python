@@ -2,7 +2,7 @@ from tatum.ledger import account, virtual_currency, customer, transaction, subsc
 from tatum.security import key_management_system, address
 from tatum.offchain import account as offchainAccount
 from tatum.offchain import withdrawal, blockchain
-from tatum.blockchain import bitcoin, ethereum, bitcoin_cash, litecoin, xrp
+from tatum.blockchain import bitcoin, ethereum, bitcoin_cash, litecoin, xrp,xlm
 
 # body_params = {"currency": "BTC", 'customer':{'externalId': '3dss5'}}
 # account.create_new_account(body_params)
@@ -348,3 +348,40 @@ body_params = {
 }
 
 # xrp.send_xrp_to_blockchain_addresses(body_params)
+
+
+# xlm.generate_xlm_account()
+# xlm.get_xlm_blockchain_information()
+# xlm.get_actual_blockchain_fee()
+
+# path_params = {'hash': 'cbf8fed5d01b9d76020572eb3112bf5142578a98bc7409e2662e8c13952ce1b6'}
+# xlm.get_xlm_transaction_by_hash(path_params)
+
+# path_params = {'account': 'GA442JNOFCOX2R5ZGUCHV65CTEY5KRTU7R7CQLYQQNK7FHKFOTRT4NCP'}
+# xlm.get_account_transactions(path_params)
+# xlm.get_account_info(path_params)
+
+# body_params = {
+#    "fromAccount": "GC2NG6LDLRCQ7MC4ZE5P6TUZPI6ZEKOGAA3M4OHTMCYLQIQ4Y23PHRHE",
+# 	"fromSecret": "SBBL2NUXC6DZEX6CMMVQAREJNLJZQNJ6SPWDGEF2TJZV7E3N7QOTN4ET",
+# 	"to": "GC2NG6LDLRCQ7MC4ZE5P6TUZPI6ZEKOGAA3M4OHTMCYLQIQ4Y23PHRHE",
+# 	"issuerAccount":"GC2NG6LDLRCQ7MC4ZE5P6TUZPI6ZEKOGAA3M4OHTMCYLQIQ4Y23PHRHE",
+# 	"amount": "200",
+# 	"token":"njn"
+# }
+# xlm.send_xlm_from_address_to_address(body_params)
+
+
+body_params ={
+  "txData": "4351ddfb1d240138893f2817452e1a2cdff1334c73f325019cf59f63a0943a58"
+}
+# xlm.broadcast_signed_xlm_transaction(body_params)
+
+body_params = {
+	"fromAccount":"GA442JNOFCOX2R5ZGUCHV65CTEY5KRTU7R7CQLYQQNK7FHKFOTRT4NCP",
+	"fromSecret":"SCKXIEAFDAFF7GN26IMXUNUXRHPH4KHIIYZVIEDA4N4GOLUBFE4TSQMD",
+	"issuerAccount":"GDYX2H3E53LOU3BTKCLWVAP4DYTNEFT5XQ47KOC6PT4MFJ6KABB7PBND",
+	"limit":"1000",
+	"token":"patek"
+}
+# xlm.create_update_delete_xlm_trust_line(body_params)
