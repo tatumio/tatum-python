@@ -66,7 +66,7 @@ from tatum.blockchain import bitcoin, ethereum, bitcoin_cash, litecoin, xrp,xlm
 # transaction.find_transactions_for_account(query_params, body_params)
 
 
-# body_params = {'name': 'VC_msgdoje', 'supply': '300', 'basePair': 'BTC'}
+# body_params = {'name': 'VC_msgdosje', 'supply': '300', 'basePair': 'BTC'}
 # virtual_currency.create_new_vitual_currency(body_params)
 # body_params = {"currency": "VC_msdoje"}
 # account.create_new_account(body_params)
@@ -75,7 +75,7 @@ from tatum.blockchain import bitcoin, ethereum, bitcoin_cash, litecoin, xrp,xlm
 
 # body_params = {'id': '5f85717db0fb3d7676c269a9'}
 # account.get_account_balance(path_params)
-# query_params = {'pageSize': 10}
+query_params = {'pageSize': 10}
 # transaction.find_transactions_for_account(query_params, body_params)
 # body_params = {'id': '5f4fadd111a32373ca107544'}
 # transaction.find_transactions_for_customer_across_all_accounts_of_customer(query_params, body_params)
@@ -133,7 +133,7 @@ from tatum.blockchain import bitcoin, ethereum, bitcoin_cash, litecoin, xrp,xlm
 # path_params = {'address': 'nevalidniemail@eoopy.com'}
 # address.check_malicous_address(path_params)
 
-# path_params = {'id': '5f887ae3e23af8bf1b813325'}
+path_params = {'id': '5f887ae3e23af8bf1b813325'}
 # query_params = {'index': 3}
 # offchainAccount.create_new_deposit_address(path_params, query_params)
 # offchainAccount.get_all_deposit_addresses_for_account(path_params)
@@ -319,7 +319,7 @@ query_params = {'pageSize': 50}
 # xrp.get_xrp_transaction_by_hash(path_params)
 
 path_params = {'account': 'rPh8bRqJgokvRaSMNPk2wQXFnYFxiSnRsa'}
-# xrp.get_account_info(path_params)
+xrp.get_account_info(path_params)
 # xrp.get_account_balance(path_params)
 
 

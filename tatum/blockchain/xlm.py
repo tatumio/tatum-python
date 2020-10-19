@@ -1,6 +1,6 @@
 import http.client
 import json
-import validator
+import validator.blockchain as blockchain_validator
 import requests
 import os
 from dotenv import load_dotenv
@@ -44,7 +44,7 @@ def get_actual_blockchain_fee():
     print(data.decode("utf-8"))
 
 def get_xlm_transaction_by_hash(path_params):
-    validator.get_block_by_hash_or_height(path_params)
+    blockchain_validator.get_block_by_hash_or_height(path_params)
     headers = { 'x-api-key': API_KEY }
     conn.request("GET", "/v3/xlm/transaction/{}".format(path_params['hash']), headers=headers)
 #   _______________________________________________________________
@@ -55,7 +55,7 @@ def get_xlm_transaction_by_hash(path_params):
     print(data.decode("utf-8"))
 
 def get_account_transactions(path_params):
-    validator.get_account_transactions(path_params, query_params = {})
+    blockchain_validator.get_account_transactions(path_params, query_params = {})
     headers = { 'x-api-key': API_KEY }
     
     conn.request("GET", "/v3/xlm/account/tx/{}".format(path_params['account']), headers=headers)
@@ -67,7 +67,7 @@ def get_account_transactions(path_params):
     print(data.decode("utf-8"))
 
 def get_account_info(path_params):
-    validator.get_account_info(path_params)
+    blockchain_validator.get_account_info(path_params)
     headers = { 'x-api-key': API_KEY }
 
     conn.request("GET", "/v3/xlm/account/{}".format(path_params['account']), headers=headers)
@@ -80,57 +80,65 @@ def get_account_info(path_params):
 
 
 def send_xlm_from_address_to_address(body_params):
-    validator.send_xlm_from_address_to_address(body_params)
+    blockchain_validator.send_xlm_from_address_to_address(body_params)
     body_params = json.dumps(body_params)
     headers = {
         'content-type': "application/json",
         'x-api-key': API_KEY
         }
     conn.request("POST", "/v3/xlm/transaction", body_params, headers)
-#   _______________________________________________________________
 
     res = conn.getresponse()
     data = res.read()
+#   _______________________________________________________________
     print(data.decode("utf-8"))
+#   _______________________________________________________________
+    return data.decode("utf-8")
 
 def broadcast_signed_xlm_transaction(body_params):
-    validator.broadcast_signed_transaction(body_params)
+    blockchain_validator.broadcast_signed_transaction(body_params)
     body_params = json.dumps(body_params)
     headers = {
         'content-type': "application/json",
         'x-api-key': API_KEY
         }
     conn.request("POST", "/v3/xlm/broadcast", body_params, headers)
-#   _______________________________________________________________
 
     res = conn.getresponse()
     data = res.read()
+#   _______________________________________________________________
     print(data.decode("utf-8"))
+#   _______________________________________________________________
+    return data.decode("utf-8")
 
 def create_update_delete_xlm_trust_line(body_params):
-    validator.create_update_delete_xlm_trust_line(body_params)
+    blockchain_validator.create_update_delete_xlm_trust_line(body_params)
     body_params = json.dumps(body_params)
     headers = {
         'content-type': "application/json",
         'x-api-key': API_KEY
         }
     conn.request("POST", "/v3/xlm/trust", body_params, headers)
-#   _______________________________________________________________
 
     res = conn.getresponse()
     data = res.read()
+#   _______________________________________________________________
     print(data.decode("utf-8"))
+#   _______________________________________________________________
+    return data.decode("utf-8")
 
 def modify_xlm_account(body_params):
-    validator.modify_xlm_account(body_params)
+    blockchain_validator.modify_xlm_account(body_params)
     body_params = json.dumps(body_params)
     headers = {
         'content-type': "application/json",
         'x-api-key': API_KEY
         }
     conn.request("POST", "/v3/xlm/account/settings", body_params, headers)
-#   _______________________________________________________________
 
     res = conn.getresponse()
     data = res.read()
+#   _______________________________________________________________
     print(data.decode("utf-8"))
+#   _______________________________________________________________
+    return data.decode("utf-8")
