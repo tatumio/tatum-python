@@ -217,36 +217,140 @@ def deploy_ethereum_erc20_smart_contract(body_params):
 #   _______________________________________________________________
     return data.decode("utf-8")
 
+def deploy_ethereum_erc721_smart_contract(body_params):
+    blockchain_validator.deploy_ethereum_erc721_smart_contract(body_params)
+    body_params = json.dumps(body_params)
+    headers = {
+        'content-type': "application/json",
+        'x-api-key': API_KEY
+        }
+    conn.request("POST", "/v3/ethereum/erc721/deploy", body_params, headers)
 
+    res = conn.getresponse()
+    data = res.read()
+#   _______________________________________________________________
+    print(data.decode("utf-8"))
+#   _______________________________________________________________
+    return data.decode("utf-8")
 
+def mint_ethereum_erc721(body_params):
+    blockchain_validator.mint_ethereum_erc721(body_params)
+    body_params = json.dumps(body_params)
+    headers = {
+        'content-type': "application/json",
+        'x-api-key': API_KEY
+        }
+    conn.request("POST", "/v3/ethereum/erc721/mint", body_params, headers)
 
+    res = conn.getresponse()
+    data = res.read()
+#   _______________________________________________________________
+    print(data.decode("utf-8"))
+#   _______________________________________________________________
+    return data.decode("utf-8")
 
+def transfer_ethereum_erc721_token(body_params):
+    blockchain_validator.transfer_ethereum_erc721_token(body_params)
+    body_params = json.dumps(body_params)
+    headers = {
+        'content-type': "application/json",
+        'x-api-key': API_KEY
+        }
+    conn.request("POST", "/v3/ethereum/erc721/transaction", body_params, headers)
 
+    res = conn.getresponse()
+    data = res.read()
+#   _______________________________________________________________
+    print(data.decode("utf-8"))
+#   _______________________________________________________________
+    return data.decode("utf-8")
 
+def mint_ethereum_erc721_multiple_tokens(body_params):
+    blockchain_validator.mint_ethereum_erc721_multiple_tokens(body_params)
+    body_params = json.dumps(body_params)
+    headers = {
+        'content-type': "application/json",
+        'x-api-key': API_KEY
+        }
+    conn.request("POST", "/v3/ethereum/erc721/mint", body_params, headers)
 
+    res = conn.getresponse()
+    data = res.read()
+#   _______________________________________________________________
+    print(data.decode("utf-8"))
+#   _______________________________________________________________
+    return data.decode("utf-8")
 
-# def get_utxo_of_transaction(path_params):
-#     blockchain_validator.get_utxo_of_transaction(path_params)
-#     headers = { 'x-api-key': API_KEY }
-#     conn.request("GET", "/v3/ethereum/utxo/{}/{}".format(path_params['hash'], path_params['index']), headers=headers)
-# #   _______________________________________________________________
+def burn_ethereum_erc721(body_params):
+    blockchain_validator.burn_ethereum_erc721(body_params)
+    body_params = json.dumps(body_params)
+    headers = {
+        'content-type': "application/json",
+        'x-api-key': API_KEY
+        }
+    conn.request("POST", "/v3/ethereum/erc721/burn", body_params, headers)
 
-#     res = conn.getresponse()
-#     data = res.read()
+    res = conn.getresponse()
+    data = res.read()
+#   _______________________________________________________________
+    print(data.decode("utf-8"))
+#   _______________________________________________________________
+    return data.decode("utf-8")
 
-#     print(data.decode("utf-8"))
+def get_ethereum_erc721_account_balance(path_params):
+    blockchain_validator.get_ethereum_erc721_account_balance(path_params)
+    headers = { 'x-api-key': API_KEY }
+    conn.request("GET", "/v3/ethereum/erc721/balance/{}/{}".format(path_params['address'], path_params['contractAddress']), headers=headers)
+    res = conn.getresponse()
+    data = res.read()
+#   _______________________________________________________________
+    print(data.decode("utf-8"))
+#   _______________________________________________________________
+    return data.decode("utf-8")
 
+def get_ethereum_erc721_token(path_params):
+    blockchain_validator.get_ethereum_erc721_token(path_params)
+    headers = { 'x-api-key': API_KEY }
+    conn.request("GET", "/v3/ethereum/erc721/token/{}/{}/{}".format(path_params['address'],path_params['index'], path_params['contractAddress']), headers=headers)
+    res = conn.getresponse()
+    data = res.read()
+#   _______________________________________________________________
+    print(data.decode("utf-8"))
+#   _______________________________________________________________
+    return data.decode("utf-8")
 
-# def broadcast_signed_ethereum_transaction(body_params):
-#     blockchain_validator.broadcast_signed_ethereum_transaction(body_params)
-#     body_params = json.dumps(body_params)
-#     headers = {
-#         'content-type': "application/json",
-#         'x-api-key': API_KEY
-#         }
-#     conn.request("POST", "/v3/ethereum/broadcast", body_params, headers)
-# #   _______________________________________________________________
+def get_ethereum_erc721_token_metadata(path_params):
+    blockchain_validator.get_ethereum_erc721_token_metadata(path_params)
+    headers = { 'x-api-key': API_KEY }
+    conn.request("GET", "/v3/ethereum/erc721/metadata/{}/{}".format(path_params['token'], path_params['contractAddress']), headers=headers)
+    res = conn.getresponse()
+    data = res.read()
+#   _______________________________________________________________
+    print(data.decode("utf-8"))
+#   _______________________________________________________________
+    return data.decode("utf-8")
 
-#     res = conn.getresponse()
-#     data = res.read()
-#     print(data.decode("utf-8"))
+def get_ethereum_erc721_token_owner(path_params):
+    blockchain_validator.get_ethereum_erc721_token_metadata(path_params)
+    headers = { 'x-api-key': API_KEY }
+    conn.request("GET", "/v3/ethereum/erc721/owner/{}/{}".format(path_params['token'], path_params['contractAddress']), headers=headers)
+    res = conn.getresponse()
+    data = res.read()
+#   _______________________________________________________________
+    print(data.decode("utf-8"))
+#   _______________________________________________________________
+    return data.decode("utf-8")
+
+def broadcast_signed_ethereum_transaction(body_params):
+    blockchain_validator.broadcast_signed_transaction(body_params)
+    body_params = json.dumps(body_params)
+    headers = {
+        'content-type': "application/json",
+        'x-api-key': API_KEY
+        }
+    conn.request("POST", "/v3/ethereum/broadcast", body_params, headers)
+#   _______________________________________________________________
+
+    res = conn.getresponse()
+    data = res.read()
+    print(data.decode("utf-8"))

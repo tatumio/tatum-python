@@ -423,3 +423,116 @@ def transfer_ethereum_erc20(body_params):
     if 'fee' in body_params.keys():
         check_allowed_chars('^[+]?\d+$', 'gasLimit', body_params['fee']['gasLimit'])
         check_allowed_chars('^[+]?\d+$', 'gasPrice', body_params['fee']['gasPrice'])
+
+
+def deploy_ethereum_erc721_smart_contract(body_params):
+    body_schema = {
+            "name": {"required": True, "type" : "string", "minlength": 1, "maxlength": 100},
+            "symbol": {"required": True, "type" : "string", "minlength": 1, "maxlength": 30},
+            "fromPrivateKey": {"type" : "string", "minlength": 66, "maxlength": 66},
+            "signatureId": {"type" : "string", "minlength": 36, "maxlength": 36},
+            "nonce": {"type" : "string",  "minlength": 0},
+            "fee": {"type" : "dict", 'schema': {'gasLimit': {"required": True, "type" : "string"}, 'gasPrice': {"required": True, "type" : "string"}}}
+        }
+
+    v.validate(body_params, body_schema)
+    erros_print(v)
+    check_allowed_chars('^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'supply', body_params['supply'])    
+    check_allowed_chars('^[a-zA-Z0-9_]+$', 'name', body_params['name'])
+    if 'fee' in body_params.keys():
+        check_allowed_chars('^[+]?\d+$', 'gasLimit', body_params['fee']['gasLimit'])
+        check_allowed_chars('^[+]?\d+$', 'gasPrice', body_params['fee']['gasPrice'])
+
+def mint_ethereum_erc721(body_params):
+    body_schema = {
+            "tokenId": {"required": True, "type" : "string", "maxlength": 32},
+            "to": {"required": True, "type" : "string", "minlength": 42, "maxlength": 42},
+            "contractAddress": {"required": True, "type" : "string", "minlength": 42, "maxlength": 42},
+            "url": {"required": True, "type" : "string", "maxlength": 256},
+            "fromPrivateKey": {"type" : "string", "minlength": 66, "maxlength": 66},
+            "signatureId": {"type" : "string", "minlength": 36, "maxlength": 36},
+            "nonce": {"type" : "number",  "min": 0},
+            "fee": {"type" : "dict", 'schema': {'gasLimit': {"required": True, "type" : "string"}, 'gasPrice': {"required": True, "type" : "string"}}}
+        }
+
+    v.validate(body_params, body_schema)
+    erros_print(v)
+    if 'fee' in body_params.keys():
+        check_allowed_chars('^[+]?\d+$', 'gasLimit', body_params['fee']['gasLimit'])
+        check_allowed_chars('^[+]?\d+$', 'gasPrice', body_params['fee']['gasPrice'])
+
+def transfer_ethereum_erc721_token(body_params):
+    body_schema = {
+            "to": {"required": True, "type" : "string", "minlength": 42, "maxlength": 42},
+            "tokenId": {"required": True, "type" : "string", "maxlength": 256},
+            "contractAddress": {"required": True, "type" : "string", "minlength": 42, "maxlength": 42},
+            "fromPrivateKey": {"type" : "string", "minlength": 66, "maxlength": 66},
+            "signatureId": {"type" : "string", "minlength": 36, "maxlength": 36},
+            "nonce": {"type" : "number"},
+            "fee": {"type" : "dict", 'schema': {'gasLimit': {"required": True, "type" : "string"}, 'gasPrice': {"required": True, "type" : "string"}}}
+        }
+
+    v.validate(body_params, body_schema)
+    erros_print(v)
+    if 'fee' in body_params.keys():
+        check_allowed_chars('^[+]?\d+$', 'gasLimit', body_params['fee']['gasLimit'])
+        check_allowed_chars('^[+]?\d+$', 'gasPrice', body_params['fee']['gasPrice'])
+
+def mint_ethereum_erc721_multiple_tokens(body_params):
+    body_schema = {
+            "to": {"required": True, "type" : "list"},
+            "tokenId": {"required": True, "type" : "list"},
+            "contractAddress": {"required": True, "type" : "string", "minlength": 42, "maxlength": 42},
+            "fromPrivateKey": {"type" : "string", "minlength": 66, "maxlength": 66},
+            "signatureId": {"type" : "string", "minlength": 36, "maxlength": 36},
+            "nonce": {"type" : "number",  "min": 0},
+            "fee": {"type" : "dict", 'schema': {'gasLimit': {"required": True, "type" : "string"}, 'gasPrice': {"required": True, "type" : "string"}}}
+        }
+
+    v.validate(body_params, body_schema)
+    erros_print(v)
+    if 'fee' in body_params.keys():
+        check_allowed_chars('^[+]?\d+$', 'gasLimit', body_params['fee']['gasLimit'])
+        check_allowed_chars('^[+]?\d+$', 'gasPrice', body_params['fee']['gasPrice'])
+
+def burn_ethereum_erc721(body_params):
+    body_schema = {
+            "tokenId": {"required": True, "type" : "string", "maxlength": 32},
+            "contractAddress": {"required": True, "type" : "string", "minlength": 42, "maxlength": 42},
+            "fromPrivateKey": {"type" : "string", "minlength": 66, "maxlength": 66},
+            "signatureId": {"type" : "string", "minlength": 36, "maxlength": 36},
+            "nonce": {"type" : "number"},
+            "fee": {"type" : "dict", 'schema': {'gasLimit': {"required": True, "type" : "string"}, 'gasPrice': {"required": True, "type" : "string"}}}
+        }
+
+    v.validate(body_params, body_schema)
+    erros_print(v)
+    if 'fee' in body_params.keys():
+        check_allowed_chars('^[+]?\d+$', 'gasLimit', body_params['fee']['gasLimit'])
+        check_allowed_chars('^[+]?\d+$', 'gasPrice', body_params['fee']['gasPrice'])
+
+def get_ethereum_erc721_account_balance(path_params):
+    body_schema = {
+        "address": {"required": True, "type" : "string"},
+        "contractAddress": {"required": True, "type" : "string"},
+    }
+
+    v.validate(body_params, body_schema)
+    erros_print(v)
+
+def get_ethereum_erc721_token(path_params):
+    body_schema = {
+        "address": {"required": True, "type" : "string"},        
+        "index": {"required": True, "type" : "number"},
+        "contractAddress": {"required": True, "type" : "string"},
+    }
+    v.validate(body_params, body_schema)
+    erros_print(v)
+
+def get_ethereum_erc721_token_metadata(path_params):
+    body_schema = {
+        "token": {"required": True, "type" : "string", "maxlength": 32},        
+        "contractAddress": {"required": True, "type" : "string"},
+    }
+    v.validate(body_params, body_schema)
+    erros_print(v)
