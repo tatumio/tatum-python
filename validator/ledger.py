@@ -75,8 +75,9 @@ def block_amount_on_account(path_params, body_params):
         }
     v.validate(body_params, body_schema)
     result = result & erros_print(v)
-    result = result & check_allowed_chars('^^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'amount', body_params['amount'])
-    return  result
+    if result:
+        result = result & check_allowed_chars('^^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'amount', body_params['amount'])
+        return  result
     
 
 def unlock_amount_on_account_and_perform_transaction(path_params, body_params):
@@ -96,8 +97,9 @@ def unlock_amount_on_account_and_perform_transaction(path_params, body_params):
 
     v.validate(body_params, body_schema)
     result = result & erros_print(v)
-    result = result & check_allowed_chars('^^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'amount', body_params['amount'])
-    return result
+    if result:
+        result = result & check_allowed_chars('^^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'amount', body_params['amount'])
+        return result
 
 
 
@@ -247,7 +249,8 @@ def find_transactions_with_given_reference_across_all_accounts(path_params):
 # ___________________________________LEDGER/CUSTOMER_______________________________________
 
 def update_customer(path_params, body_params):
-    id_path_param(path_params)
+    result = True
+    result = result & id_path_param(path_params)
     body_schema = {
         "externalId": {"required": True, "type" : "string", "minlength": 1, "maxlength": 100}, "providerCountry": {"type" : "string", "minlength": 2, "maxlength": 2}, 
         "customerCountry": {"type" : "string", "minlength": 2, "maxlength": 2},           "accountingCurrency": {"type" : "string", "minlength": 3, "maxlength": 3} }
@@ -256,7 +259,15 @@ def update_customer(path_params, body_params):
     erros_print(v)
 
 # ___________________________________LEDGER/VIRTUAL CURRENCY_______________________________
+def check_prefix_virtual_currency(name):
+    if name[:3] != 'VC_':
+        print(colored('Virtual currency name must be prefixed with "VC_".', 'red'))
+        return False
+    else: 
+        return True
+
 def create_new_vitual_currency(body_params):
+    result = True
     body_schema = {
             "name" : {"required": True, "type" : "string", "minlength": 1, "maxlength": 30},
             "supply" : {"required": True, "type" : "string", "minlength": 1, "maxlength": 38},
@@ -270,12 +281,16 @@ def create_new_vitual_currency(body_params):
         }
 
     v.validate(body_params, body_schema)
-    erros_print(v)
-    check_allowed_chars('^[a-zA-Z0-9_]+$', 'name', body_params['name'][3:])
-    check_allowed_chars('^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'supply', body_params['supply'])   
+    result = result & erros_print(v)
+    if result:
+        result = result & check_prefix_virtual_currency(body_params['name'])
+        result = result & check_allowed_chars('^[a-zA-Z0-9_]+$', 'name', body_params['name'][3:])
+        result = result & check_allowed_chars('^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'supply', body_params['supply'])   
+        return result
     
 
 def update_vitual_currency(body_params):
+    result = True
     body_schema = {
             "name" : {"required": True, "type" : "string", "minlength": 1, "maxlength": 30},
             "basePair" : {"type" : "string", "minlength": 3, "maxlength": 5},
@@ -283,20 +298,22 @@ def update_vitual_currency(body_params):
         }
 
     v.validate(body_params, body_schema)
-    erros_print(v)
-
-    check_allowed_chars('^[a-zA-Z0-9_]+$', 'name', body_params['name'][3:])
+    result = result & erros_print(v)
+    if result:
+        result = result & check_prefix_virtual_currency(body_params['name'])
+        result = result & check_allowed_chars('^[a-zA-Z0-9_]+$', 'name', body_params['name'][3:])
+        return result
 
 
 def get_virtual_currency(path_params):
     path_schema = {
             "name" : {"required": True, "type" : "string", "minlength": 3, "maxlength": 100}
         }
-
     v.validate(path_params, path_schema)
-    erros_print(v)
+    return erros_print(v)
 
 def create_new_supply_of_virtual_currency(body_params):
+    result = True
     body_schema = {
             "accountId" : {"required": True, "type" : "string", "minlength": 24, "maxlength": 24},
             "amount" : {"required": True, "type" : "string", "maxlength": 38},
@@ -309,10 +326,10 @@ def create_new_supply_of_virtual_currency(body_params):
         }
 
     v.validate(body_params, body_schema)
-    erros_print(v)
-
-    check_allowed_chars('^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'amount', body_params['amount'])
-
+    result = result & erros_print(v)
+    if result:
+        result = result & check_allowed_chars('^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'amount', body_params['amount'])
+        return result
 
 
 # ___________________________________LEDGER/SUBSCRIPTION___________________________________

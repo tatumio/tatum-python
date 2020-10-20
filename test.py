@@ -84,20 +84,45 @@ import json
 
 
 
+#________________________________LEDGER/ VIRTUAL CURRENY________________________________________________
 
 
-# body_params = {'name': 'VC_CsZK', 'supply': '300', 'basePair': 'BTC'}
-# virtual_currency.create_new_vitual_currency(body_params)
+# body_params = {'name': 'VC_CdsekZK', 'supply': '300', 'basePair': 'BTC'}
+# resp = virtual_currency.create_new_vitual_currency(body_params)
+# if 'currency' in json.loads(resp).keys() & body_params['name'] != json.loads(resp)['currency']:
+#     print('Name of currency is not same.')
+# else:
+#     print(resp)
+
+
+
 
 # body_params = {'name': 'VC_moje', 'basePair': 'ETH'}
-# virtual_currency.update_vitual_currency(body_params)
+# print(virtual_currency.update_vitual_currency(body_params))
+
+
+
 
 # path_params = {'name': 'VC_moje'}
-# virtual_currency.get_virtual_currency(path_params)
+# resp=virtual_currency.get_virtual_currency(path_params)
+# if path_params['name'] != json.loads(resp)['name']:
+#     print('Names are not same.')
+# else:
+#     print(resp)
+
+
+
 
 # body_params= {'accountId': '5f8454d45f59ff320a40c114', 'amount': '5000'}
-# virtual_currency.create_new_supply_of_virtual_currency(body_params)
-# virtual_currency.destroy_supply_of_virtual_currency(body_params)
+# print(virtual_currency.create_new_supply_of_virtual_currency(body_params))
+# print(virtual_currency.destroy_supply_of_virtual_currency(body_params))
+
+
+
+
+#________________________________LEDGER/ CUSTOMER________________________________________________
+
+
 
 
 # query_params = {'pageSize': 10, 'offset': 1}
