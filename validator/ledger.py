@@ -256,7 +256,8 @@ def update_customer(path_params, body_params):
         "customerCountry": {"type" : "string", "minlength": 2, "maxlength": 2},           "accountingCurrency": {"type" : "string", "minlength": 3, "maxlength": 3} }
 
     v.validate(body_params, body_schema)
-    erros_print(v)
+    result = result & erros_print(v)
+    return result
 
 # ___________________________________LEDGER/VIRTUAL CURRENCY_______________________________
 def check_prefix_virtual_currency(name):

@@ -126,16 +126,41 @@ import json
 
 
 # query_params = {'pageSize': 10, 'offset': 1}
-# customer.list_all_customers(query_params)
-# path_params = {'id': '5f85570dd8b99aaea674040b'}
-# customer.get_customer_details(path_params)
+# resp = customer.list_all_customers(query_params)
+# if query_params['pageSize'] >= len(json.loads(resp)):
+#     print(resp)
+# else:
+#     print('PageSize is wrong')
 
+
+
+# path_params = {'id': '5f85570dd8b99aaea674040b'}
+# resp = customer.get_customer_details(path_params)
+# if path_params['id'] == json.loads(resp)['id']:
+#     print(resp)
+# else:
+#     print('Ids are not same')
+
+
+# path_params = {'id': '5f85570dd8b99aaea674040b'}
 # body_params = {'externalId': '123', "providerCountry": 'AD', "customerCountry": 'CZ', "accountingCurrency": 'CZK'}
-# customer.update_customer(path_params, body_params)
-# customer.deactivate_customer(path_params)
-# customer.activate_customer(api,path_params)
-# customer.disable_customer(path_params)
-# customer.enable_customer(path_params)
+# resp = customer.update_customer(path_params, body_params)
+# if body_params['providerCountry'] != json.loads(resp)['providerCountry']:
+#     print('ProviderCountry is not same.')
+# else:
+#     print(resp)
+
+# print(customer.deactivate_customer(path_params))
+# print(customer.activate_customer(path_params))
+# print(customer.disable_customer(path_params))
+# print(customer.enable_customer(path_params))
+
+
+
+#________________________________LEDGER/ TRANSACTION________________________________________________
+
+
+
 
 # query_params = {'pageSize': 10, 'count': 'true'}
 # body_params = {"id": "5f43bb8fda35b2413aa88410"}
