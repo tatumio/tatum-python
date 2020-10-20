@@ -336,6 +336,7 @@ def create_new_supply_of_virtual_currency(body_params):
 # ___________________________________LEDGER/SUBSCRIPTION___________________________________
 
 def create_new_subcription(body_params):
+    result = True
     body_schema = {
             "type" : {"required": True, "type" : "string"},
             "attr" : {"required": True, "type" : "dict", "schema": {'limit': {"required": True, "type" : "string", "maxlength": 38}, 'typeOfBalance': {"required": True, "type" : "string", "maxlength": 38}}
@@ -343,15 +344,16 @@ def create_new_subcription(body_params):
          }
 
     v.validate(body_params, body_schema)
-    erros_print(v)
+    result = result & erros_print(v)
+    if result:
+        types = ["ACCOUNT_BALANCE_LIMIT", "OFFCHAIN_WITHDRAWAL", "TRANSACTION_HISTORY_REPORT", "ACCOUNT_INCOMING_BLOCKCHAIN_TRANSACTION", "COMPLETE_BLOCKCHAIN_TRANSACTION"]
+        result = result & check_correct_value_from_define_list(types, 'type', body_params['type'])
 
-    types = ["ACCOUNT_BALANCE_LIMIT", "OFFCHAIN_WITHDRAWAL", "TRANSACTION_HISTORY_REPORT", "ACCOUNT_INCOMING_BLOCKCHAIN_TRANSACTION", "COMPLETE_BLOCKCHAIN_TRANSACTION"]
-    check_correct_value_from_define_list(types, 'type', body_params['type'])
+        result = result & check_allowed_chars('^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'limit', body_params['attr']['limit'])
 
-    check_allowed_chars('^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'limit', body_params['attr']['limit'])
-
-    typeOfBalance = ["account", "available"]
-    check_correct_value_from_define_list(typeOfBalance, 'typeOfBalance', body_params['typeOfBalance'])
+        typeOfBalance = ["account", "available"]
+        result = result & check_correct_value_from_define_list(typeOfBalance, 'typeOfBalance', body_params['attr']['typeOfBalance'])
+        return result
 
 
 # ___________________________________LEDGER/ORDER BOOK_____________________________________

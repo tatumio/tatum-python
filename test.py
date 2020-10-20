@@ -185,12 +185,32 @@ import json
 # path_params = {'reference': '9de8580a-4440-49c8-98d7-e3771eaeb6a8'}
 # transaction.find_transactions_with_given_reference_across_all_accounts(path_params)
 
-# subscription.list_all_active_subscriptions(query_params)
+
+
+#________________________________LEDGER/ SUBSCRIPTION________________________________________________
+
+
+
+# query_params = {'pageSize': 10}
+# print(subscription.list_all_active_subscriptions(query_params))
+
+
+
 # body_params = {"type":"ACCOUNT_BALANCE_LIMIT","attr":{"limit":"1000","typeOfBalance":"account"}}
-# subscription.create_new_subcription(body_params)
-# path_params = {'id': '5f8591d0dc6c947705e83afa'}
-# subscription.cancel_existing_subscription(path_params)
-# subscription.obtain_report_for_subscription(path_params)
+# print(subscription.create_new_subcription(body_params))
+
+
+
+# path_params = {'id': '5f8ee81d81719e9c8bd3a330'}
+# print(subscription.obtain_report_for_subscription(path_params))
+# print(subscription.cancel_existing_subscription(path_params))
+
+
+
+#________________________________LEDGER/ ORDER BOOK________________________________________________
+
+
+
 
 # query_params = {'pageSize': 10}
 # order_book.list_all_historical_trades(query_params)
