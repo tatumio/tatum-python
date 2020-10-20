@@ -59,32 +59,29 @@ def create_new_account(body_params):
             "accountCode": {"type" : "string", "minlength": 1, "maxlength": 150},
             "accountingCurrency": {"type" : "string", "minlength": 3, "maxlength": 3}
         }
-
     v.validate(body_params, body_schema)
     return erros_print(v)
 
 def list_all_customer_accounts(path_params, query_params):
-    result = True
-    result = result & id_path_param(path_params)
-    result = result & page_size_query_params(query_params)
-    return result
+    return id_path_param(path_params) & page_size_query_params(query_params) & True
 
 def block_amount_on_account(path_params, body_params):
-    id_path_param(path_params)
-
+    result = True
+    result = result & id_path_param(path_params)
     body_schema = {
             "amount" : {"required": True, "type" : "string", "maxlength": 38},
             "type" : {"required": True, "type" : "string", "minlength": 1, "maxlength": 100},
             "description" : {"type" : "string", "minlength": 1, "maxlength": 300}
         }
-
     v.validate(body_params, body_schema)
-    erros_print(v)
-    check_allowed_chars('^^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'amount', body_params['amount'])
+    result = result & erros_print(v)
+    result = result & check_allowed_chars('^^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'amount', body_params['amount'])
+    return  result
     
 
 def unlock_amount_on_account_and_perform_transaction(path_params, body_params):
-    id_path_param(path_params)
+    result = True
+    result = result & id_path_param(path_params)
     body_schema = {
             "recipientAccountId" : {"required": True, "type" : "string", "minlength": 24, "maxlength": 24},
             "amount" : {"required": True, "type" : "string", "maxlength": 38},
@@ -98,14 +95,14 @@ def unlock_amount_on_account_and_perform_transaction(path_params, body_params):
         }
 
     v.validate(body_params, body_schema)
-    erros_print(v)
+    result = result & erros_print(v)
+    result = result & check_allowed_chars('^^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'amount', body_params['amount'])
+    return result
 
-    check_allowed_chars('^^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'amount', body_params['amount'])
 
 
 def get_blocked_amounts_on_account(path_params, query_params):
-    id_path_param(path_params)
-    page_size_query_params(query_params)
+    return id_path_param(path_params) & page_size_query_params(query_params)
 
 # ___________________________________LEDGER/TRANSACTION____________________________________
 

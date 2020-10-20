@@ -3,37 +3,88 @@ from tatum.security import key_management_system, address
 from tatum.offchain import account as offchainAccount
 from tatum.offchain import withdrawal, blockchain
 from tatum.blockchain import bitcoin, ethereum, bitcoin_cash, litecoin, xrp, xlm
+import json
+#________________________________LEDGER/ACCOUNT________________________________________________
 
-body_params = {"currency": "BTC", 'customer':{'externalId': '3dss5'}}
-print(account.create_new_account(body_params))
+# body_params = {"currency": "BTC", 'customer':{'externalId': '3dss5'}}
+# if body_params['currency'] != json.loads(account.create_new_account(body_params))['currency']:
+#     print('Currency is not same!')
+# else:
+#     print(account.create_new_account(body_params))
 
-# query_params = {'pageSize': 10, 'offset': 1}
-# account.list_all_accounts(query_params)
+
+
+# query_params = {'pageSize': 2, 'offset': 1}
+# if query_params['pageSize'] >= len(json.loads(account.list_all_accounts(query_params))):
+#     print(account.list_all_accounts(query_params))
+# else:
+#     print('PageSize is wrong')
+
+
 
 # path_params = {'id': '5f85570dd8b99aaea674040a'}
 # query_params = {'pageSize': 10}
-# account.list_all_customer_accounts(path_params, query_params)
+# resp = account.list_all_customer_accounts(path_params,query_params)
+# if query_params['pageSize'] >= len(json.loads(resp)):
+#     print(resp)
+# else:
+#     print('PageSize is wrong')
+
+
 
 # path_params = {'id': '5f8434233115f789c669b3bd'}
-# account.get_account_by_ID(path_params)
-# account.get_account_balance(path_params)
-# body_params = {'amount': '10', 'type': 'deposit', "description": "My first blockage"}
-# account.block_amount_on_account(path_params, body_params)
+# resp = account.get_account_by_ID(path_params)
+# if path_params['id'] == json.loads(resp)['id']:
+#     print(resp)
+# else:
+#     print('Ids are not same!')
 
-# path_params = {'id': '5f843e49dc6c947705e83af7'}
-# body_params = {'recipientAccountId': '5f84295ddc6c947705e83af6','amount': '1'}
-# account.unlock_amount_on_account_and_perform_transaction(path_params, body_params)
-# account.unblock_blocked_amount_on_account(path_params)
+
+
+
+# path_params = {'id': '5f8434233115f789c669b3bd'}
+# print(account.get_account_balance(path_params))
+
+
+
+# path_params = {'id': '5f8e8a5c3514ae9c925fe868'}
+# body_params = {'amount': '10', 'type': 'deposit', "description": "My first blockage"}
+# resp = account.block_amount_on_account(path_params, body_params)
+# print(resp)
+
+
+
+
+# path_params = {'id': '5f8ec03e9397255214671936'}
+# body_params = {'recipientAccountId': '5f8e8a5c3514ae9c925fe868','amount': '1'}
+# print(account.unlock_amount_on_account_and_perform_transaction(path_params, body_params))
+
+
+
+# path_params = {'id': '5f8ec41e84728ebeea9edcd7'}
+# print(account.unblock_blocked_amount_on_account(path_params))
+
+
 
 # path_params = {'id': '5f85567db0fb3d7676c269a7'}
 # query_params = {'pageSize': 10}
-# account.get_blocked_amounts_on_account(path_params, query_params)
-# account.unblock_all_blocked_amounts_on_account(path_params)
+# resp = account.get_blocked_amounts_on_account(path_params, query_params)
+# if query_params['pageSize'] >= len(json.loads(resp)):
+#     print(resp)
+# else:
+#     print('PageSize is wrong')
 
-# account.deactivate_account(api,path_params)
-# account.activate_account(path_params)
-# account.freeze_account(path_params)
-# account.unfreeze_account(api,path_params)
+
+
+# path_params = {'id': '5f8ec52fa0f566521e50129a'}
+# print(account.deactivate_account(path_params))
+# print(account.activate_account(path_params))
+# print(account.freeze_account(path_params))
+# print(account.unfreeze_account(path_params))
+
+
+
+
 
 # body_params = {'name': 'VC_CsZK', 'supply': '300', 'basePair': 'BTC'}
 # virtual_currency.create_new_vitual_currency(body_params)
