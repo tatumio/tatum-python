@@ -366,9 +366,10 @@ def list_all_active_buy_trades(query_params):
         }
 
     v.validate(query_params, query_schema)
-    erros_print(v)
+    return erros_print(v)
 
 def store_buy_sell_trade(body_params):
+    result = True
     body_schema = {
             "type": {"required": True, "type" : "string"},
             "price" : {"required": True, "type" : "string", "maxlength": 38},
@@ -379,10 +380,12 @@ def store_buy_sell_trade(body_params):
         }
 
     v.validate(body_params, body_schema)
-    erros_print(v)
-    types = ["BUY", "SELL"]
-    check_correct_value_from_define_list(types, 'type', body_params['type'])
-    check_allowed_chars('^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'price', body_params['price'])
-    check_allowed_chars('^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'amount', body_params['amount'])
-    check_allowed_chars('^[A-a-zZ0-9_\-]+\/[A-Za-z0-9_\-]+$', 'pair', body_params['pair'])
+    result = result & erros_print(v)
+    if result:
+        types = ["BUY", "SELL"]
+        result = result & check_correct_value_from_define_list(types, 'type', body_params['type'])
+        result = result & check_allowed_chars('^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'price', body_params['price'])
+        result = result & check_allowed_chars('^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'amount', body_params['amount'])
+        result = result & check_allowed_chars('^[A-a-zZ0-9_\-]+\/[A-Za-z0-9_\-]+$', 'pair', body_params['pair'])
 
+        return result

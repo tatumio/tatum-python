@@ -213,30 +213,30 @@ import json
 
 
 # query_params = {'pageSize': 10}
-# order_book.list_all_historical_trades(query_params)
-# order_book.list_all_active_sell_trades(query_params)
-# order_book.list_all_active_buy_trades(query_params)
+# print(order_book.list_all_historical_trades(query_params))
+# print(order_book.list_all_active_sell_trades(query_params))
+# print(order_book.list_all_active_buy_trades(query_params))
 
 # query_params = {'id': '5a9cfa6ac43321052e7497a6'}
-# order_book.get_existing_trade(query_params)
+# print(order_book.get_existing_trade(query_params))
 
-# query_params = {'id': '5ed0b1e501b150287a7f6aac'}
-# order_book.cancel_existing_trade(query_params)
+# query_params = {'id': '5f86c0c8d0629a31bebc9dfc'}
+# print(order_book.cancel_existing_trade(query_params))
 
 # query_params = {'id': '5e9fe150392b786b9dc6f7d8'}
-# order_book.cancel_all_existing_trades_for_account(query_params)
+# print(order_book.cancel_all_existing_trades_for_account(query_params))
 
 
-# body_params = {
-# 	"type":"SELL",
-# 	"price":"1",
-# 	"amount":"10",
-# 	"pair":"VC_EUR/VC_CZK",
-# 	"currency1AccountId":"5f85b6dc03e34c3164a48b3a",
-# 	"currency2AccountId":"5f85b83e2aafd5315e3ab20b"
-# }
+body_params = {
+	"type":"SELL",
+	"price":"1",
+	"amount":"10",
+	"pair":"VC_EUR/VC_CZK",
+	"currency1AccountId":"5f85b6dc03e34c3164a48b3a",
+	"currency2AccountId":"5f85b83e2aafd5315e3ab20b"
+}
 
-# order_book.store_buy_sell_trade(body_params)
+print(order_book.store_buy_sell_trade(body_params))
 
 # path_params = {'chain': 'ETH'}
 # key_management_system.get_pending_transactions_to_sign(path_params)
