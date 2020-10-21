@@ -308,18 +308,34 @@ import json
 
 
 
+#________________________________OFFCHAIN/ ACCOUNT________________________________________________
+
+
+
 
 # path_params = {'id': '5f887ae3e23af8bf1b813325'}
 # query_params = {'index': 3}
-# offchainAccount.create_new_deposit_address(path_params, query_params)
-# offchainAccount.get_all_deposit_addresses_for_account(path_params)
+# print(offchainAccount.create_new_deposit_address(path_params, query_params))
+# print(offchainAccount.get_all_deposit_addresses_for_account(path_params))
+
+
+
 
 # path_params = {'address': 'mrj2QoM9j6JrcAW8JiVfx8M6noK6i8REr9', 'currency': 'BTC'}
-# offchainAccount.check_if_deposit_address_is_asigned(path_params)
+# print(offchainAccount.check_if_deposit_address_is_asigned(path_params))
 
-# path_params = {'address': 'bchtest:qpkn9k2h0h0cxzlg59gxfhpkj3508vgq6cfhvzkymf', 'id': '5e71d8a1ec60617c2e301b3a'}
-# offchainAccount.remove_address_for_account(path_params)
-# offchainAccount.assign_address_for_account(path_params)
+
+
+
+path_params = {'address': 'bchtest:qpkn9k2h0h0cxzlg59gxfhpkj3508vgq6cfhvzkymf', 'id': '5e71d8a1ec60617c2e301b3a'}
+# print(offchainAccount.remove_address_for_account(path_params))
+# print(offchainAccount.assign_address_for_account(path_params))
+
+
+
+
+
+#________________________________OFFCHAIN/ WITHDRAWAL ________________________________________________
 
 # body_params = {
 #   "address": "0x8c76887d2e738371bd750362fb55887343472346",

@@ -6,12 +6,18 @@ v = cerberus.Validator()
 
 def erros_print(v):
     if v.errors != {}:
-        print(colored(v.errors, 'red'))
+        print(colored(v.errors, 'red')) 
+        return False
+    else:
+        return True
 
 def check_allowed_chars(allowed_chars, variableName, variableValue):
     match = re.search(allowed_chars, variableValue)
     if match is None:
         print(colored("'{}': contains not allowed characters".format(variableName), 'red'))
+        return False
+    else:
+        return True
 
 
 def check_correct_value_from_define_list(list, variableName, variableValue):
@@ -22,6 +28,9 @@ def check_correct_value_from_define_list(list, variableName, variableValue):
             break
     if correct == False:
         print(colored('"{}": is not allowed type'.format(variableName), 'red'))
+        return False
+    else:
+        return True
 
 def id_path_param(path_params):
     path_schema = {
@@ -29,7 +38,7 @@ def id_path_param(path_params):
         }
 
     v.validate(path_params, path_schema)
-    erros_print(v)
+    return erros_print(v)
 
 def page_size_query_params(query_params):
     schema = {
@@ -38,13 +47,14 @@ def page_size_query_params(query_params):
         }
 
     v.validate(query_params, schema)
-    erros_print(v)
+    return erros_print(v)
 
 # ___________________________________OFFCHAIN/ ACCOUNT_________________________________________
 
 
 def create_new_deposit_address(path_params, query_params):
-    id_path_param(path_params)
+    result = True
+    result = result & id_path_param(path_params)
 
     if query_params != {}:
         query_schema = {
@@ -52,15 +62,17 @@ def create_new_deposit_address(path_params, query_params):
             }
 
         v.validate(query_params, query_schema)
-        erros_print(v)
+        result = result & erros_print(v)
+    return result
 
 def check_if_deposit_address_is_asigned(path_params, query_params):
+    result = True
     path_schema = {
             "address": {"required": True, "type" : "string"},
             "currency": {"required": True, "type" : "string"}
         }
     v.validate(path_params, path_schema)
-    erros_print(v)
+    result = result & erros_print(v)
 
     if query_params != {}:
         query_schema = {
@@ -68,7 +80,8 @@ def check_if_deposit_address_is_asigned(path_params, query_params):
             }
 
         v.validate(query_params, query_schema)
-        erros_print(v)
+        result = result & erros_print(v)
+    return result
 
 def remove_address_for_account(path_params):
     path_schema = {
@@ -76,7 +89,7 @@ def remove_address_for_account(path_params):
             "id": {"required": True, "type" : "string"}
         }
     v.validate(path_params, path_schema)
-    erros_print(v)
+    return erros_print(v)
 
 # ___________________________________OFFCHAIN/ WITHDRAWAL_________________________________________
 
