@@ -109,6 +109,7 @@ def get_blocked_amounts_on_account(path_params, query_params):
 # ___________________________________LEDGER/TRANSACTION____________________________________
 
 def send_payment(body_params):
+    result = True
     body_schema = {
             "senderAccountId" : {"required": True, "type" : "string", "minlength": 24, "maxlength": 24},
             "recipientAccountId" : {"required": True, "type" : "string", "minlength": 24, "maxlength": 24},
@@ -123,13 +124,14 @@ def send_payment(body_params):
         }
 
     v.validate(body_params, body_schema)
-    erros_print(v)
-
-    check_allowed_chars('^^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'amount', body_params['amount'])
+    result = result & erros_print(v)
+    if result:
+        result = result & check_allowed_chars('^^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'amount', body_params['amount'])
+        return result
 
 
 def find_transactions_for_account(query_params, body_params):
-
+    result = True
     query_schema = {
             "pageSize" : {"required": True, "type" : "integer", "min": 1, "max": 50},
             "offset": {"type" : "integer"},
@@ -137,7 +139,7 @@ def find_transactions_for_account(query_params, body_params):
         }
 
     v.validate(query_params, query_schema)
-    erros_print(v)
+    result = result & erros_print(v)
 
     body_schema = {
             "id" : {"required": True, "type" : "string", "minlength": 24, "maxlength": 24},
@@ -154,18 +156,19 @@ def find_transactions_for_account(query_params, body_params):
         }
 
     v.validate(body_params, body_schema)
-    erros_print(v)
+    result = result & erros_print(v)
+    if result:
+        transactionType = ["FAILED", "DEBIT_PAYMENT", "CREDIT_PAYMENT", "CREDIT_DEPOSIT", "DEBIT_WITHDRAWAL", "CANCEL_WITHDRAWAL", "DEBIT_OUTGOING_PAYMENT", "EXCHANGE_BUY", "EXCHANGE_SELL", "DEBIT_TRANSACTION", "CREDIT_INCOMING_PAYMENT"]
+        if 'transactionType' in body_params.keys():
+            result = result & check_correct_value_from_define_list(transactionType, 'transactionType', body_params['transactionType'])
 
-    transactionType = ["FAILED", "DEBIT_PAYMENT", "CREDIT_PAYMENT", "CREDIT_DEPOSIT", "DEBIT_WITHDRAWAL", "CANCEL_WITHDRAWAL", "DEBIT_OUTGOING_PAYMENT", "EXCHANGE_BUY", "EXCHANGE_SELL", "DEBIT_TRANSACTION", "CREDIT_INCOMING_PAYMENT"]
-    if 'transactionType' in body_params.keys():
-        check_correct_value_from_define_list(transactionType, 'transactionType', body_params['transactionType'])
-
-    opTypes = ["PAYMENT", "WITHDRAWAL", "BLOCKCHAIN_TRANSACTION", "EXCHANGE", "FAILED", "DEPOSIT", "MINT", "REVOKE"]
-    if 'opType' in body_params.keys():
-        check_correct_value_from_define_list(opTypes, 'opType', body_params['opType'])
+        opTypes = ["PAYMENT", "WITHDRAWAL", "BLOCKCHAIN_TRANSACTION", "EXCHANGE", "FAILED", "DEPOSIT", "MINT", "REVOKE"]
+        if 'opType' in body_params.keys():
+            result = result & check_correct_value_from_define_list(opTypes, 'opType', body_params['opType'])
+        return result
 
 def find_transactions_for_customer_across_all_accounts_of_customer(query_params, body_params):
-
+    result = True
     query_schema = {
             "pageSize" : {"required": True, "type" : "integer", "min": 1, "max": 50},
             "offset": {"type" : "integer"},
@@ -173,7 +176,7 @@ def find_transactions_for_customer_across_all_accounts_of_customer(query_params,
         }
 
     v.validate(query_params, query_schema)
-    erros_print(v)
+    result = result & erros_print(v)
 
     body_schema = {
             "id" : {"required": True, "type" : "string", "minlength": 24, "maxlength": 24},
@@ -191,18 +194,19 @@ def find_transactions_for_customer_across_all_accounts_of_customer(query_params,
         }
 
     v.validate(body_params, body_schema)
-    erros_print(v)
+    result = result & erros_print(v)
+    if result:
+        transactionType = ["FAILED", "DEBIT_PAYMENT", "CREDIT_PAYMENT", "CREDIT_DEPOSIT", "DEBIT_WITHDRAWAL", "CANCEL_WITHDRAWAL", "DEBIT_OUTGOING_PAYMENT", "EXCHANGE_BUY", "EXCHANGE_SELL", "DEBIT_TRANSACTION", "CREDIT_INCOMING_PAYMENT"]
+        if 'transactionType' in body_params.keys():
+            result = result & check_correct_value_from_define_list(transactionType, 'transactionType', body_params['transactionType'])
 
-    transactionType = ["FAILED", "DEBIT_PAYMENT", "CREDIT_PAYMENT", "CREDIT_DEPOSIT", "DEBIT_WITHDRAWAL", "CANCEL_WITHDRAWAL", "DEBIT_OUTGOING_PAYMENT", "EXCHANGE_BUY", "EXCHANGE_SELL", "DEBIT_TRANSACTION", "CREDIT_INCOMING_PAYMENT"]
-    if 'transactionType' in body_params.keys():
-        check_correct_value_from_define_list(transactionType, 'transactionType', body_params['transactionType'])
-
-    opTypes = ["PAYMENT", "WITHDRAWAL", "BLOCKCHAIN_TRANSACTION", "EXCHANGE", "FAILED", "DEPOSIT", "MINT", "REVOKE"]
-    if 'opType' in body_params.keys():
-        check_correct_value_from_define_list(opTypes, 'opType', body_params['opType'])
+        opTypes = ["PAYMENT", "WITHDRAWAL", "BLOCKCHAIN_TRANSACTION", "EXCHANGE", "FAILED", "DEPOSIT", "MINT", "REVOKE"]
+        if 'opType' in body_params.keys():
+            result = result & check_correct_value_from_define_list(opTypes, 'opType', body_params['opType'])
+        return result
 
 def find_transactions_for_ledger(query_params, body_params):
-
+    result = True
     query_schema = {
             "pageSize" : {"required": True, "type" : "integer", "min": 1, "max": 50},
             "offset": {"type" : "integer"},
@@ -210,7 +214,7 @@ def find_transactions_for_ledger(query_params, body_params):
         }
 
     v.validate(query_params, query_schema)
-    erros_print(v)
+    result = result & erros_print(v)
 
     body_schema = {
             "account" : {"type" : "string", "minlength": 24, "maxlength": 24},
@@ -227,24 +231,24 @@ def find_transactions_for_ledger(query_params, body_params):
         }
 
     v.validate(body_params, body_schema)
-    erros_print(v)
+    result = result & erros_print(v)
+    if result:
+        transactionType = ["FAILED", "DEBIT_PAYMENT", "CREDIT_PAYMENT", "CREDIT_DEPOSIT", "DEBIT_WITHDRAWAL", "CANCEL_WITHDRAWAL", "DEBIT_OUTGOING_PAYMENT", "EXCHANGE_BUY", "EXCHANGE_SELL", "DEBIT_TRANSACTION", "CREDIT_INCOMING_PAYMENT"]
+        if 'transactionType' in body_params.keys():
+            result = result & check_correct_value_from_define_list(transactionType, 'transactionType', body_params['transactionType'])
 
-    transactionType = ["FAILED", "DEBIT_PAYMENT", "CREDIT_PAYMENT", "CREDIT_DEPOSIT", "DEBIT_WITHDRAWAL", "CANCEL_WITHDRAWAL", "DEBIT_OUTGOING_PAYMENT", "EXCHANGE_BUY", "EXCHANGE_SELL", "DEBIT_TRANSACTION", "CREDIT_INCOMING_PAYMENT"]
-    if 'transactionType' in body_params.keys():
-        check_correct_value_from_define_list(transactionType, 'transactionType', body_params['transactionType'])
-
-    opTypes = ["PAYMENT", "WITHDRAWAL", "BLOCKCHAIN_TRANSACTION", "EXCHANGE", "FAILED", "DEPOSIT", "MINT", "REVOKE"]
-    if 'opType' in body_params.keys():
-        check_correct_value_from_define_list(opTypes, 'opType', body_params['opType'])
+        opTypes = ["PAYMENT", "WITHDRAWAL", "BLOCKCHAIN_TRANSACTION", "EXCHANGE", "FAILED", "DEPOSIT", "MINT", "REVOKE"]
+        if 'opType' in body_params.keys():
+            result = result & check_correct_value_from_define_list(opTypes, 'opType', body_params['opType'])
+        return result
 
 def find_transactions_with_given_reference_across_all_accounts(path_params):
-
     path_schema = {
             "reference" : {"required": True, "type" : "string", "minlength": 20, "maxlength": 100}
         }
 
     v.validate(path_params, path_schema)
-    erros_print(v)
+    return erros_print(v)
 
 # ___________________________________LEDGER/CUSTOMER_______________________________________
 

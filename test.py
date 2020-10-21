@@ -163,27 +163,56 @@ import json
 
 
 # query_params = {'pageSize': 10, 'count': 'true'}
-# body_params = {"id": "5f43bb8fda35b2413aa88410"}
-# transaction.find_transactions_for_account(query_params, body_params)
-
-
-# body_params = {'name': 'VC_msgdosje', 'supply': '300', 'basePair': 'BTC'}
-# virtual_currency.create_new_vitual_currency(body_params)
-# body_params = {"currency": "VC_msdoje"}
-# account.create_new_account(body_params)
-# body_params = {'senderAccountId': '5f85717ded8cda897e2902f4','recipientAccountId': '5f85717db0fb3d7676c269a9','amount': '20'}
-# transaction.send_payment(body_params)
-
-# body_params = {'id': '5f85717db0fb3d7676c269a9'}
-# account.get_account_balance(path_params)
+# body_params = {"id": "5f85717ded8cda897e2902f4"}
+# count = transaction.find_transactions_for_account(query_params, body_params)
 # query_params = {'pageSize': 10}
-# transaction.find_transactions_for_account(query_params, body_params)
+# body_params = {"id": "5f85717ded8cda897e2902f4"}
+# transactions = transaction.find_transactions_for_account(query_params, body_params)
+# if int(count) != len(json.loads(transactions)):
+#     print('Wrong count of transactions')
+# else:
+#     print(transactions)
+
+
+
+
+# body_params = {'name': 'VC_msgddosje', 'supply': '300', 'basePair': 'BTC'}
+# print(virtual_currency.create_new_vitual_currency(body_params))
+# body_params = {"currency": "VC_msgddosje"}
+# print(account.create_new_account(body_params))
+# body_params = {'senderAccountId': '5f901d3891a2a4514431c0cb','recipientAccountId': '5f901db2a0f566521e5012a2','amount': '20'}
+# print(transaction.send_payment(body_params))
+
+
+
+
+# path_params = {'id': '5f901d3891a2a4514431c0cb'}
+# body_params = {'id': '5f901d3891a2a4514431c0cb'}
+# print(account.get_account_balance(path_params))
+# query_params = {'pageSize': 10}
+# resp = transaction.find_transactions_for_account(query_params, body_params)
+# if len(json.loads(resp)) != 0:
+#     for i in range(0, len(json.loads(resp))):
+#         if body_params['id'] != json.loads(resp)[i]['accountId']:
+#             print('Wrong ids.')
+# print(resp)
+
+
+
+# query_params = {'pageSize': 50}
 # body_params = {'id': '5f4fadd111a32373ca107544'}
-# transaction.find_transactions_for_customer_across_all_accounts_of_customer(query_params, body_params)
-# body_params = {'account': '5f85717db0fb3d7676c269a9'}
-# transaction.find_transactions_for_ledger(query_params, body_params)
+# print(transaction.find_transactions_for_customer_across_all_accounts_of_customer(query_params, body_params))
+# body_params = {'account': '5f901db2a0f566521e5012a2'}
+# print(transaction.find_transactions_for_ledger(query_params, body_params))
 # path_params = {'reference': '9de8580a-4440-49c8-98d7-e3771eaeb6a8'}
-# transaction.find_transactions_with_given_reference_across_all_accounts(path_params)
+# resp = transaction.find_transactions_with_given_reference_across_all_accounts(path_params)
+# if len(json.loads(resp)) != 0:
+#     for i in range(0, len(json.loads(resp))):
+#         if path_params['reference'] != json.loads(resp)[i]['reference']:
+#             print('Wrong reference.')
+        
+# print(resp)
+
 
 
 
@@ -223,20 +252,31 @@ import json
 # query_params = {'id': '5f86c0c8d0629a31bebc9dfc'}
 # print(order_book.cancel_existing_trade(query_params))
 
+
+
+
 # query_params = {'id': '5e9fe150392b786b9dc6f7d8'}
 # print(order_book.cancel_all_existing_trades_for_account(query_params))
 
 
-body_params = {
-	"type":"SELL",
-	"price":"1",
-	"amount":"10",
-	"pair":"VC_EUR/VC_CZK",
-	"currency1AccountId":"5f85b6dc03e34c3164a48b3a",
-	"currency2AccountId":"5f85b83e2aafd5315e3ab20b"
-}
 
-print(order_book.store_buy_sell_trade(body_params))
+
+
+# body_params = {
+# 	"type":"SELL",
+# 	"price":"1",
+# 	"amount":"10",
+# 	"pair":"VC_EUR/VC_CZK",
+# 	"currency1AccountId":"5f85b6dc03e34c3164a48b3a",
+# 	"currency2AccountId":"5f85b83e2aafd5315e3ab20b"
+# }
+
+# print(order_book.store_buy_sell_trade(body_params))
+
+
+
+
+#________________________________LEDGER/ KEY MANAGEMENT________________________________________________
 
 # path_params = {'chain': 'ETH'}
 # key_management_system.get_pending_transactions_to_sign(path_params)
