@@ -52,15 +52,17 @@ def page_size_query_params(query_params):
 # ___________________________________SECURITY/KEY MANAGEMENT SYSTEM_____________________________________
 
 def get_pending_transactions_to_sign(path_params):
+    result = True
     path_schema = {
             "chain": {"required": True, "type" : "string"},
         }
 
     v.validate(path_params, path_schema)
-    erros_print(v)
-
-    chains = ["BTC", "ETH", "XLM", "XRP", "BCH", "LTC", "VET"]
-    check_correct_value_from_define_list(chains, 'chain', path_params['chain'])
+    result = result & erros_print(v)
+    if result:
+        chains = ["BTC", "ETH", "XLM", "XRP", "BCH", "LTC", "VET"]
+        result = result & check_correct_value_from_define_list(chains, 'chain', path_params['chain'])
+        return result
 
 def complete_pending_transaction_to_sign(path_params):
     path_schema = {
@@ -69,20 +71,22 @@ def complete_pending_transaction_to_sign(path_params):
         }
 
     v.validate(path_params, path_schema)
-    erros_print(v)
+    return erros_print(v)
 
 def delete_transaction(path_params, query_params):
-    id_path_param(path_params)
+    result = True
+    result = result & id_path_param(path_params)
     query_schema = {
             "revert": {"type" : "string"},
         }
 
     v.validate(query_params, query_schema)
-    erros_print(v)
+    result = result & erros_print(v)
     
     if query_params != {}:
         reverts = ["true", "false"]
-        check_correct_value_from_define_list(reverts, 'revert', query_params['revert'])
+        result = result & check_correct_value_from_define_list(reverts, 'revert', query_params['revert'])
+    return result
 
 # ___________________________________SECURITY/ADDRESS_____________________________________
 

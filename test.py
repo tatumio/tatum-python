@@ -279,17 +279,17 @@ import json
 #________________________________LEDGER/ KEY MANAGEMENT________________________________________________
 
 # path_params = {'chain': 'ETH'}
-# key_management_system.get_pending_transactions_to_sign(path_params)
+# print(key_management_system.get_pending_transactions_to_sign(path_params))
 
 # path_params = {'id': '5f1aa020a3010936da0201e1', 'txId': '5f1aa020a3010936da0201e1'}
-# key_management_system.complete_pending_transaction_to_sign(path_params)
+# print(key_management_system.complete_pending_transaction_to_sign(path_params))
 
 # path_params = {'id': '5f37ac89ba22cf64e76e28fe'}
-# key_management_system.get_transaction_details(path_params)
+# print(key_management_system.get_transaction_details(path_params))
 
 # path_params = {'id': '5f23efad74077f321604176f'}
 # query_params = {'revert': 'false'}
-# key_management_system.delete_transaction(path_params, query_params)
+# print(key_management_system.delete_transaction(path_params, query_params))
 
 
 
