@@ -246,7 +246,6 @@ def find_transactions_with_given_reference_across_all_accounts(path_params):
     path_schema = {
             "reference" : {"required": True, "type" : "string", "minlength": 20, "maxlength": 100}
         }
-
     v.validate(path_params, path_schema)
     return erros_print(v)
 

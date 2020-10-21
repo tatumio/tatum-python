@@ -291,8 +291,23 @@ import json
 # query_params = {'revert': 'false'}
 # key_management_system.delete_transaction(path_params, query_params)
 
+
+
+
+#________________________________LEDGER/ ADDRESS________________________________________________
+
+
+
 # path_params = {'address': 'nevalidniemail@eoopy.com'}
-# address.check_malicous_address(path_params)
+# resp = address.check_malicous_address(path_params)
+# if 'status' not in json.loads(resp).keys():
+#     print("Response doesn't have key 'status'")
+# else:
+#     print(resp)
+
+
+
+
 
 # path_params = {'id': '5f887ae3e23af8bf1b813325'}
 # query_params = {'index': 3}
