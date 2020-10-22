@@ -327,7 +327,7 @@ import json
 
 
 
-path_params = {'address': 'bchtest:qpkn9k2h0h0cxzlg59gxfhpkj3508vgq6cfhvzkymf', 'id': '5e71d8a1ec60617c2e301b3a'}
+# path_params = {'address': 'bchtest:qpkn9k2h0h0cxzlg59gxfhpkj3508vgq6cfhvzkymf', 'id': '5e71d8a1ec60617c2e301b3a'}
 # print(offchainAccount.remove_address_for_account(path_params))
 # print(offchainAccount.assign_address_for_account(path_params))
 
@@ -344,18 +344,33 @@ path_params = {'address': 'bchtest:qpkn9k2h0h0cxzlg59gxfhpkj3508vgq6cfhvzkymf', 
 #   "senderBlockchainAddress":"0xe31aa662406f984556ac5fa79ef8ddba209ba1f3",
 #   "fee":"0.000005"
 # }
-# withdrawal.store_withdrawal(body_params)
-# withdrawal.check_withdrawal(body_params) 
+# print(withdrawal.store_withdrawal(body_params))
+# print(withdrawal.check_withdrawal(body_params)) 
+
+
+
 
 # path_params = {'id': '5f1aa020a3010936da0201e1', 'txId': '5f1aa020a3010936da0201e1'}
-# withdrawal.complete_withdrawal(path_params)
+# print(withdrawal.complete_withdrawal(path_params))
+
+
+
 
 # path_params = {'id': '5f1aa020a3010936da0201e1'}
-# withdrawal.cancel_withdrawal(path_params)
+# print(withdrawal.cancel_withdrawal(path_params))
+
+
+
 
 
 # body_params = ?????
 # withdrawal.broadcast_signed_transaction_and_complete_withdrawal(body_params)
+
+
+
+#________________________________ BLOCKCHAIN/ BITCOIN ________________________________________________
+
+
 
 
 # bitcoin.generate_bitcoin_wallet()
@@ -397,6 +412,11 @@ path_params = {'address': 'bchtest:qpkn9k2h0h0cxzlg59gxfhpkj3508vgq6cfhvzkymf', 
               # bitcoin.broadcast_signed_bitcoin_transaction(body_params)
               # bitcoin.send_bitcoin_to_blockchain_addresses()
 
+
+
+
+#________________________________ BLOCKCHAIN/ ETHEREUM ________________________________________________
+
 # ethereum.generate_ethereum_wallet()
 
 # path_params = {'xpub': 'xpub6EZZ1UyZogf9rGwRn9ySSFDLHQbPqswbY8boHAbiLRZy6A79PTq3izy2p435H51e39uLcDzSi3SVYeJ7LtuDfjc6G2nczaZ8We14DmZHsVP', 'index': 1}
@@ -432,6 +452,10 @@ path_params = {'address': 'bchtest:qpkn9k2h0h0cxzlg59gxfhpkj3508vgq6cfhvzkymf', 
 # query_params = {'pageSize': 10}
 # ethereum.get_ethereum_transactions_by_address(path_params, query_params)
 
+
+
+#________________________________ BLOCKCHAIN/ BITCOIN CASH ________________________________________________
+
 # bitcoin_cash.generate_bitcoin_cash_wallet()
 
 # path_params = {'xpub': 'xpub6En1k99NzVdo3fg8QE6HjmukpLNcNqvunJRkeid12qfrkPJ4KHaCqtFWLXVGCfkdTfFYpfJbGCiWd57PgjK2iuLhys3CDNwXGhfAamSvxyC', 'index': 5}
@@ -461,6 +485,9 @@ path_params = {'address': 'bchtest:qpkn9k2h0h0cxzlg59gxfhpkj3508vgq6cfhvzkymf', 
 
 # bitcoin_cash.get_bitcoin_cash_transaction_by_address(path_params, query_params)
 
+
+
+#________________________________ BLOCKCHAIN/ LITECOIN ________________________________________________
 
 # query_params = {'mnemonic': "sknack style nejtral prthrtity durthmb judge oak melody please rack old practice"}
 # litecoin.generate_litecoin_wallet(query_params)
@@ -494,6 +521,9 @@ path_params = {'address': 'bchtest:qpkn9k2h0h0cxzlg59gxfhpkj3508vgq6cfhvzkymf', 
 # path_params = {'hash': '2d96ec8dfdd2101e47c92e602944a341268b1be73c6dd98860db3faeb3a2c403', 'index': 2}
 # litecoin.get_utxo_of_transaction(path_params)
 
+
+
+#________________________________ BLOCKCHAIN/ XRP ________________________________________________
 
 # query_params = {'pageSize': 50}
 # xrp.generate_xrp_account()
@@ -542,6 +572,9 @@ path_params = {'address': 'bchtest:qpkn9k2h0h0cxzlg59gxfhpkj3508vgq6cfhvzkymf', 
 # xrp.send_xrp_to_blockchain_addresses(body_params)
 
 
+
+#________________________________ BLOCKCHAIN/ XLM ________________________________________________
+
 # xlm.generate_xlm_account()
 # xlm.get_xlm_blockchain_information()
 # xlm.get_actual_blockchain_fee()
@@ -577,6 +610,10 @@ path_params = {'address': 'bchtest:qpkn9k2h0h0cxzlg59gxfhpkj3508vgq6cfhvzkymf', 
 # 	"token":"patek"
 # }
 # xlm.create_update_delete_xlm_trust_line(body_params)
+
+
+
+#________________________________ BLOCKCHAIN/ ETHEREUM ________________________________________________
 
 # path_params = {'address': '0x811dfbff13adfbc3cf653dcc373c03616d3471c9', 'contractAddress': '0x494394c74bFF7f93C8EB390D4Ab3586Aa2BcAb0C'}
 # ethereum.get_ethereum_erc721_account_balance(path_params)
