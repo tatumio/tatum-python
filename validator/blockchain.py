@@ -60,6 +60,7 @@ def generate_litecoin_wallet(query_params):
             }
 
         v.validate(query_params, query_schema)
+        return erros_print(v)
 
 def generate_wallet(query_params):
     if query_params != {}:
@@ -68,6 +69,7 @@ def generate_wallet(query_params):
             }
 
         v.validate(query_params, query_schema)
+        return erros_print(v)
 
 def generate_deposit_address_from_extended_public_key(path_params):
     path_schema = {
@@ -76,16 +78,15 @@ def generate_deposit_address_from_extended_public_key(path_params):
         }
 
     v.validate(path_params, path_schema)
-    erros_print(v)
+    return erros_print(v)
 
 def generate_private_key(body_params):
     body_schema = {
             "mnemonic": {"required": True, "type" : "string", "minlength": 1, "maxlength": 500},
             "index": {"required": True, "type" : "integer", "max": 4294967295}
         }
-
     v.validate(body_params, body_schema)
-    erros_print(v)
+    return erros_print(v)
 
 def get_block_hash(path_params):
     path_schema = {
@@ -93,15 +94,14 @@ def get_block_hash(path_params):
         }
 
     v.validate(path_params, path_schema)
-    erros_print(v)
+    return erros_print(v)
 
 def ethereum_get_block_hash(path_params):
     path_schema = {
             "hash": {"required": True, "type" : "string"},
         }
-
     v.validate(path_params, path_schema)
-    erros_print(v)
+    return erros_print(v)
 
 def get_block_by_hash_or_height(path_params):
     path_schema = {
@@ -109,16 +109,14 @@ def get_block_by_hash_or_height(path_params):
         }
 
     v.validate(path_params, path_schema)
-    erros_print(v)
+    return erros_print(v)
 
 def get_transaction_by_address(path_params, query_params):
-    page_size_query_params(query_params)
     path_schema = {
             "address": {"required": True, "type" : "string"},
         }
-
     v.validate(path_params, path_schema)
-    erros_print(v)
+    return page_size_query_params(query_params) & erros_print(v)
 
 
 def get_utxo_of_transaction(path_params):
@@ -126,9 +124,8 @@ def get_utxo_of_transaction(path_params):
             "hash": {"required": True, "type" : "string", "minlength": 64, "maxlength": 64},
             "index": {"required": True, "type" : "number", "min": 0}
         }
-
     v.validate(path_params, path_schema)
-    erros_print(v)
+    return erros_print(v)
 
 def send_bitcoin_to_blockchain_addresses(body_params):
     body_schema = {
@@ -150,7 +147,7 @@ def send_bitcoin_to_blockchain_addresses(body_params):
 
             }
     v.validate(body_params, body_schema)
-    erros_print(v)
+    return erros_print(v)
 
 def broadcast_signed_transaction(body_params):
     body_schema = {
@@ -158,7 +155,7 @@ def broadcast_signed_transaction(body_params):
             "signatureId": {"type" : "string", "minlength": 24, "maxlength": 24},
         }
     v.validate(body_params, body_schema)
-    erros_print(v)
+    return erros_print(v)
 
 def get_ethereum_account_balance(path_params):
     path_schema = {
@@ -166,59 +163,58 @@ def get_ethereum_account_balance(path_params):
         }
 
     v.validate(path_params, path_schema)
-    erros_print(v)
+    return erros_print(v)
 
 def get_ethereum_erc20_account_balance(path_params, query_params):
+    result = True
     path_schema = {
             "address": {"required": True, "type" : "string"},
         }
-
     v.validate(path_params, path_schema)
-    erros_print(v)
+    result = result & erros_print(v)
 
     if query_params != {}:
         query_schema = {
                 "currency": {"type" : "string"},
                 "contractAddress": {"type" : "string", "minlength": 42, "maxlength": 42},
             }
-
         v.validate(query_params, query_schema)
-        erros_print(v)
-
-        currencies = ["USDT", "LEO", "LINK", "FREE", "MKR", "USDC", "BAT", "TUSD", "PAX", "PAXG", "PLTC", "MMY", "XCON"]
-        if 'currency' in query_params.keys():
-            check_correct_value_from_define_list(currencies, 'currency', query_params['currency'])
+        result = result & erros_print(v)
+        if result:
+            currencies = ["USDT", "LEO", "LINK", "FREE", "MKR", "USDC", "BAT", "TUSD", "PAX", "PAXG", "PLTC", "MMY", "XCON"]
+            if 'currency' in query_params.keys():
+                result = result & check_correct_value_from_define_list(currencies, 'currency', query_params['currency'])
+            return result
 
 def get_count_of_outgoing_ethereum_transactions(path_params):
     path_schema = {
             "address": {"required": True, "type" : "string", "minlength": 42, "maxlength": 42 },
         }
-
     v.validate(path_params, path_schema)
-    erros_print(v)
+    return erros_print(v)
 
 def bitcoin_cash_get_block_hash(path_params):
     path_schema = {
             "hash": {"required": True, "type" : "string"},
         }
-
     v.validate(path_params, path_schema)
-    erros_print(v)
+    return erros_print(v)
 
 def get_bitcoin_cash_transaction_by_address(path_params, query_params):
+    result = True
     path_schema = {
             "address": {"required": True, "type" : "string"},
         }
-
     v.validate(path_params, path_schema)
-    erros_print(v)
-    if query_params != {}:
-        query_schema = {
-                "skip": {"type" : "integer"},
-            }
-
-        v.validate(query_params, query_schema)
-        erros_print(v)
+    result = result & erros_print(v)
+    if result:
+        if query_params != {}:
+            query_schema = {
+                    "skip": {"type" : "integer"},
+                }
+            v.validate(query_params, query_schema)
+            result = result & erros_print(v)
+        return result
 
 def send_bitcoin_cash_to_blockchain_addresses(body_params):
     body_schema = {
@@ -234,41 +230,43 @@ def send_bitcoin_cash_to_blockchain_addresses(body_params):
 
             }
     v.validate(body_params, body_schema)
-    erros_print(v)
+    return erros_print(v)
 
 def get_account_transactions(path_params, query_params):
+    result = True
     path_schema = {
             "account": {"required": True, "type" : "string"},
         }
 
     v.validate(path_params, path_schema)
-    erros_print(v)
-    if query_params != {}:
-        query_schema = {
-                "min": {"type" : "number"},
-                "marker": {"type" : "string"},
-            }
+    result = result & erros_print(v)
+    if result:
+        if query_params != {}:
+            query_schema = {
+                    "min": {"type" : "number"},
+                    "marker": {"type" : "string"},
+                }
 
-        v.validate(query_params, query_schema)
-        erros_print(v)
+            v.validate(query_params, query_schema)
+            result = result & erros_print(v)
+        return result
 
 def get_ledger(path_params):
     path_schema = {
             "i": {"required": True, "type" : "number", 'min': 0},
         }
-
     v.validate(path_params, path_schema)
-    erros_print(v)
+    return erros_print(v)
 
 def get_account_info(path_params):
     path_schema = {
             "account": {"required": True, "type" : "string"},
         }
-
     v.validate(path_params, path_schema)
-    erros_print(v)
+    return erros_print(v)
 
 def send_xrp_to_blockchain_addresses(body_params):
+    result = True
     body_schema = {
             "fromAccount": {"required": True, "type" : "string", "minlength": 33, "maxlength": 34},
             "to": {"required": True, "type" : "string", "minlength": 33, "maxlength": 34},
@@ -281,16 +279,18 @@ def send_xrp_to_blockchain_addresses(body_params):
             "issuerAccount": {"type" : "string", "minlength": 33, "maxlength": 34},
             "token": {"type" : "string", "minlength": 40, "maxlength": 40}
         }
-
     v.validate(body_params, body_schema)
-    erros_print(v)
-    if 'fee' in body_params.keys():
-        check_allowed_chars('^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'fee', body_params['fee'])
-    check_allowed_chars('^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'amount', body_params['amount'])
-    if 'token' in body_params.keys():
-        check_allowed_chars('^[A-F0-9]{40}$', 'token', body_params['token'])
+    result = result & erros_print(v)
+    if result:
+        if 'fee' in body_params.keys():
+            result = result & check_allowed_chars('^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'fee', body_params['fee'])
+        result = result & check_allowed_chars('^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'amount', body_params['amount'])
+        if 'token' in body_params.keys():
+            result = result & check_allowed_chars('^[A-F0-9]{40}$', 'token', body_params['token'])
+        return result
 
 def create_update_delete_xrp_trust_line(body_params):
+    result = True
     body_schema = {
             "fromAccount": {"required": True, "type" : "string", "minlength": 33, "maxlength": 34},
             "issuerAccount": {"required": True, "type" : "string", "minlength": 33, "maxlength": 34},
@@ -300,15 +300,17 @@ def create_update_delete_xrp_trust_line(body_params):
             "signatureId": {"type" : "string", "minlength": 36, "maxlength": 36},
             "fee": {"type" : "string"}
         }
-
     v.validate(body_params, body_schema)
-    erros_print(v)
-    if 'fee' in body_params.keys():
-        check_allowed_chars('^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'fee', body_params['fee'])
-    check_allowed_chars('^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'limit', body_params['limit'])
-    check_allowed_chars('^[A-F0-9]{40}$', 'token', body_params['token'])
+    result = result & erros_print(v)
+    if result:
+        if 'fee' in body_params.keys():
+            result = result & check_allowed_chars('^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'fee', body_params['fee'])
+        result = result & check_allowed_chars('^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'limit', body_params['limit'])
+        result = result & check_allowed_chars('^[A-F0-9]{40}$', 'token', body_params['token'])
+        return result
 
 def modify_xrp_account(body_params):
+    result = True
     body_schema = {
             "fromAccount": {"required": True, "type" : "string", "minlength": 33, "maxlength": 34},
             "fromSecret": {"type" : "string", "minlength": 29, "maxlength": 29},
@@ -317,13 +319,15 @@ def modify_xrp_account(body_params):
             "rippling": {"type" : "boolean"},
             "requireDestinationTag": {"type" : "boolean"}
         }
-
     v.validate(body_params, body_schema)
-    erros_print(v)
-    if 'fee' in body_params.keys():
-        check_allowed_chars('^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'fee', body_params['fee'])
+    result = result & erros_print(v)
+    if result:
+        if 'fee' in body_params.keys():
+            result = result & check_allowed_chars('^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'fee', body_params['fee'])
+        return result
 
 def send_xlm_from_address_to_address(body_params):
+    result = True
     body_schema = {
             "fromAccount": {"required": True, "type" : "string", "minlength": 56, "maxlength": 56},
             "to": {"required": True, "type" : "string", "minlength": 56, "maxlength": 56},
@@ -336,14 +340,17 @@ def send_xlm_from_address_to_address(body_params):
             "token": {"type" : "string", "minlength": 1, "maxlength": 12}
         }
     v.validate(body_params, body_schema)
-    erros_print(v)
-    check_allowed_chars('^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'amount', body_params['amount'])
-    if 'message' in body_params.keys():
-        check_allowed_chars('^[ -~]{0,64}$', 'message', body_params['message'])
-    if 'token' in body_params.keys():
-        check_allowed_chars('^[a-zA-Z0-9]{1,12}$', 'token', body_params['token'])
+    result = result & erros_print(v)
+    if result:
+        result = result & check_allowed_chars('^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'amount', body_params['amount'])
+        if 'message' in body_params.keys():
+            result = result & check_allowed_chars('^[ -~]{0,64}$', 'message', body_params['message'])
+        if 'token' in body_params.keys():
+            result = result & check_allowed_chars('^[a-zA-Z0-9]{1,12}$', 'token', body_params['token'])
+        return result
 
 def create_update_delete_xlm_trust_line(body_params):
+    result = True
     body_schema = {
             "fromAccount": {"required": True, "type" : "string", "minlength": 56, "maxlength": 56},
             "issuerAccount": {"required": True, "type" : "string", "minlength": 56, "maxlength": 56},
@@ -353,16 +360,18 @@ def create_update_delete_xlm_trust_line(body_params):
             "signatureId": {"type" : "string", "minlength": 36, "maxlength": 36},
             "fee": {"type" : "string"}
         }
-
     v.validate(body_params, body_schema)
-    erros_print(v)
-    if 'fee' in body_params.keys():
-        check_allowed_chars('^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'fee', body_params['fee'])
-    if 'limit' in body_params.keys():
-        check_allowed_chars('^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'limit', body_params['limit'])
-    check_allowed_chars('^[a-zA-Z0-9]{1,12}$', 'token', body_params['token'])
+    result = result & erros_print(v)
+    if result:
+        if 'fee' in body_params.keys():
+            result = result & check_allowed_chars('^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'fee', body_params['fee'])
+        if 'limit' in body_params.keys():
+            result = result & check_allowed_chars('^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'limit', body_params['limit'])
+        result = result & check_allowed_chars('^[a-zA-Z0-9]{1,12}$', 'token', body_params['token'])
+        return result
 
 def send_ethereum_erc20_from_account_to_account(body_params):
+    result = True
     body_schema = {
             "data": {"type" : "string", "maxlength": 50000},
             "nonce": {"type" : "string",  "minlength": 0},
@@ -373,16 +382,18 @@ def send_ethereum_erc20_from_account_to_account(body_params):
             "fromPrivateKey": {"type" : "string", "minlength": 66, "maxlength": 66},
             "signatureId": {"type" : "string", "minlength": 36, "maxlength": 36},
         }
-
     v.validate(body_params, body_schema)
-    erros_print(v)
-    currencies = ["USDT", "LEO", "LINK", "FREE", "MKR", "USDC", "BAT", "TUSD", "PAX", "PAXG", "PLTC", "MMY", "XCON", "ETH"]
-    check_correct_value_from_define_list(currencies, 'currency', body_params['currency'])
-    check_allowed_chars('^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'amount', body_params['amount'])
-    check_allowed_chars('^[+]?\d+$', 'gasLimit', body_params['fee']['gasLimit'])
-    check_allowed_chars('^[+]?\d+$', 'gasPrice', body_params['fee']['gasPrice'])
+    result = result & erros_print(v)
+    if result:
+        currencies = ["USDT", "LEO", "LINK", "FREE", "MKR", "USDC", "BAT", "TUSD", "PAX", "PAXG", "PLTC", "MMY", "XCON", "ETH"]
+        result = result & check_correct_value_from_define_list(currencies, 'currency', body_params['currency'])
+        result = result & check_allowed_chars('^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'amount', body_params['amount'])
+        result = result & check_allowed_chars('^[+]?\d+$', 'gasLimit', body_params['fee']['gasLimit'])
+        result = result & check_allowed_chars('^[+]?\d+$', 'gasPrice', body_params['fee']['gasPrice'])
+        return result
 
 def invoke_smart_contract_method(body_params):
+    result = True
     body_schema = {
             "contractAddress": {"required": True, "type" : "string", "minlength": 42, "maxlength": 42},
             "methodName": {"required": True, "type" : "string", "minlength": 1, "maxlength": 500},
@@ -394,12 +405,15 @@ def invoke_smart_contract_method(body_params):
             "fee": {"type" : "dict", 'schema': {'gasLimit': {"required": True, "type" : "string"}, 'gasPrice': {"required": True, "type" : "string"}}}
         }
     v.validate(body_params, body_schema)
-    erros_print(v)
-    if 'fee' in body_params.keys():
-        check_allowed_chars('^[+]?\d+$', 'gasLimit', body_params['fee']['gasLimit'])
-        check_allowed_chars('^[+]?\d+$', 'gasPrice', body_params['fee']['gasPrice'])
+    result = result & erros_print(v)
+    if result:
+        if 'fee' in body_params.keys():
+            result = result & check_allowed_chars('^[+]?\d+$', 'gasLimit', body_params['fee']['gasLimit'])
+            result = result & check_allowed_chars('^[+]?\d+$', 'gasPrice', body_params['fee']['gasPrice'])
+        return result
 
 def deploy_ethereum_erc20_smart_contract(body_params):
+    result = True
     body_schema = {
         "symbol": {"required": True, "type" : "string", "minlength": 1, "maxlength": 30},
         "name": {"required": True, "type" : "string", "minlength": 1, "maxlength": 100},
@@ -411,16 +425,18 @@ def deploy_ethereum_erc20_smart_contract(body_params):
         "nonce": {"type" : "string",  "minlength": 0},
         "fee": {"type" : "dict", 'schema': {'gasLimit': {"required": True, "type" : "string"}, 'gasPrice': {"required": True, "type" : "string"}}},
     }
-
     v.validate(body_params, body_schema)
-    erros_print(v)
-    check_allowed_chars('^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'supply', body_params['supply'])    
-    check_allowed_chars('^[a-zA-Z0-9_]+$', 'name', body_params['name'])
-    if 'fee' in body_params.keys():
-        check_allowed_chars('^[+]?\d+$', 'gasLimit', body_params['fee']['gasLimit'])
-        check_allowed_chars('^[+]?\d+$', 'gasPrice', body_params['fee']['gasPrice'])
+    result = result & erros_print(v)
+    if result:
+        result = result & check_allowed_chars('^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'supply', body_params['supply'])    
+        result = result & check_allowed_chars('^[a-zA-Z0-9_]+$', 'name', body_params['name'])
+        if 'fee' in body_params.keys():
+            result = result & check_allowed_chars('^[+]?\d+$', 'gasLimit', body_params['fee']['gasLimit'])
+            result = result & check_allowed_chars('^[+]?\d+$', 'gasPrice', body_params['fee']['gasPrice'])
+        return result
 
 def transfer_ethereum_erc20(body_params):
+    result = True
     body_schema = {
         "to": {"required": True, "type" : "string", "minlength": 1, "maxlength": 50},
         "amount": {"required": True, "type" : "string"},
@@ -431,17 +447,17 @@ def transfer_ethereum_erc20(body_params):
         "nonce": {"type" : "string",  "minlength": 0},
         "fee": {"type" : "dict", 'schema': {'gasLimit': {"required": True, "type" : "string"}, 'gasPrice': {"required": True, "type" : "string"}}}
     }
-
     v.validate(body_params, body_schema)
-    erros_print(v)
-    check_allowed_chars('^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'amount', body_params['amount'])
-
-    if 'fee' in body_params.keys():
-        check_allowed_chars('^[+]?\d+$', 'gasLimit', body_params['fee']['gasLimit'])
-        check_allowed_chars('^[+]?\d+$', 'gasPrice', body_params['fee']['gasPrice'])
-
+    result = result & erros_print(v)
+    if result:
+        result = result & check_allowed_chars('^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'amount', body_params['amount'])
+        if 'fee' in body_params.keys():
+            result = result & check_allowed_chars('^[+]?\d+$', 'gasLimit', body_params['fee']['gasLimit'])
+            result = result & check_allowed_chars('^[+]?\d+$', 'gasPrice', body_params['fee']['gasPrice'])
+        return result
 
 def deploy_ethereum_erc721_smart_contract(body_params):
+    result = True
     body_schema = {
             "name": {"required": True, "type" : "string", "minlength": 1, "maxlength": 100},
             "symbol": {"required": True, "type" : "string", "minlength": 1, "maxlength": 30},
@@ -450,16 +466,18 @@ def deploy_ethereum_erc721_smart_contract(body_params):
             "nonce": {"type" : "string",  "minlength": 0},
             "fee": {"type" : "dict", 'schema': {'gasLimit': {"required": True, "type" : "string"}, 'gasPrice': {"required": True, "type" : "string"}}}
         }
-
     v.validate(body_params, body_schema)
-    erros_print(v)
-    check_allowed_chars('^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'supply', body_params['supply'])    
-    check_allowed_chars('^[a-zA-Z0-9_]+$', 'name', body_params['name'])
-    if 'fee' in body_params.keys():
-        check_allowed_chars('^[+]?\d+$', 'gasLimit', body_params['fee']['gasLimit'])
-        check_allowed_chars('^[+]?\d+$', 'gasPrice', body_params['fee']['gasPrice'])
+    result = result & erros_print(v)
+    if result:
+        result = result & check_allowed_chars('^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'supply', body_params['supply'])    
+        result = result & check_allowed_chars('^[a-zA-Z0-9_]+$', 'name', body_params['name'])
+        if 'fee' in body_params.keys():
+            result = result & check_allowed_chars('^[+]?\d+$', 'gasLimit', body_params['fee']['gasLimit'])
+            result = result & check_allowed_chars('^[+]?\d+$', 'gasPrice', body_params['fee']['gasPrice'])
+        return result
 
 def mint_ethereum_erc721(body_params):
+    result = True
     body_schema = {
             "tokenId": {"required": True, "type" : "string", "maxlength": 32},
             "to": {"required": True, "type" : "string", "minlength": 42, "maxlength": 42},
@@ -470,14 +488,16 @@ def mint_ethereum_erc721(body_params):
             "nonce": {"type" : "number",  "min": 0},
             "fee": {"type" : "dict", 'schema': {'gasLimit': {"required": True, "type" : "string"}, 'gasPrice': {"required": True, "type" : "string"}}}
         }
-
     v.validate(body_params, body_schema)
-    erros_print(v)
-    if 'fee' in body_params.keys():
-        check_allowed_chars('^[+]?\d+$', 'gasLimit', body_params['fee']['gasLimit'])
-        check_allowed_chars('^[+]?\d+$', 'gasPrice', body_params['fee']['gasPrice'])
+    result = result & erros_print(v)
+    if result:
+        if 'fee' in body_params.keys():
+            result = result & check_allowed_chars('^[+]?\d+$', 'gasLimit', body_params['fee']['gasLimit'])
+            result = result & check_allowed_chars('^[+]?\d+$', 'gasPrice', body_params['fee']['gasPrice'])
+        return result
 
 def transfer_ethereum_erc721_token(body_params):
+    result = True
     body_schema = {
             "to": {"required": True, "type" : "string", "minlength": 42, "maxlength": 42},
             "tokenId": {"required": True, "type" : "string", "maxlength": 256},
@@ -487,14 +507,16 @@ def transfer_ethereum_erc721_token(body_params):
             "nonce": {"type" : "number"},
             "fee": {"type" : "dict", 'schema': {'gasLimit': {"required": True, "type" : "string"}, 'gasPrice': {"required": True, "type" : "string"}}}
         }
-
     v.validate(body_params, body_schema)
-    erros_print(v)
-    if 'fee' in body_params.keys():
-        check_allowed_chars('^[+]?\d+$', 'gasLimit', body_params['fee']['gasLimit'])
-        check_allowed_chars('^[+]?\d+$', 'gasPrice', body_params['fee']['gasPrice'])
+    result = result & erros_print(v)
+    if result:
+        if 'fee' in body_params.keys():
+            result = result & check_allowed_chars('^[+]?\d+$', 'gasLimit', body_params['fee']['gasLimit'])
+            result = result & check_allowed_chars('^[+]?\d+$', 'gasPrice', body_params['fee']['gasPrice'])
+        return result 
 
 def mint_ethereum_erc721_multiple_tokens(body_params):
+    result = True
     body_schema = {
             "to": {"required": True, "type" : "list"},
             "tokenId": {"required": True, "type" : "list"},
@@ -504,14 +526,16 @@ def mint_ethereum_erc721_multiple_tokens(body_params):
             "nonce": {"type" : "number",  "min": 0},
             "fee": {"type" : "dict", 'schema': {'gasLimit': {"required": True, "type" : "string"}, 'gasPrice': {"required": True, "type" : "string"}}}
         }
-
     v.validate(body_params, body_schema)
-    erros_print(v)
-    if 'fee' in body_params.keys():
-        check_allowed_chars('^[+]?\d+$', 'gasLimit', body_params['fee']['gasLimit'])
-        check_allowed_chars('^[+]?\d+$', 'gasPrice', body_params['fee']['gasPrice'])
+    result = result & erros_print(v)
+    if result:
+        if 'fee' in body_params.keys():
+            result = result & check_allowed_chars('^[+]?\d+$', 'gasLimit', body_params['fee']['gasLimit'])
+            result = result & check_allowed_chars('^[+]?\d+$', 'gasPrice', body_params['fee']['gasPrice'])
+        return result
 
 def burn_ethereum_erc721(body_params):
+    result = True
     body_schema = {
             "tokenId": {"required": True, "type" : "string", "maxlength": 32},
             "contractAddress": {"required": True, "type" : "string", "minlength": 42, "maxlength": 42},
@@ -520,21 +544,21 @@ def burn_ethereum_erc721(body_params):
             "nonce": {"type" : "number"},
             "fee": {"type" : "dict", 'schema': {'gasLimit': {"required": True, "type" : "string"}, 'gasPrice': {"required": True, "type" : "string"}}}
         }
-
     v.validate(body_params, body_schema)
-    erros_print(v)
-    if 'fee' in body_params.keys():
-        check_allowed_chars('^[+]?\d+$', 'gasLimit', body_params['fee']['gasLimit'])
-        check_allowed_chars('^[+]?\d+$', 'gasPrice', body_params['fee']['gasPrice'])
+    result = result & erros_print(v)
+    if result:
+        if 'fee' in body_params.keys():
+            result = result & check_allowed_chars('^[+]?\d+$', 'gasLimit', body_params['fee']['gasLimit'])
+            result = result & check_allowed_chars('^[+]?\d+$', 'gasPrice', body_params['fee']['gasPrice'])
+        return result 
 
 def get_ethereum_erc721_account_balance(path_params):
     path_schema = {
         "address": {"required": True, "type" : "string"},
         "contractAddress": {"required": True, "type" : "string"},
     }
-
     v.validate(path_params, path_schema)
-    erros_print(v)
+    return erros_print(v)
 
 def get_ethereum_erc721_token(path_params):
     path_schema = {
@@ -543,7 +567,7 @@ def get_ethereum_erc721_token(path_params):
         "contractAddress": {"required": True, "type" : "string"},
     }
     v.validate(path_params, path_schema)
-    erros_print(v)
+    return erros_print(v)
 
 def get_ethereum_erc721_token_metadata(path_params):
     path_schema = {
@@ -551,4 +575,4 @@ def get_ethereum_erc721_token_metadata(path_params):
         "contractAddress": {"required": True, "type" : "string"},
     }
     v.validate(path_params, path_schema)
-    erros_print(v)
+    return erros_print(v)
