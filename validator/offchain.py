@@ -129,6 +129,7 @@ def broadcast_signed_transaction_and_complete_withdrawal(body_params):
 # ___________________________________OFFCHAIN/ BLOCKCHAIN_________________________________________
 
 def send_from_tatum_account_to_address(body_params):
+    result = True
     body_schema = {
             "senderAccountId": {"required": True, "type" : "string", "minlength": 24, "maxlength": 24},
             "address": {"required": True, "type" : "string", "minlength": 1, "maxlength": 100},
@@ -144,14 +145,16 @@ def send_from_tatum_account_to_address(body_params):
             "senderNote": {"type" : "string", "minlength": 1, "maxlength": 500}
         }
     v.validate(body_params, body_schema)
-    erros_print(v)
-    
-    if 'amount' in body_params.keys():
-        check_allowed_chars('^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'amount', body_params['amount'])
-    if 'fee' in body_params.keys():
-        check_allowed_chars('^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'fee', body_params['fee'])
+    result = result & erros_print(v)
+    if result :
+        if 'amount' in body_params.keys():
+            result = result & check_allowed_chars('^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'amount', body_params['amount'])
+        if 'fee' in body_params.keys():
+            result = result & check_allowed_chars('^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'fee', body_params['fee'])
+        return result
 
 def send_ethereum_from_tatum_ledger_to_blockchain(body_params):
+    result = True
     body_schema = {
             "nonce": {"type": "integer", "min": 0},
             "address": {"required": True, "type" : "string", "minlength": 42, "maxlength": 42},
@@ -167,19 +170,19 @@ def send_ethereum_from_tatum_ledger_to_blockchain(body_params):
             "senderNote": {"type" : "string", "minlength": 1, "maxlength": 500}
          }
     v.validate(body_params, body_schema)
-    erros_print(v)
-    
-    currencies = ["USDT", "LEO", "LINK", "FREE", "MKR", "USDC", "BAT", "TUSD", "PAX", "PAXG", "PLTC", "MMY", "XCON", "ETH"]
-    if 'currency' in body_params.keys():
-        check_correct_value_from_define_list(currencies, 'currency', body_params['currency'])
-
-
-    if 'amount' in body_params.keys():
-        check_allowed_chars('^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'amount', body_params['amount'])
-    if 'fee' in body_params.keys():
-        check_allowed_chars('^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'fee', body_params['fee'])
+    result = result & erros_print(v)
+    if result:
+        currencies = ["USDT", "LEO", "LINK", "FREE", "MKR", "USDC", "BAT", "TUSD", "PAX", "PAXG", "PLTC", "MMY", "XCON", "ETH"]
+        if 'currency' in body_params.keys():
+            result = result & check_correct_value_from_define_list(currencies, 'currency', body_params['currency'])
+        if 'amount' in body_params.keys():
+            result = result & check_allowed_chars('^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'amount', body_params['amount'])
+        if 'fee' in body_params.keys():
+            result = result & check_allowed_chars('^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'fee', body_params['fee'])
+        return result
 
 def create_new_ERC20_token(body_params):
+    result = True
     body_schema = {
             "symbol": {"required": True, "type" : "string", "minlength": 1, "maxlength": 30},
             "supply" : {"required": True, "type" : "string", "minlength": 1, "maxlength": 38},
@@ -192,20 +195,22 @@ def create_new_ERC20_token(body_params):
             "address": {"type" : "string", "minlength": 42, "maxlength": 42}
          }
     v.validate(body_params, body_schema)
-    erros_print(v)
-    check_allowed_chars('^[a-zA-Z0-9_]+$', 'symbol', body_params['symbol'])
-    check_allowed_chars('^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'supply', body_params['supply'])   
+    result = result & erros_print(v)
+    if result:
+        result = result & check_allowed_chars('^[a-zA-Z0-9_]+$', 'symbol', body_params['symbol'])
+        result = result & check_allowed_chars('^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'supply', body_params['supply'])   
 
-    currencies = ["AED", "AFN", "ALL", "AMD", "ANG", "AOA", "ARS", "AUD", "AWG", "AZN", "BAM", "BAT", "BBD", "BCH", "BDT", "BGN", "BHD", "BIF", "BMD", "BND", "BOB", "BRL", "BSD", "BTC", "BTN", "BWP", "BYN", "BYR", "BZD", "CAD", "CDF", "CHF", "CLF", "CLP", "CNY", "COP", "CRC", "CUC", "CUP", "CVE", "CZK", "DJF", "DKK", "DOP", "DZD", "EGP", "ERN", "ETB", "ETH", "EUR", "FJD", "FKP", "FREE", "GBP", "GEL", "GGP", "GHS", "GIP", "GMD", "GNF", "GTQ", "GYD", "HKD", "HNL", "HRK", "HTG", "HUF", "IDR", "ILS", "IMP", "INR", "IQD", "IRR", "ISK", "JEP", "JMD", "JOD", "JPY", "KES", "KGS", "KHR", "KMF", "KPW", "KRW", "KWD", "KYD", "KZT", "LAK", "LBP", "LEO", "LINK", "LKR", "LRD", "LSL", "LTC", "LTL", "LVL", "LYD", "MAD", "MDL", "MGA", "MKD", "MKR", "MMK", "MMY", "MNT", "MOP", "MRO", "MUR", "MVR", "MWK", "MXN", "MYR", "MZN", "NAD", "NGN", "NIO", "NOK", "NPR", "NZD", "OMR", "PAB", "PAX", "PAXG", "PEN", "PGK", "PHP", "PKR", "PLN", "PLTC", "PYG", "QAR", "RON", "RSD", "RUB", "RWF", "SAR", "SBD", "SCR", "SDG", "SEK", "SGD", "SHP", "SLL", "SOS", "SRD", "STD", "SVC", "SYP", "SZL", "THB", "TJS", "TMT", "TND", "TOP", "TRY", "TTD", "TUSD", "TWD", "TZS", "UAH", "UGX", "USD", "USDC", "USDT", "UYU", "UZS", "VEF", "VND", "VUV", "WST", "XAF", "XAG", "XAU", "XCD", "XCON", "XDR", "XLM", "XOF", "XPF", "XRP", "YER", "ZAR", "ZMK", "ZMW", "ZWL"]
-    check_correct_value_from_define_list(currencies, 'basePair', body_params['basePair'])
-    if 'customer' in body_params.keys():
+        currencies = ["AED", "AFN", "ALL", "AMD", "ANG", "AOA", "ARS", "AUD", "AWG", "AZN", "BAM", "BAT", "BBD", "BCH", "BDT", "BGN", "BHD", "BIF", "BMD", "BND", "BOB", "BRL", "BSD", "BTC", "BTN", "BWP", "BYN", "BYR", "BZD", "CAD", "CDF", "CHF", "CLF", "CLP", "CNY", "COP", "CRC", "CUC", "CUP", "CVE", "CZK", "DJF", "DKK", "DOP", "DZD", "EGP", "ERN", "ETB", "ETH", "EUR", "FJD", "FKP", "FREE", "GBP", "GEL", "GGP", "GHS", "GIP", "GMD", "GNF", "GTQ", "GYD", "HKD", "HNL", "HRK", "HTG", "HUF", "IDR", "ILS", "IMP", "INR", "IQD", "IRR", "ISK", "JEP", "JMD", "JOD", "JPY", "KES", "KGS", "KHR", "KMF", "KPW", "KRW", "KWD", "KYD", "KZT", "LAK", "LBP", "LEO", "LINK", "LKR", "LRD", "LSL", "LTC", "LTL", "LVL", "LYD", "MAD", "MDL", "MGA", "MKD", "MKR", "MMK", "MMY", "MNT", "MOP", "MRO", "MUR", "MVR", "MWK", "MXN", "MYR", "MZN", "NAD", "NGN", "NIO", "NOK", "NPR", "NZD", "OMR", "PAB", "PAX", "PAXG", "PEN", "PGK", "PHP", "PKR", "PLN", "PLTC", "PYG", "QAR", "RON", "RSD", "RUB", "RWF", "SAR", "SBD", "SCR", "SDG", "SEK", "SGD", "SHP", "SLL", "SOS", "SRD", "STD", "SVC", "SYP", "SZL", "THB", "TJS", "TMT", "TND", "TOP", "TRY", "TTD", "TUSD", "TWD", "TZS", "UAH", "UGX", "USD", "USDC", "USDT", "UYU", "UZS", "VEF", "VND", "VUV", "WST", "XAF", "XAG", "XAU", "XCD", "XCON", "XDR", "XLM", "XOF", "XPF", "XRP", "YER", "ZAR", "ZMK", "ZMW", "ZWL"]
+        result = result & check_correct_value_from_define_list(currencies, 'basePair', body_params['basePair'])
+        if 'customer' in body_params.keys():
+            if 'accountingCurrency' in body_params.keys():
+                result = result & check_correct_value_from_define_list(currencies, 'accountingCurrency', body_params['customer']['accountingCurrency'])
         if 'accountingCurrency' in body_params.keys():
-            check_correct_value_from_define_list(currencies, 'accountingCurrency', body_params['customer']['accountingCurrency'])
-    if 'accountingCurrency' in body_params.keys():
-        check_correct_value_from_define_list(currencies, 'accountingCurrency', body_params['accountingCurrency'])
-
+            result = result & check_correct_value_from_define_list(currencies, 'accountingCurrency', body_params['accountingCurrency'])
+        return result
 
 def deploy_ethereum_erc20_smart_contract_offchain(body_params):
+    result = True
     body_schema = {
             "symbol": {"required": True, "type" : "string", "minlength": 1, "maxlength": 30},
             "supply" : {"required": True, "type" : "string", "minlength": 1, "maxlength": 38},
@@ -222,25 +227,31 @@ def deploy_ethereum_erc20_smart_contract_offchain(body_params):
             "nonce": {"type": "integer", "min": 0}           
          }
     v.validate(body_params, body_schema)
-    erros_print(v)
-    check_allowed_chars('^[a-zA-Z0-9_]+$', 'symbol', body_params['symbol'])
-    check_allowed_chars('^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'supply', body_params['supply'])   
+    result = result & erros_print(v)
+    if result:
+        result = result & check_allowed_chars('^[a-zA-Z0-9_]+$', 'symbol', body_params['symbol'])
+        result = result & check_allowed_chars('^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'supply', body_params['supply'])   
 
-    currencies = ["AED", "AFN", "ALL", "AMD", "ANG", "AOA", "ARS", "AUD", "AWG", "AZN", "BAM", "BAT", "BBD", "BCH", "BDT", "BGN", "BHD", "BIF", "BMD", "BND", "BOB", "BRL", "BSD", "BTC", "BTN", "BWP", "BYN", "BYR", "BZD", "CAD", "CDF", "CHF", "CLF", "CLP", "CNY", "COP", "CRC", "CUC", "CUP", "CVE", "CZK", "DJF", "DKK", "DOP", "DZD", "EGP", "ERN", "ETB", "ETH", "EUR", "FJD", "FKP", "FREE", "GBP", "GEL", "GGP", "GHS", "GIP", "GMD", "GNF", "GTQ", "GYD", "HKD", "HNL", "HRK", "HTG", "HUF", "IDR", "ILS", "IMP", "INR", "IQD", "IRR", "ISK", "JEP", "JMD", "JOD", "JPY", "KES", "KGS", "KHR", "KMF", "KPW", "KRW", "KWD", "KYD", "KZT", "LAK", "LBP", "LEO", "LINK", "LKR", "LRD", "LSL", "LTC", "LTL", "LVL", "LYD", "MAD", "MDL", "MGA", "MKD", "MKR", "MMK", "MMY", "MNT", "MOP", "MRO", "MUR", "MVR", "MWK", "MXN", "MYR", "MZN", "NAD", "NGN", "NIO", "NOK", "NPR", "NZD", "OMR", "PAB", "PAX", "PAXG", "PEN", "PGK", "PHP", "PKR", "PLN", "PLTC", "PYG", "QAR", "RON", "RSD", "RUB", "RWF", "SAR", "SBD", "SCR", "SDG", "SEK", "SGD", "SHP", "SLL", "SOS", "SRD", "STD", "SVC", "SYP", "SZL", "THB", "TJS", "TMT", "TND", "TOP", "TRY", "TTD", "TUSD", "TWD", "TZS", "UAH", "UGX", "USD", "USDC", "USDT", "UYU", "UZS", "VEF", "VND", "VUV", "WST", "XAF", "XAG", "XAU", "XCD", "XCON", "XDR", "XLM", "XOF", "XPF", "XRP", "YER", "ZAR", "ZMK", "ZMW", "ZWL"]
-    if 'customer' in body_params.keys():
-        if 'accountingCurrency' in body_params.keys():
-            check_correct_value_from_define_list(currencies, 'accountingCurrency', body_params['customer']['accountingCurrency'])
+        currencies = ["AED", "AFN", "ALL", "AMD", "ANG", "AOA", "ARS", "AUD", "AWG", "AZN", "BAM", "BAT", "BBD", "BCH", "BDT", "BGN", "BHD", "BIF", "BMD", "BND", "BOB", "BRL", "BSD", "BTC", "BTN", "BWP", "BYN", "BYR", "BZD", "CAD", "CDF", "CHF", "CLF", "CLP", "CNY", "COP", "CRC", "CUC", "CUP", "CVE", "CZK", "DJF", "DKK", "DOP", "DZD", "EGP", "ERN", "ETB", "ETH", "EUR", "FJD", "FKP", "FREE", "GBP", "GEL", "GGP", "GHS", "GIP", "GMD", "GNF", "GTQ", "GYD", "HKD", "HNL", "HRK", "HTG", "HUF", "IDR", "ILS", "IMP", "INR", "IQD", "IRR", "ISK", "JEP", "JMD", "JOD", "JPY", "KES", "KGS", "KHR", "KMF", "KPW", "KRW", "KWD", "KYD", "KZT", "LAK", "LBP", "LEO", "LINK", "LKR", "LRD", "LSL", "LTC", "LTL", "LVL", "LYD", "MAD", "MDL", "MGA", "MKD", "MKR", "MMK", "MMY", "MNT", "MOP", "MRO", "MUR", "MVR", "MWK", "MXN", "MYR", "MZN", "NAD", "NGN", "NIO", "NOK", "NPR", "NZD", "OMR", "PAB", "PAX", "PAXG", "PEN", "PGK", "PHP", "PKR", "PLN", "PLTC", "PYG", "QAR", "RON", "RSD", "RUB", "RWF", "SAR", "SBD", "SCR", "SDG", "SEK", "SGD", "SHP", "SLL", "SOS", "SRD", "STD", "SVC", "SYP", "SZL", "THB", "TJS", "TMT", "TND", "TOP", "TRY", "TTD", "TUSD", "TWD", "TZS", "UAH", "UGX", "USD", "USDC", "USDT", "UYU", "UZS", "VEF", "VND", "VUV", "WST", "XAF", "XAG", "XAU", "XCD", "XCON", "XDR", "XLM", "XOF", "XPF", "XRP", "YER", "ZAR", "ZMK", "ZMW", "ZWL"]
+        if 'customer' in body_params.keys():
+            if 'accountingCurrency' in body_params.keys():
+                result = result & check_correct_value_from_define_list(currencies, 'accountingCurrency', body_params['customer']['accountingCurrency'])
+        return result
 
 def set_erc20_token_contract_address(path_params):
+    result = True
     path_schema = {
             "address": {"required": True, "type" : "string", "minlength": 1, "maxlength": 100},
             "name": {"required": True, "type" : "string", "minlength": 1, "maxlength": 30},
         }
     v.validate(path_params, path_schema)
-    erros_print(v)
-    check_allowed_chars('^[a-zA-Z0-9_]+$', 'name', path_params['name'])
+    result = result & erros_print(v)
+    if result:
+        result = result & check_allowed_chars('^[a-zA-Z0-9_]+$', 'name', path_params['name'])
+        return result
 
 def transfer_ethereum_erc20_from_tatum_ledger_to_blockchain(body_params):
+    result = True
     body_schema = {
             "senderAccountId" : {"required": True, "type" : "string", "minlength": 24, "maxlength": 24},
             "address": {"required": True, "type" : "string", "minlength": 42, "maxlength": 42},
@@ -256,10 +267,13 @@ def transfer_ethereum_erc20_from_tatum_ledger_to_blockchain(body_params):
             "senderNote":{"type" : "string","minlength": 1, "maxlength": 500}
         }
     v.validate(body_params, body_schema)
-    erros_print(v)
-    check_allowed_chars('^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'amount', body_params['amount'])
+    result = result & erros_print(v)
+    if result:
+        result = result & check_allowed_chars('^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'amount', body_params['amount'])
+        return result
 
 def send_xlm_asset_from_tatum_ledger_to_blockchain(body_params):
+    result = True
     body_schema = {
             "senderAccountId" : {"required": True, "type" : "string", "minlength": 24, "maxlength": 24},
             "fromAccount": {"required": True, "type" : "string", "minlength": 56, "maxlength": 56},
@@ -275,26 +289,32 @@ def send_xlm_asset_from_tatum_ledger_to_blockchain(body_params):
             "token": {"type" : "string", "minlength": 1, "maxlength": 12}
         }
     v.validate(body_params, body_schema)
-    erros_print(v)
-    check_allowed_chars('^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'amount', body_params['amount'])
-    if 'attr' in body_params.keys():
-        check_allowed_chars('^[ -~]{0,64}$', 'attr', body_params['attr'])
-    if 'token' in body_params.keys():
-        check_allowed_chars('^[a-zA-Z0-9]{1,12}$', 'token', body_params['token'])
+    result = result & erros_print(v)
+    if result:
+        result = result & check_allowed_chars('^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'amount', body_params['amount'])
+        if 'attr' in body_params.keys():
+            result = result & check_allowed_chars('^[ -~]{0,64}$', 'attr', body_params['attr'])
+        if 'token' in body_params.keys():
+            result = result & check_allowed_chars('^[a-zA-Z0-9]{1,12}$', 'token', body_params['token'])
+        return result
 
 def create_xlm_based_asset(body_params):
+    result = True
     body_schema = {
             "issuerAccount": {"required": True, "type" : "string", "minlength": 56, "maxlength": 56},
             "token": {"required": True, "type" : "string", "minlength": 1, "maxlength": 12},
             "basePair" : {"required": True, "type" : "string", "minlength": 3, "maxlength": 5}
         }
     v.validate(body_params, body_schema)
-    erros_print(v)
-    check_allowed_chars('^[a-zA-Z0-9]{1,12}$', 'token', body_params['token'])
-    currencies = ["AED", "AFN", "ALL", "AMD", "ANG", "AOA", "ARS", "AUD", "AWG", "AZN", "BAM", "BAT", "BBD", "BCH", "BDT", "BGN", "BHD", "BIF", "BMD", "BND", "BOB", "BRL", "BSD", "BTC", "BTN", "BWP", "BYN", "BYR", "BZD", "CAD", "CDF", "CHF", "CLF", "CLP", "CNY", "COP", "CRC", "CUC", "CUP", "CVE", "CZK", "DJF", "DKK", "DOP", "DZD", "EGP", "ERN", "ETB", "ETH", "EUR", "FJD", "FKP", "FREE", "GBP", "GEL", "GGP", "GHS", "GIP", "GMD", "GNF", "GTQ", "GYD", "HKD", "HNL", "HRK", "HTG", "HUF", "IDR", "ILS", "IMP", "INR", "IQD", "IRR", "ISK", "JEP", "JMD", "JOD", "JPY", "KES", "KGS", "KHR", "KMF", "KPW", "KRW", "KWD", "KYD", "KZT", "LAK", "LBP", "LEO", "LINK", "LKR", "LRD", "LSL", "LTC", "LTL", "LVL", "LYD", "MAD", "MDL", "MGA", "MKD", "MKR", "MMK", "MMY", "MNT", "MOP", "MRO", "MUR", "MVR", "MWK", "MXN", "MYR", "MZN", "NAD", "NGN", "NIO", "NOK", "NPR", "NZD", "OMR", "PAB", "PAX", "PAXG", "PEN", "PGK", "PHP", "PKR", "PLN", "PLTC", "PYG", "QAR", "RON", "RSD", "RUB", "RWF", "SAR", "SBD", "SCR", "SDG", "SEK", "SGD", "SHP", "SLL", "SOS", "SRD", "STD", "SVC", "SYP", "SZL", "THB", "TJS", "TMT", "TND", "TOP", "TRY", "TTD", "TUSD", "TWD", "TZS", "UAH", "UGX", "USD", "USDC", "USDT", "UYU", "UZS", "VEF", "VND", "VUV", "WST", "XAF", "XAG", "XAU", "XCD", "XCON", "XDR", "XLM", "XOF", "XPF", "XRP", "YER", "ZAR", "ZMK", "ZMW", "ZWL"]
-    check_correct_value_from_define_list(currencies, 'basePair', body_params['basePair'])
+    result = result & erros_print(v)
+    if result:
+        result = result & check_allowed_chars('^[a-zA-Z0-9]{1,12}$', 'token', body_params['token'])
+        currencies = ["AED", "AFN", "ALL", "AMD", "ANG", "AOA", "ARS", "AUD", "AWG", "AZN", "BAM", "BAT", "BBD", "BCH", "BDT", "BGN", "BHD", "BIF", "BMD", "BND", "BOB", "BRL", "BSD", "BTC", "BTN", "BWP", "BYN", "BYR", "BZD", "CAD", "CDF", "CHF", "CLF", "CLP", "CNY", "COP", "CRC", "CUC", "CUP", "CVE", "CZK", "DJF", "DKK", "DOP", "DZD", "EGP", "ERN", "ETB", "ETH", "EUR", "FJD", "FKP", "FREE", "GBP", "GEL", "GGP", "GHS", "GIP", "GMD", "GNF", "GTQ", "GYD", "HKD", "HNL", "HRK", "HTG", "HUF", "IDR", "ILS", "IMP", "INR", "IQD", "IRR", "ISK", "JEP", "JMD", "JOD", "JPY", "KES", "KGS", "KHR", "KMF", "KPW", "KRW", "KWD", "KYD", "KZT", "LAK", "LBP", "LEO", "LINK", "LKR", "LRD", "LSL", "LTC", "LTL", "LVL", "LYD", "MAD", "MDL", "MGA", "MKD", "MKR", "MMK", "MMY", "MNT", "MOP", "MRO", "MUR", "MVR", "MWK", "MXN", "MYR", "MZN", "NAD", "NGN", "NIO", "NOK", "NPR", "NZD", "OMR", "PAB", "PAX", "PAXG", "PEN", "PGK", "PHP", "PKR", "PLN", "PLTC", "PYG", "QAR", "RON", "RSD", "RUB", "RWF", "SAR", "SBD", "SCR", "SDG", "SEK", "SGD", "SHP", "SLL", "SOS", "SRD", "STD", "SVC", "SYP", "SZL", "THB", "TJS", "TMT", "TND", "TOP", "TRY", "TTD", "TUSD", "TWD", "TZS", "UAH", "UGX", "USD", "USDC", "USDT", "UYU", "UZS", "VEF", "VND", "VUV", "WST", "XAF", "XAG", "XAU", "XCD", "XCON", "XDR", "XLM", "XOF", "XPF", "XRP", "YER", "ZAR", "ZMK", "ZMW", "ZWL"]
+        result = result & check_correct_value_from_define_list(currencies, 'basePair', body_params['basePair'])
+        return result
 
 def send_xrp_from_tatum_ledger_to_blockchain(body_params):
+    result = True
     body_schema = {
             "senderAccountId" : {"required": True, "type" : "string", "minlength": 24, "maxlength": 24},
             "account": {"required": True, "type" : "string", "minlength": 1, "maxlength": 100},
@@ -311,20 +331,24 @@ def send_xrp_from_tatum_ledger_to_blockchain(body_params):
             "token": {"type" : "string", "minlength": 40, "maxlength": 40}
         }
     v.validate(body_params, body_schema)
-    erros_print(v)
-    check_allowed_chars('^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'amount', body_params['amount'])
-    if 'token' in body_params.keys():
-        check_allowed_chars('^[a-zA-Z0-9]{1,12}$', 'token', body_params['token'])
-
+    result = result & erros_print(v)
+    if result:
+        result = result & check_allowed_chars('^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'amount', body_params['amount'])
+        if 'token' in body_params.keys():
+            result = result & check_allowed_chars('^[a-zA-Z0-9]{1,12}$', 'token', body_params['token'])
+        return result
 
 def create_xrp_based_asset(body_params):
+    result = True
     body_schema = {
             "issuerAccount": {"required": True, "type" : "string", "minlength": 33, "maxlength": 34},
             "token": {"required": True, "type" : "string", "minlength": 40, "maxlength": 40},
             "basePair" : {"required": True, "type" : "string", "minlength": 3, "maxlength": 5}
         }
     v.validate(body_params, body_schema)
-    erros_print(v)
-    check_allowed_chars('^[a-zA-Z0-9]{1,12}$', 'token', body_params['token'])
-    currencies = ["AED", "AFN", "ALL", "AMD", "ANG", "AOA", "ARS", "AUD", "AWG", "AZN", "BAM", "BAT", "BBD", "BCH", "BDT", "BGN", "BHD", "BIF", "BMD", "BND", "BOB", "BRL", "BSD", "BTC", "BTN", "BWP", "BYN", "BYR", "BZD", "CAD", "CDF", "CHF", "CLF", "CLP", "CNY", "COP", "CRC", "CUC", "CUP", "CVE", "CZK", "DJF", "DKK", "DOP", "DZD", "EGP", "ERN", "ETB", "ETH", "EUR", "FJD", "FKP", "FREE", "GBP", "GEL", "GGP", "GHS", "GIP", "GMD", "GNF", "GTQ", "GYD", "HKD", "HNL", "HRK", "HTG", "HUF", "IDR", "ILS", "IMP", "INR", "IQD", "IRR", "ISK", "JEP", "JMD", "JOD", "JPY", "KES", "KGS", "KHR", "KMF", "KPW", "KRW", "KWD", "KYD", "KZT", "LAK", "LBP", "LEO", "LINK", "LKR", "LRD", "LSL", "LTC", "LTL", "LVL", "LYD", "MAD", "MDL", "MGA", "MKD", "MKR", "MMK", "MMY", "MNT", "MOP", "MRO", "MUR", "MVR", "MWK", "MXN", "MYR", "MZN", "NAD", "NGN", "NIO", "NOK", "NPR", "NZD", "OMR", "PAB", "PAX", "PAXG", "PEN", "PGK", "PHP", "PKR", "PLN", "PLTC", "PYG", "QAR", "RON", "RSD", "RUB", "RWF", "SAR", "SBD", "SCR", "SDG", "SEK", "SGD", "SHP", "SLL", "SOS", "SRD", "STD", "SVC", "SYP", "SZL", "THB", "TJS", "TMT", "TND", "TOP", "TRY", "TTD", "TUSD", "TWD", "TZS", "UAH", "UGX", "USD", "USDC", "USDT", "UYU", "UZS", "VEF", "VND", "VUV", "WST", "XAF", "XAG", "XAU", "XCD", "XCON", "XDR", "XLM", "XOF", "XPF", "XRP", "YER", "ZAR", "ZMK", "ZMW", "ZWL"]
-    check_correct_value_from_define_list(currencies, 'basePair', body_params['basePair'])
+    result = result & erros_print(v)
+    if result:
+        result = result & check_allowed_chars('^[a-zA-Z0-9]{1,12}$', 'token', body_params['token'])
+        currencies = ["AED", "AFN", "ALL", "AMD", "ANG", "AOA", "ARS", "AUD", "AWG", "AZN", "BAM", "BAT", "BBD", "BCH", "BDT", "BGN", "BHD", "BIF", "BMD", "BND", "BOB", "BRL", "BSD", "BTC", "BTN", "BWP", "BYN", "BYR", "BZD", "CAD", "CDF", "CHF", "CLF", "CLP", "CNY", "COP", "CRC", "CUC", "CUP", "CVE", "CZK", "DJF", "DKK", "DOP", "DZD", "EGP", "ERN", "ETB", "ETH", "EUR", "FJD", "FKP", "FREE", "GBP", "GEL", "GGP", "GHS", "GIP", "GMD", "GNF", "GTQ", "GYD", "HKD", "HNL", "HRK", "HTG", "HUF", "IDR", "ILS", "IMP", "INR", "IQD", "IRR", "ISK", "JEP", "JMD", "JOD", "JPY", "KES", "KGS", "KHR", "KMF", "KPW", "KRW", "KWD", "KYD", "KZT", "LAK", "LBP", "LEO", "LINK", "LKR", "LRD", "LSL", "LTC", "LTL", "LVL", "LYD", "MAD", "MDL", "MGA", "MKD", "MKR", "MMK", "MMY", "MNT", "MOP", "MRO", "MUR", "MVR", "MWK", "MXN", "MYR", "MZN", "NAD", "NGN", "NIO", "NOK", "NPR", "NZD", "OMR", "PAB", "PAX", "PAXG", "PEN", "PGK", "PHP", "PKR", "PLN", "PLTC", "PYG", "QAR", "RON", "RSD", "RUB", "RWF", "SAR", "SBD", "SCR", "SDG", "SEK", "SGD", "SHP", "SLL", "SOS", "SRD", "STD", "SVC", "SYP", "SZL", "THB", "TJS", "TMT", "TND", "TOP", "TRY", "TTD", "TUSD", "TWD", "TZS", "UAH", "UGX", "USD", "USDC", "USDT", "UYU", "UZS", "VEF", "VND", "VUV", "WST", "XAF", "XAG", "XAU", "XCD", "XCON", "XDR", "XLM", "XOF", "XPF", "XRP", "YER", "ZAR", "ZMK", "ZMW", "ZWL"]
+        result = result & check_correct_value_from_define_list(currencies, 'basePair', body_params['basePair'])
+        return result
