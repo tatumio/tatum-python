@@ -4,6 +4,12 @@ import validator.blockchain as blockchain_validator
 import requests
 import os
 from dotenv import load_dotenv
+from bip_utils import Bip39EntropyGenerator, Bip39MnemonicGenerator, Bip39WordsNum, Bip39MnemonicValidator, Bip39SeedGenerator
+from bipwallet import wallet
+
+from bip44 import Wallet
+
+from coincurve import PrivateKey
 load_dotenv()
 
 conn = http.client.HTTPSConnection(os.environ['API_URL'])
@@ -21,14 +27,16 @@ def headers(for_post = False):
             }
 
 def generate_ethereum_wallet(query_params={}):
-    if blockchain_validator.generate_wallet(query_params):
-        if query_params != {}:
-            conn.request("GET", "/v3/ethereum/wallet?mnemonic={}".format(query_params['mnemonic']), headers=headers())
-        else:
-            conn.request("GET", "/v3/ethereum/wallet", headers=headers())
-        res = conn.getresponse()
-        data = res.read()
-        return data.decode("utf-8")
+    mnemonic = Bip39MnemonicGenerator.FromWordsNumber(Bip39WordsNum.WORDS_NUM_24)
+    if Bip39MnemonicValidator(mnemonic).Validate():
+        passphrase = ""
+        seed_bytes = Bip39SeedGenerator(mnemonic).Generate(passphrase)
+        print(mnemonic)
+        w = wallet.create_wallet(network="ETH", seed=seed_bytes.hex(), children=1)
+        # potřeba nainstalovat HDkey a podle tatum-js vytvořit xpub
+        return w
+    else:
+        return 'Mnemonic is not valid!'
 
 def generate_ethereum_account_address_from_extended_public_key(path_params):
     if blockchain_validator.generate_deposit_address_from_extended_public_key(path_params):
