@@ -54,13 +54,15 @@ def page_size_query_params(query_params):
 
 
 def generate_litecoin_wallet(query_params):
-    if query_params != {}:
-        query_schema = {
-                "mnemonic": {"type" : "string", "maxlength": 500},
-            }
+    result = True
+    query_schema = {
+            "mnemonic": {"type" : "string", "maxlength": 500},
+        }
 
-        v.validate(query_params, query_schema)
-        return erros_print(v)
+    v.validate(query_params, query_schema)
+    result = result + erros_print(v)
+    return result
+   
 
 def generate_wallet(query_params):
     if query_params != {}:
