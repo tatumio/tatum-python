@@ -416,27 +416,33 @@ import json
 
 
 #________________________________ BLOCKCHAIN/ ETHEREUM ________________________________________________
-# query_params = {'mnemonic': "maze truly suit grape buzz vessel coil broken photo rain material bind struggle hybrid cargo bench trash want ecology black enroll kid birth hurt"}
-# print(ethereum.generate_ethereum_wallet(query_params))
+query_params = {'mnemonic': "maze truly suit grape buzz vessel coil broken photo rain material bind struggle hybrid cargo bench trash want ecology black enroll kid birth hurt"}
+print(ethereum.generate_ethereum_wallet(query_params))
 
-# path_params = {'xpub': 'xpub6EZZ1UyZogf9rGwRn9ySSFDLHQbPqswbY8boHAbiLRZy6A79PTq3izy2p435H51e39uLcDzSi3SVYeJ7LtuDfjc6G2nczaZ8We14DmZHsVP', 'index': 1}
-# ethereum.generate_ethereum_account_address_from_extended_public_key(path_params)
+path_params = {
+    'xpub': 'xpub6CWUBUjhkC9ZrF2pfWpGJdqSzwcAZ5tCvRBwyLaS86fYGmD3ZHEZiEr1sUi6bL18UGMJuHLEg1JFrkqgLbJxuvdY8oXUdXoA22u45UanhPn', 
+    'index': 0}
+# print(ethereum.generate_ethereum_account_address_from_extended_public_key(path_params))
+
+body_params = {
+"index":0,
+"mnemonic": "maze truly suit grape buzz vessel coil broken photo rain material bind struggle hybrid cargo bench trash want ecology black enroll kid birth hurt"
+}
+
+# print(ethereum.generate_ethereum_private_key(body_params))
+
 
 # body_params = {
-# "index":301,
-# "mnemonic": "palm mad orbit race shock call author blade write vicious leave charge powder banana task eternal wrap van observe depth surface citizen female bag"
+# "xApiKey": "4f7315df-b6ca-41c7-a45e-95d7e44d4d95"
 # }
-
-# ethereum.generate_ethereum_private_key(body_params)
-
-              # ethereum.web3_http_driver()
+# print(ethereum.web3_http_driver(body_params))
 # ethereum.get_current_block()
 
 # path_params = {'hash': '7530722'}
 # ethereum.get_block_by_hash(path_params) 
 
-# path_params = {'address': '0x0ff64c166a462b31ed657c9d88c5ac4fef6b88b6'}
-# ethereum.get_ethereum_account_balance(path_params)
+path_params = {'address': '0xba81fb7bafa5da79803a5aaa5da9f67b35e9c3d7'}
+# print(ethereum.get_ethereum_account_balance(path_params))
 
 # path_params = {'address': '0x811dfbff13adfbc3cf653dcc373c03616d3471c9'}
 # query_params = {'contractAddress': '0x494394c74bFF7f93C8EB390D4Ab3586Aa2BcAb0C'}
@@ -445,12 +451,12 @@ import json
 # path_params = {'hash': '0xdb44e82ba5bdf5d323c766e3bdbd835e6e9a31ccfd7742b4cfc013d869dd6da'}
 # ethereum.get_ethereum_transaction(path_params)
 
-# path_params = {'address': '0x811dfbff13adfbc3cf653dcc373c03616d3471c9'}
+# path_params = {'address': '0x8078ac412ee3791c08a5fe8bb8695c5ed678cb6a'}
 # ethereum.get_count_of_outgoing_ethereum_transactions(path_params)
 
-# path_params = {'address': '0xdb44e82ba5bdf5d323c766e3bdbd835e6e9a31ccfd7742b4cfc013d869dd6da'}
-# query_params = {'pageSize': 10}
-# ethereum.get_ethereum_transactions_by_address(path_params, query_params)
+path_params = {'address': '0x8078ac412ee3791c08a5fe8bb8695c5ed678cb6a'}
+query_params = {'pageSize': 10}
+# print(ethereum.get_ethereum_transactions_by_address(path_params, query_params))
 
 
 

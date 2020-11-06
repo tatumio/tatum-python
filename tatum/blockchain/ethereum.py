@@ -5,10 +5,8 @@ import requests
 import os
 from dotenv import load_dotenv
 from bip_utils import Bip39EntropyGenerator, Bip39MnemonicGenerator, Bip39WordsNum, Bip39MnemonicValidator, Bip39SeedGenerator
-from bipwallet import wallet
-from bip44 import Wallet
-
-from coincurve import PrivateKey
+from pywallet import wallet
+import mnemonic as eth_mnemonic
 load_dotenv()
 
 conn = http.client.HTTPSConnection(os.environ['API_URL'])
@@ -30,28 +28,28 @@ def generate_ethereum_wallet(query_params={}):
         if query_params != {}:
             mnemonic = query_params['mnemonic']
         else:
-            mnemonic = Bip39MnemonicGenerator.FromWordsNumber(Bip39WordsNum.WORDS_NUM_24)
+            mnemonic = wallet.generate_mnemonic(strength=256)
 
         if Bip39MnemonicValidator(mnemonic).Validate():
             w = wallet.create_wallet(network="ETH", seed=mnemonic, children=1)
-            return {"xpub": w['xpublic_key'], "mnemonic": mnemonic}
+            return {"xpub": w['xpublic_key'].decode("utf-8") , "mnemonic": mnemonic}
         else:
             return 'Mnemonic is not valid!'
 
 def generate_ethereum_account_address_from_extended_public_key(path_params):
     if blockchain_validator.generate_deposit_address_from_extended_public_key(path_params):
-        conn.request("GET", "/v3/ethereum/address/{}/{}".format(path_params['xpub'], path_params['index']), headers=headers())
-        res = conn.getresponse()
-        data = res.read()
-        return data.decode("utf-8")
+        w = wallet.create_address(network="ETH", xpub=path_params['xpub'], child=path_params['index'])
+        return {"address": w['address']}
 
 def generate_ethereum_private_key(body_params):
     if blockchain_validator.generate_private_key(body_params):
-        body_params = json.dumps(body_params)
-        conn.request("POST", "/v3/ethereum/wallet/priv", body_params, headers=headers(for_post=True))
-        res = conn.getresponse()
-        data = res.read()
-        return data.decode("utf-8")
+        if Bip39MnemonicValidator(body_params['mnemonic']).Validate():
+            eth_mnemonic.mnemonic_to_seed()
+            w = wallet.create_wallet(network="ETH", seed=body_params['mnemonic'], children=body_params['index']+1)
+            print(w)
+            return {"key": w['children'][int(body_params['index'])]['private_key']}
+        else:
+            return 'Mnemonic is not valid!'
 
 def web3_http_driver(body_params):
     headers = { 'content-type': "application/json" }
