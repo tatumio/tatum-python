@@ -14,6 +14,9 @@ import bip32utils
 import hashlib
 import base58
 
+from web3 import Web3, IPCProvider
+web3 = Web3(Web3.HTTPProvider('https://mainnet.infura.io/v3/0fb2f5e906884367b08fdec2e556b4c1'))
+# print(web3.isConnected())
 load_dotenv()
 
 conn = http.client.HTTPSConnection(os.environ['API_URL'])
@@ -139,12 +142,11 @@ def get_ethereum_transactions_by_address(path_params, query_params):
         return data.decode("utf-8")
 
 def send_ethereum_erc20_from_account_to_account(body_params):
-    if blockchain_validator.send_ethereum_erc20_from_account_to_account(body_params):
-        body_params = json.dumps(body_params)
-        conn.request("POST", "/v3/ethereum/transaction", body_params, headers=headers(for_post=True))
-        res = conn.getresponse()
-        data = res.read()
-        return data.decode("utf-8")
+    # if blockchain_validator.send_ethereum_erc20_from_account_to_account(body_params): 
+    # create trans, sign, send to blockchain
+    # https://consensys.net/blog/blockchain-development/how-to-send-money-using-python-a-web3-py-tutorial/
+    web3.eth.buildTransaction({'from': Web3.toChecksumAddress(body_params['fromPrivateKey'].lower()), 'to': Web3.toChecksumAddress(body_params['to']), 'gasPrice': body_params['fee']['gasPrice']})
+    return 'ok'
 
 def invoke_smart_contract_method(body_params):
     if blockchain_validator.invoke_smart_contract_method(body_params):

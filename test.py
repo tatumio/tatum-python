@@ -421,32 +421,33 @@ query_params = {'mnemonic': "maze truly suit grape buzz vessel coil broken photo
 
 path_params = {
     'xpub': 'xpub6CWUBUjhkC9ZrF2pfWpGJdqSzwcAZ5tCvRBwyLaS86fYGmD3ZHEZiEr1sUi6bL18UGMJuHLEg1JFrkqgLbJxuvdY8oXUdXoA22u45UanhPn', 
-    'index': 0}
+    'index': 9}
 # print(ethereum.generate_ethereum_account_address_from_extended_public_key(path_params))
 
 body_params = {
-"index": 5,
+"index": 9,
 "mnemonic": "maze truly suit grape buzz vessel coil broken photo rain material bind struggle hybrid cargo bench trash want ecology black enroll kid birth hurt"
 }
 
-print(ethereum.generate_ethereum_private_key(body_params))
+# print(ethereum.generate_ethereum_private_key(body_params))
 
 
-# body_params = {
-# "xApiKey": "4f7315df-b6ca-41c7-a45e-95d7e44d4d95"
-# }
+body_params = {
+"xApiKey": "8234de3c-115e-4337-a012-960962cd2b6d"
+}
 # print(ethereum.web3_http_driver(body_params))
-# ethereum.get_current_block()
 
-# path_params = {'hash': '7530722'}
-# ethereum.get_block_by_hash(path_params) 
+# print(ethereum.get_current_block())
 
-path_params = {'address': '0xba81fb7bafa5da79803a5aaa5da9f67b35e9c3d7'}
+path_params = {'hash': '0x3f7268804257cfb4dbf8c5051ada42709a45bd04f713883dc1ed114ecd3f85d2'}
+# print(ethereum.get_block_by_hash(path_params)) 
+
+path_params = {'address': '0x0c0db1eeb7c420ebebf34c50c80da0c6361688d7'}
 # print(ethereum.get_ethereum_account_balance(path_params))
 
-# path_params = {'address': '0x811dfbff13adfbc3cf653dcc373c03616d3471c9'}
-# query_params = {'contractAddress': '0x494394c74bFF7f93C8EB390D4Ab3586Aa2BcAb0C'}
-# ethereum.get_ethereum_erc20_account_balance(path_params, query_params)
+path_params = {'address': '0x811dfbff13adfbc3cf653dcc373c03616d3471c9'}
+query_params = {'contractAddress': '0x494394c74bFF7f93C8EB390D4Ab3586Aa2BcAb0C'}
+# print(ethereum.get_ethereum_erc20_account_balance(path_params, query_params))
 
 # path_params = {'hash': '0xdb44e82ba5bdf5d323c766e3bdbd835e6e9a31ccfd7742b4cfc013d869dd6da'}
 # ethereum.get_ethereum_transaction(path_params)
@@ -458,6 +459,15 @@ path_params = {'address': '0x8078ac412ee3791c08a5fe8bb8695c5ed678cb6a'}
 query_params = {'pageSize': 10}
 # print(ethereum.get_ethereum_transactions_by_address(path_params, query_params))
 
+body_params = {
+    'fromPrivateKey': '0x5911774bc465d36135516d60bdaa361bb8587af1',
+    'amount': '1',
+    'currency': 'ETH',
+    'to': '0x8078ac412ee3791c08a5fe8bb8695c5ed678cb6a',
+    "fee": {"gasLimit":"21000", "gasPrice":"1"}
+    }
+
+print(ethereum.send_ethereum_erc20_from_account_to_account(body_params))
 
 
 #________________________________ BLOCKCHAIN/ BITCOIN CASH ________________________________________________
