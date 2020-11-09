@@ -7,11 +7,12 @@ from dotenv import load_dotenv
 from bip_utils import Bip39EntropyGenerator, Bip39MnemonicGenerator, Bip39WordsNum, Bip39MnemonicValidator, Bip39SeedGenerator
 from pywallet import wallet
 import mnemonic as eth_mnemonic
-
 import pprint
 import binascii
 import mnemonic
 import bip32utils
+import hashlib
+import base58
 
 load_dotenv()
 
@@ -57,13 +58,18 @@ def generate_ethereum_private_key(body_params):
             bip32_child_key_obj = bip32_root_key_obj.ChildKey(
                 44 + bip32utils.BIP32_HARDEN
             ).ChildKey(
-                0 + bip32utils.BIP32_HARDEN
+                60 + bip32utils.BIP32_HARDEN
             ).ChildKey(
                 0 + bip32utils.BIP32_HARDEN
             ).ChildKey(0).ChildKey(body_params['index'])
 
+            wif = bip32_child_key_obj.WalletImportFormat()
+
+            first_encode = base58.b58decode(wif)
+            private_key_full = binascii.hexlify(first_encode)
+            private_key = '0x' + private_key_full[2:-10].decode("utf-8")
             return {
-                'key': bip32_child_key_obj.WalletImportFormat(),
+                'key': private_key,
             }
         else:
             return 'Mnemonic is not valid!'

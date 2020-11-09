@@ -429,7 +429,7 @@ body_params = {
 "mnemonic": "maze truly suit grape buzz vessel coil broken photo rain material bind struggle hybrid cargo bench trash want ecology black enroll kid birth hurt"
 }
 
-print(bitcoin.generate_bitcoin_private_key(body_params))
+print(ethereum.generate_ethereum_private_key(body_params))
 
 
 # body_params = {
