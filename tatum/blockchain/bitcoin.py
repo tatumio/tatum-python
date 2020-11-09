@@ -4,6 +4,11 @@ import validator.blockchain as blockchain_validator
 import requests
 import os
 from dotenv import load_dotenv
+from bip_utils import Bip39EntropyGenerator, Bip39MnemonicGenerator, Bip39WordsNum, Bip39MnemonicValidator, Bip39SeedGenerator
+import pprint
+import binascii
+import mnemonic
+import bip32utils
 load_dotenv()
 
 conn = http.client.HTTPSConnection(os.environ['API_URL'])
@@ -39,10 +44,24 @@ def generate_bitcoin_deposit_address_from_extended_public_key(path_params):
 
 def generate_bitcoin_private_key(body_params):
     if blockchain_validator.generate_private_key(body_params):
-        body_params = json.dumps(body_params)
-        conn.request("POST", "/v3/bitcoin/wallet/priv", body_params, headers=headers(for_post=True))
-        res = conn.getresponse()
-        data = res.read()
+        if Bip39MnemonicValidator(body_params['mnemonic']).Validate():
+            mobj = mnemonic.Mnemonic("english")
+            seed = mobj.to_seed(body_params['mnemonic'])
+
+            bip32_root_key_obj = bip32utils.BIP32Key.fromEntropy(seed)
+            bip32_child_key_obj = bip32_root_key_obj.ChildKey(
+                44 + bip32utils.BIP32_HARDEN
+            ).ChildKey(
+                0 + bip32utils.BIP32_HARDEN
+            ).ChildKey(
+                0 + bip32utils.BIP32_HARDEN
+            ).ChildKey(0).ChildKey(body_params['index'])
+
+            return {
+                'key': bip32_child_key_obj.WalletImportFormat(),
+            }
+        else:
+            return 'Mnemonic is not valid!'
 
 
 def get_blockchain_information():

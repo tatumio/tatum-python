@@ -417,7 +417,7 @@ import json
 
 #________________________________ BLOCKCHAIN/ ETHEREUM ________________________________________________
 query_params = {'mnemonic': "maze truly suit grape buzz vessel coil broken photo rain material bind struggle hybrid cargo bench trash want ecology black enroll kid birth hurt"}
-print(ethereum.generate_ethereum_wallet(query_params))
+# print(ethereum.generate_ethereum_wallet(query_params))
 
 path_params = {
     'xpub': 'xpub6CWUBUjhkC9ZrF2pfWpGJdqSzwcAZ5tCvRBwyLaS86fYGmD3ZHEZiEr1sUi6bL18UGMJuHLEg1JFrkqgLbJxuvdY8oXUdXoA22u45UanhPn', 
@@ -425,11 +425,11 @@ path_params = {
 # print(ethereum.generate_ethereum_account_address_from_extended_public_key(path_params))
 
 body_params = {
-"index":0,
+"index": 5,
 "mnemonic": "maze truly suit grape buzz vessel coil broken photo rain material bind struggle hybrid cargo bench trash want ecology black enroll kid birth hurt"
 }
 
-# print(ethereum.generate_ethereum_private_key(body_params))
+print(bitcoin.generate_bitcoin_private_key(body_params))
 
 
 # body_params = {
