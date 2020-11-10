@@ -42,7 +42,9 @@ def generate_ethereum_wallet(query_params={}):
 
         if Bip39MnemonicValidator(mnemonic).Validate():
             w = wallet.create_wallet(network="ETH", seed=mnemonic, children=1)
-            return {"xpub": w['xpublic_key'].decode("utf-8") , "mnemonic": mnemonic}
+            return {"xpriv": w['xprivate_key'].decode("utf-8"), 
+                    "xpub": w['xpublic_key'].decode("utf-8") , 
+                    "mnemonic": mnemonic}
         else:
             return 'Mnemonic is not valid!'
 

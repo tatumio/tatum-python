@@ -41,7 +41,11 @@ def generate_bitcoin_wallet(query_params={}):
         if Bip39MnemonicValidator(mnemonic).Validate():
             seed_bytes = Bip39SeedGenerator(mnemonic).Generate()
             bip32_ctx = Bip32.FromSeedAndPath(seed_bytes, "m/44'/0'/0'/0")
-            return {"xpub": bip32_ctx.PublicKey().ToExtended() , "mnemonic": mnemonic}
+            return {
+                "xpriv": bip32_ctx.PrivateKey().ToExtended() ,
+                "xpub": bip32_ctx.PublicKey().ToExtended() , 
+                "mnemonic": mnemonic
+                }
         else:
             return 'Mnemonic is not valid!'
 
