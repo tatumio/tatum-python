@@ -4,11 +4,17 @@ import validator.blockchain as blockchain_validator
 import requests
 import os
 from dotenv import load_dotenv
-from bip_utils import Bip39EntropyGenerator, Bip39MnemonicGenerator, Bip39WordsNum, Bip39MnemonicValidator, Bip39SeedGenerator
+from bip_utils import Bip32, Bip39EntropyGenerator, Bip39MnemonicGenerator, Bip39WordsNum, Bip39MnemonicValidator, Bip39SeedGenerator
+from pywallet import wallet
 import pprint
 import binascii
 import mnemonic
 import bip32utils
+from bip32 import BIP32, HARDENED_INDEX
+
+
+
+
 load_dotenv()
 
 conn = http.client.HTTPSConnection(os.environ['API_URL'])
@@ -26,28 +32,29 @@ def headers(for_post = False):
             }
 
 def generate_bitcoin_wallet(query_params={}):
-    if blockchain_validator.generate_wallet(query_params):
+    if blockchain_validator.generate_litecoin_wallet(query_params):
         if query_params != {}:
-            conn.request("GET", "/v3/bitcoin/wallet?mnemonic={}".format(query_params['mnemonic']), headers=headers())
+            mnemonic = query_params['mnemonic']
         else:
-            conn.request("GET", "/v3/bitcoin/wallet", headers=headers())
-        res = conn.getresponse()
-        data = res.read()
-        return data.decode("utf-8")
+            mnemonic = wallet.generate_mnemonic(strength=256)
+
+        if Bip39MnemonicValidator(mnemonic).Validate():
+            seed_bytes = Bip39SeedGenerator(mnemonic).Generate()
+            bip32_ctx = Bip32.FromSeedAndPath(seed_bytes, "m/44'/0'/0'/0")
+            return {"xpub": bip32_ctx.PublicKey().ToExtended() , "mnemonic": mnemonic}
+        else:
+            return 'Mnemonic is not valid!'
 
 def generate_bitcoin_deposit_address_from_extended_public_key(path_params):
     if blockchain_validator.generate_deposit_address_from_extended_public_key(path_params):
-        conn.request("GET", "/v3/bitcoin/address/{}/{}".format(path_params['xpub'], path_params['index']), headers=headers())
-        res = conn.getresponse()
-        data = res.read()
-        return data.decode("utf-8")
+        w = wallet.create_address(network="BTC", xpub=path_params['xpub'], child=path_params['index'])
+        return {"address": w['address']}
 
 def generate_bitcoin_private_key(body_params):
     if blockchain_validator.generate_private_key(body_params):
         if Bip39MnemonicValidator(body_params['mnemonic']).Validate():
             mobj = mnemonic.Mnemonic("english")
-            seed = mobj.to_seed(body_params['mnemonic'])
-
+            seed = mobj.to_seed(body_params['mnemonic'])           
             bip32_root_key_obj = bip32utils.BIP32Key.fromEntropy(seed)
             bip32_child_key_obj = bip32_root_key_obj.ChildKey(
                 44 + bip32utils.BIP32_HARDEN
@@ -56,7 +63,7 @@ def generate_bitcoin_private_key(body_params):
             ).ChildKey(
                 0 + bip32utils.BIP32_HARDEN
             ).ChildKey(0).ChildKey(body_params['index'])
-
+ 
             return {
                 'key': bip32_child_key_obj.WalletImportFormat(),
             }

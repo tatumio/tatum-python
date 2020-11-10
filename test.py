@@ -371,18 +371,19 @@ import json
 #________________________________ BLOCKCHAIN/ BITCOIN ________________________________________________
 
 
+query_params = {'mnemonic': "maze truly suit grape buzz vessel coil broken photo rain material bind struggle hybrid cargo bench trash want ecology black enroll kid birth hurt"}
+# print(bitcoin.generate_bitcoin_wallet(query_params))
 
+path_params = {
+    'xpub': 'xpub6DpCM32AcgzzBYZifBYC9BvecxvhSGwtGLmnMdkqmUmVHr59NwT2Qan8MpHUahP57o7Fyekv2r6gUXXKcdSZDxofjd9qBRVxmfNsdqMKq6D', 
+    'index': 9}
+# print(bitcoin.generate_bitcoin_deposit_address_from_extended_public_key(path_params))
 
-# bitcoin.generate_bitcoin_wallet()
-
-# path_params = {'xpub': 'tpubDEwc9DswWvzSoRWF2L2KJssX5ejwX66k9XK8genoBFVPS96ZRCsgAfDsxotgz8nJGE9LbvhWyAcuhCDh9qrRY48yAkNX8X4gHWZ8XtPECBW', 'index': 2} 
-# bitcoin.generate_bitcoin_deposit_address_from_extended_public_key(path_params)
-
-# body_params = {
-#   "index":1, 
-#   "mnemonic": "airport organ level bubble autumn rigid spike girl coffee senior health donate air genuine impulse camp cement fluid coin tell border sport narrow liar"
-# }
-# bitcoin.generate_bitcoin_private_key(body_params)
+body_params = {
+"index": 9,
+"mnemonic": "maze truly suit grape buzz vessel coil broken photo rain material bind struggle hybrid cargo bench trash want ecology black enroll kid birth hurt"
+}
+# print(bitcoin.generate_bitcoin_private_key(body_params))
 
 # bitcoin.get_blockchain_information()
 
@@ -417,7 +418,7 @@ import json
 
 #________________________________ BLOCKCHAIN/ ETHEREUM ________________________________________________
 query_params = {'mnemonic': "maze truly suit grape buzz vessel coil broken photo rain material bind struggle hybrid cargo bench trash want ecology black enroll kid birth hurt"}
-# print(ethereum.generate_ethereum_wallet(query_params))
+print(ethereum.generate_ethereum_wallet(query_params))
 
 path_params = {
     'xpub': 'xpub6CWUBUjhkC9ZrF2pfWpGJdqSzwcAZ5tCvRBwyLaS86fYGmD3ZHEZiEr1sUi6bL18UGMJuHLEg1JFrkqgLbJxuvdY8oXUdXoA22u45UanhPn', 
@@ -432,21 +433,21 @@ body_params = {
 # print(ethereum.generate_ethereum_private_key(body_params))
 
 
-body_params = {
-"xApiKey": "8234de3c-115e-4337-a012-960962cd2b6d"
-}
+# body_params = {
+# "xApiKey": "8234de3c-115e-4337-a012-960962cd2b6d"
+# }
 # print(ethereum.web3_http_driver(body_params))
 
 # print(ethereum.get_current_block())
 
-path_params = {'hash': '0x3f7268804257cfb4dbf8c5051ada42709a45bd04f713883dc1ed114ecd3f85d2'}
+# path_params = {'hash': '0x3f7268804257cfb4dbf8c5051ada42709a45bd04f713883dc1ed114ecd3f85d2'}
 # print(ethereum.get_block_by_hash(path_params)) 
 
-path_params = {'address': '0x0c0db1eeb7c420ebebf34c50c80da0c6361688d7'}
+# path_params = {'address': '0x0c0db1eeb7c420ebebf34c50c80da0c6361688d7'}
 # print(ethereum.get_ethereum_account_balance(path_params))
 
-path_params = {'address': '0x811dfbff13adfbc3cf653dcc373c03616d3471c9'}
-query_params = {'contractAddress': '0x494394c74bFF7f93C8EB390D4Ab3586Aa2BcAb0C'}
+# path_params = {'address': '0x811dfbff13adfbc3cf653dcc373c03616d3471c9'}
+# query_params = {'contractAddress': '0x494394c74bFF7f93C8EB390D4Ab3586Aa2BcAb0C'}
 # print(ethereum.get_ethereum_erc20_account_balance(path_params, query_params))
 
 # path_params = {'hash': '0xdb44e82ba5bdf5d323c766e3bdbd835e6e9a31ccfd7742b4cfc013d869dd6da'}
@@ -455,24 +456,23 @@ query_params = {'contractAddress': '0x494394c74bFF7f93C8EB390D4Ab3586Aa2BcAb0C'}
 # path_params = {'address': '0x8078ac412ee3791c08a5fe8bb8695c5ed678cb6a'}
 # ethereum.get_count_of_outgoing_ethereum_transactions(path_params)
 
-path_params = {'address': '0x8078ac412ee3791c08a5fe8bb8695c5ed678cb6a'}
-query_params = {'pageSize': 10}
+# path_params = {'address': '0x8078ac412ee3791c08a5fe8bb8695c5ed678cb6a'}
+# query_params = {'pageSize': 10}
 # print(ethereum.get_ethereum_transactions_by_address(path_params, query_params))
 
-body_params = {
-    'fromPrivateKey': '0x5911774bc465d36135516d60bdaa361bb8587af1',
-    'amount': '1',
-    'currency': 'ETH',
-    'to': '0x8078ac412ee3791c08a5fe8bb8695c5ed678cb6a',
-    "fee": {"gasLimit":"21000", "gasPrice":"1"}
-    }
+# body_params = {
+#     'fromPrivateKey': '0x5911774bc465d36135516d60bdaa361bb8587af1',
+#     'amount': '1',
+#     'currency': 'ETH',
+#     'to': '0x8078ac412ee3791c08a5fe8bb8695c5ed678cb6a',
+#     "fee": {"gasLimit":"21000", "gasPrice":"1"}
+#     }
 
-print(ethereum.send_ethereum_erc20_from_account_to_account(body_params))
+# print(ethereum.send_ethereum_erc20_from_account_to_account(body_params))
 
 
 #________________________________ BLOCKCHAIN/ BITCOIN CASH ________________________________________________
-
-# bitcoin_cash.generate_bitcoin_cash_wallet()
+# print(bitcoin_cash.generate_bitcoin_cash_wallet())
 
 # path_params = {'xpub': 'xpub6En1k99NzVdo3fg8QE6HjmukpLNcNqvunJRkeid12qfrkPJ4KHaCqtFWLXVGCfkdTfFYpfJbGCiWd57PgjK2iuLhys3CDNwXGhfAamSvxyC', 'index': 5}
 # bitcoin_cash.generate_bitcoin_cash_deposit_address_from_extended_public_key(path_params)
@@ -505,18 +505,18 @@ print(ethereum.send_ethereum_erc20_from_account_to_account(body_params))
 
 #________________________________ BLOCKCHAIN/ LITECOIN ________________________________________________
 
-# query_params = {'mnemonic': "sknack style nejtral prthrtity durthmb judge oak melody please rack old practice"}
-# litecoin.generate_litecoin_wallet(query_params)
+query_params = {'mnemonic': "maze truly suit grape buzz vessel coil broken photo rain material bind struggle hybrid cargo bench trash want ecology black enroll kid birth hurt"}
+# print(litecoin.generate_litecoin_wallet(query_params))
 
 
 # path_params = {'index': 1,'xpub': 'ttub4gLJbfAoX8GS9s1ih2eu68M8XhPLRFy6tZyQQ6Ua1tF3WUyG6tGEGzEir7sxB2A2fp567qXFsr8pCjMrNRopFx2gAJmPgxiwVQYB4tWwQrD'}
 # litecoin.generate_litecoin_deposit_address_from_extended_public_key(path_params)
 
-# body_params = {
-#   "index": 1,
-#   "mnemonic": "brick buyer sniff prefer remind audit town stool awful asset pool state hire town leisure leader tiny coyote lock panda awesome hire bitter regular"
-# }
-# litecoin.generate_litecoin_private_key(body_params)
+body_params = {
+    "index": 1,
+    'mnemonic': "maze truly suit grape buzz vessel coil broken photo rain material bind struggle hybrid cargo bench trash want ecology black enroll kid birth hurt"
+ }
+# print(litecoin.generate_litecoin_private_key(body_params))
 
 # litecoin.get_litecoin_blockchain_information()
 
