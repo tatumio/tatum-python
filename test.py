@@ -418,7 +418,7 @@ body_params = {
 
 #________________________________ BLOCKCHAIN/ ETHEREUM ________________________________________________
 query_params = {'mnemonic': "maze truly suit grape buzz vessel coil broken photo rain material bind struggle hybrid cargo bench trash want ecology black enroll kid birth hurt"}
-print(ethereum.generate_ethereum_wallet(query_params))
+# print(ethereum.generate_ethereum_wallet(query_params))
 
 path_params = {
     'xpub': 'xpub6CWUBUjhkC9ZrF2pfWpGJdqSzwcAZ5tCvRBwyLaS86fYGmD3ZHEZiEr1sUi6bL18UGMJuHLEg1JFrkqgLbJxuvdY8oXUdXoA22u45UanhPn', 
@@ -460,15 +460,15 @@ body_params = {
 # query_params = {'pageSize': 10}
 # print(ethereum.get_ethereum_transactions_by_address(path_params, query_params))
 
-# body_params = {
-#     'fromPrivateKey': '0x5911774bc465d36135516d60bdaa361bb8587af1',
-#     'amount': '1',
-#     'currency': 'ETH',
-#     'to': '0x8078ac412ee3791c08a5fe8bb8695c5ed678cb6a',
-#     "fee": {"gasLimit":"21000", "gasPrice":"1"}
-#     }
+body_params = {
+  "to": "0x946e1bf482d201ab6687cb42890388c77166dd32",
+  "currency": "ETH",
+  "amount": "0.31",
+  "fromPrivateKey": "4fb09823ef3230b0da5f9a5f5bb26854531c26f0841d393d009e3b3207075e70",
+        "fee": {"gasLimit":"21000", "gasPrice":"2"}
+}
 
-# print(ethereum.send_ethereum_erc20_from_account_to_account(body_params))
+print(ethereum.send_ethereum_erc20_from_account_to_account(amount_in_ether= 1))
 
 
 #________________________________ BLOCKCHAIN/ BITCOIN CASH ________________________________________________

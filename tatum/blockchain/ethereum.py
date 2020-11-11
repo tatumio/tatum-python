@@ -13,10 +13,18 @@ import mnemonic
 import bip32utils
 import hashlib
 import base58
+import time
 
 from web3 import Web3, IPCProvider
-web3 = Web3(Web3.HTTPProvider('https://mainnet.infura.io/v3/0fb2f5e906884367b08fdec2e556b4c1'))
+web3 = Web3(Web3.HTTPProvider('https://ropsten.infura.io/v3/0fb2f5e906884367b08fdec2e556b4c1'))
 # print(web3.isConnected())
+
+contract_address = '0x0C0db1Eeb7c420eBebf34C50c80da0C6361688d7'
+wallet_private_key = '0xc2b15388fcc36ce104842dcf9c18dcd5dd87f765f511e569a4037965afd92845'
+wallet_address = '0x5911774BC465d36135516D60bDAA361bb8587aF1'
+# Because we’re using some features of Web3.py that haven’t been fully audited for security, we need to call w3.eth.enable_unaudited_features() to acknowledge that we’re aware that bad things might happen
+# web3.eth.enable_unaudited_features()
+
 load_dotenv()
 
 conn = http.client.HTTPSConnection(os.environ['API_URL'])
@@ -143,12 +151,41 @@ def get_ethereum_transactions_by_address(path_params, query_params):
         data = res.read()
         return data.decode("utf-8")
 
-def send_ethereum_erc20_from_account_to_account(body_params):
-    # if blockchain_validator.send_ethereum_erc20_from_account_to_account(body_params): 
-    # create trans, sign, send to blockchain
-    # https://consensys.net/blog/blockchain-development/how-to-send-money-using-python-a-web3-py-tutorial/
-    web3.eth.buildTransaction({'from': Web3.toChecksumAddress(body_params['fromPrivateKey'].lower()), 'to': Web3.toChecksumAddress(body_params['to']), 'gasPrice': body_params['fee']['gasPrice']})
-    return 'ok'
+def send_ethereum_erc20_from_account_to_account(amount_in_ether):
+    # if blockchain_validator.send_ethereum_erc20_from_account_to_account(body_params):  
+    
+    amount_in_wei = web3.toWei(amount_in_ether,'ether');
+
+    nonce = web3.eth.getTransactionCount(wallet_address)
+
+    txn_dict = {
+            'to': contract_address,
+            'value': amount_in_wei,
+            'gas': 2000000,
+            'gasPrice': web3.toWei('40', 'gwei'),
+            'nonce': nonce,
+            'chainId': 3
+    }
+
+    signed_txn = web3.eth.account.signTransaction(txn_dict, wallet_private_key)
+
+    txn_hash = web3.eth.sendRawTransaction(signed_txn.rawTransaction)
+
+    txn_receipt = None
+    count = 0
+    while txn_receipt is None and (count < 30):
+
+        txn_receipt = web3.eth.getTransactionReceipt(txn_hash)
+
+        print('txn_receipt', txn_receipt)
+
+        time.sleep(10)
+
+
+    if txn_receipt is None:
+        return {'status': 'failed', 'error': 'timeout'}
+
+    return {'status': 'added', 'txn_receipt': txn_receipt}
 
 def invoke_smart_contract_method(body_params):
     if blockchain_validator.invoke_smart_contract_method(body_params):
