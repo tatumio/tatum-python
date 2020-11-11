@@ -461,14 +461,14 @@ body_params = {
 # print(ethereum.get_ethereum_transactions_by_address(path_params, query_params))
 
 body_params = {
-  "to": "0x946e1bf482d201ab6687cb42890388c77166dd32",
-  "currency": "ETH",
-  "amount": "0.31",
-  "fromPrivateKey": "4fb09823ef3230b0da5f9a5f5bb26854531c26f0841d393d009e3b3207075e70",
-        "fee": {"gasLimit":"21000", "gasPrice":"2"}
+    "to": "0x5911774BC465d36135516D60bDAA361bb8587aF1",
+    "currency": "ETH",
+    "amount": "1",
+    "fromPrivateKey": "0xe2879181abb96aea2c03a32cbf859901884d81963cf23a5ef957b7edf8adeba6",
+    "fee": {"gasLimit":'2000000', "gasPrice":"0.1"},
 }
 
-print(ethereum.send_ethereum_erc20_from_account_to_account(amount_in_ether= 1))
+print(ethereum.send_ethereum_erc20_from_account_to_account(body_params))
 
 
 #________________________________ BLOCKCHAIN/ BITCOIN CASH ________________________________________________

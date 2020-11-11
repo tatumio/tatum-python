@@ -151,23 +151,25 @@ def get_ethereum_transactions_by_address(path_params, query_params):
         data = res.read()
         return data.decode("utf-8")
 
-def send_ethereum_erc20_from_account_to_account(amount_in_ether):
+def send_ethereum_erc20_from_account_to_account(body_params):
     # if blockchain_validator.send_ethereum_erc20_from_account_to_account(body_params):  
     
-    amount_in_wei = web3.toWei(amount_in_ether,'ether');
-
-    nonce = web3.eth.getTransactionCount(wallet_address)
+    amount_in_wei = web3.toWei(body_params['amount'],'ether')
+    # if body_params['nonce'] :
+    #     nonce = body_params['nonce']
+    # else:
+    nonce = web3.eth.getTransactionCount('0x0C0db1Eeb7c420eBebf34C50c80da0C6361688d7')
 
     txn_dict = {
-            'to': contract_address,
+            'to': body_params['to'],
             'value': amount_in_wei,
-            'gas': 2000000,
-            'gasPrice': web3.toWei('40', 'gwei'),
+            'gas': int(body_params['fee']['gasLimit']),
+            'gasPrice': web3.toWei(body_params['fee']['gasPrice'], 'gwei'),
             'nonce': nonce,
-            'chainId': 3
+            'chainId': 3, #https://ethereum.stackexchange.com/questions/17051/how-to-select-a-network-id-or-is-there-a-list-of-network-ids
     }
 
-    signed_txn = web3.eth.account.signTransaction(txn_dict, wallet_private_key)
+    signed_txn = web3.eth.account.signTransaction(txn_dict, body_params['fromPrivateKey'])
 
     txn_hash = web3.eth.sendRawTransaction(signed_txn.rawTransaction)
 
