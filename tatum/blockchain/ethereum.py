@@ -152,6 +152,9 @@ def get_ethereum_transactions_by_address(path_params, query_params):
         return data.decode("utf-8")
 
 def send_ethereum_erc20_from_account_to_account(body_params):
+    # ZKONTROLOVAT PODLE DOKUMENTACE TATUM
+    # https://hackernoon.com/ethereum-smart-contracts-in-python-a-comprehensive-ish-guide-771b03990988
+    # http://remix.ethereum.org/#optimize=false&evmVersion=null&version=soljson-v0.6.6+commit.6c089d02.js
     # if blockchain_validator.send_ethereum_erc20_from_account_to_account(body_params):  
     
     amount_in_wei = web3.toWei(body_params['amount'],'ether')
