@@ -468,8 +468,36 @@ body_params = {
     "fee": {"gasLimit":'2000000', "gasPrice":"0.1"},
 }
 
-print(ethereum.send_ethereum_erc20_from_account_to_account(body_params))
+# print(ethereum.send_ethereum_erc20_from_account_to_account(body_params))
 
+
+body_params = {
+    "fromPrivateKey":"0x192afdb39073e202f200117b609e8d40c1c8f50c3baebe1bda4773db48df81a0",
+    "contractAddress":"0x63227dca323055dbc8de09d7371987ce184e626d",
+    "methodName":"balanceOf",
+    "methodABI":{
+        "constant": True,
+        "inputs": [
+            {
+                "name": "owner",
+                "type": "address"
+            }
+        ],
+        "name": "balanceOf",
+        "outputs": [
+            {
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "payable": False,
+        "stateMutability": "view",
+        "type": "function"
+    },
+    "params":["0x8c76887d2e738371bd750362fb55887343472346"]
+}
+
+print(ethereum.invoke_smart_contract_method(body_params))
 
 #________________________________ BLOCKCHAIN/ BITCOIN CASH ________________________________________________
 # print(bitcoin_cash.generate_bitcoin_cash_wallet())
