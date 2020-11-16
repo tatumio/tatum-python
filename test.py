@@ -497,7 +497,9 @@ body_params = {
     "params":["0x8c76887d2e738371bd750362fb55887343472346"]
 }
 
-print(ethereum.invoke_smart_contract_method(body_params))
+# print(ethereum.invoke_smart_contract_method(body_params))
+
+print(ethereum.deploy_ethereum_erc20_smart_contract())
 
 #________________________________ BLOCKCHAIN/ BITCOIN CASH ________________________________________________
 # print(bitcoin_cash.generate_bitcoin_cash_wallet())

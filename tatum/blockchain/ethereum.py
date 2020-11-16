@@ -14,6 +14,7 @@ import bip32utils
 import hashlib
 import base58
 import time
+from brownie import *
 
 from web3 import Web3, IPCProvider
 web3 = Web3(Web3.HTTPProvider('https://ropsten.infura.io/v3/0fb2f5e906884367b08fdec2e556b4c1'))
@@ -195,6 +196,7 @@ def send_ethereum_erc20_from_account_to_account(body_params):
 def invoke_smart_contract_method(body_params):
     # if blockchain_validator.invoke_smart_contract_method(body_params):
     web3.eth.defaultAccount = web3.eth.accounts[0]
+    print(web3.eth.defaultAccount)
     abi = json.loads('[{"constant":true,"inputs":[],"name":"getCurrentOpinion","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"_soapboxer","type":"address"}],"name":"isApproved","outputs":[{"name":"approved","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_opinion","type":"string"}],"name":"broadcastOpinion","outputs":[{"name":"success","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"inputs":[],"payable":false,"stateMutability":"nonpayable","type":"constructor"},{"payable":true,"stateMutability":"payable","type":"fallback"},{"anonymous":false,"inputs":[{"indexed":false,"name":"_soapboxer","type":"address"},{"indexed":false,"name":"_opinion","type":"string"}],"name":"OpinionBroadcast","type":"event"}]')
     bytecode = '608060405260043610610057576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff1680635f1d90ae146100c0578063673448dd14610150578063805c2b6c146101ab575b66470de4df8200003411156100be5760016000803373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060006101000a81548160ff0219169083151502179055505b005b3480156100cc57600080fd5b506100d561022c565b6040518080602001828103825283818151815260200191508051906020019080838360005b838110156101155780820151818401526020810190506100fa565b50505050905090810190601f1680156101425780820380516001836020036101000a031916815260200191505b509250505060405180910390f35b34801561015c57600080fd5b50610191600480360381019080803573ffffffffffffffffffffffffffffffffffffffff1690602001909291905050506102ce565b604051808215151515815260200191505060405180910390f35b3480156101b757600080fd5b50610212600480360381019080803590602001908201803590602001908080601f0160208091040260200160405190810160405280939291908181526020018383808284378201915050505050509192919290505050610323565b604051808215151515815260200191505060405180910390f35b606060018054600181600116156101000203166002900480601f0160208091040260200160405190810160405280929190818152602001828054600181600116156101000203166002900480156102c45780601f10610299576101008083540402835291602001916102c4565b820191906000526020600020905b8154815290600101906020018083116102a757829003601f168201915b5050505050905090565b60008060008373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060009054906101000a900460ff169050919050565b60008060003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060009054906101000a900460ff161561048457816001908051906020019061038c92919061048e565b507fcda4350c176dee701be26e34bb6ddef641e5f6847b5ff6ca83ccca7faa85ddaf336001604051808373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020018060200182810382528381815460018160011615610100020316600290048152602001915080546001816001161561010002031660029004801561046c5780601f106104415761010080835404028352916020019161046c565b820191906000526020600020905b81548152906001019060200180831161044f57829003601f168201915b5050935050505060405180910390a160019050610489565b600090505b919050565b828054600181600116156101000203166002900490600052602060002090601f016020900481019282601f106104cf57805160ff19168380011785556104fd565b828001600101855582156104fd579182015b828111156104fc5782518255916020019190600101906104e1565b5b50905061050a919061050e565b5090565b61053091905b8082111561052c576000816000905550600101610514565b5090565b905600a165627a7a72305820e1048c48b1c3fdcb61f121c5dc1c2db485b2a98d1461a28be351104f41063e5a0029'
     SoapBox = web3.eth.contract(abi, bytecode)
@@ -202,13 +204,14 @@ def invoke_smart_contract_method(body_params):
     print(tx_hash)
     # https://www.youtube.com/watch?v=UGcInULTCwU&t=212s 
 
-def deploy_ethereum_erc20_smart_contract(body_params):
-    if blockchain_validator.deploy_ethereum_erc20_smart_contract(body_params):
-        body_params = json.dumps(body_params)
-        conn.request("POST", "/v3/ethereum/erc20/deploy", body_params, headers=headers(for_post=True))
-        res = conn.getresponse()
-        data = res.read()
-        return data.decode("utf-8")
+def deploy_ethereum_erc20_smart_contract(): #body_params
+    # if blockchain_validator.deploy_ethereum_erc20_smart_contract(body_params):
+    t = Token[0]
+    recipients = json.load('recipients.json').read()
+    for address, value in recipients.items():
+        t.transfer(address, value, {'from': accounts[0]})
+    # https://eth-brownie.readthedocs.io/en/stable/quickstart.html
+    # https://medium.com/better-programming/part-1-brownie-smart-contracts-framework-for-ethereum-basics-5efc80205413
 
 def deploy_ethereum_erc721_smart_contract(body_params):
     if blockchain_validator.deploy_ethereum_erc721_smart_contract(body_params):
