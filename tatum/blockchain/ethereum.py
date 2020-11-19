@@ -14,7 +14,7 @@ import bip32utils
 import hashlib
 import base58
 import time
-from brownie import *
+# from brownie import Token, accounts
 
 from web3 import Web3, IPCProvider
 web3 = Web3(Web3.HTTPProvider('https://ropsten.infura.io/v3/0fb2f5e906884367b08fdec2e556b4c1'))
@@ -153,17 +153,13 @@ def get_ethereum_transactions_by_address(path_params, query_params):
         return data.decode("utf-8")
 
 def send_ethereum_erc20_from_account_to_account(body_params):
-    # ZKONTROLOVAT PODLE DOKUMENTACE TATUM
     # https://hackernoon.com/ethereum-smart-contracts-in-python-a-comprehensive-ish-guide-771b03990988
     # http://remix.ethereum.org/#optimize=false&evmVersion=null&version=soljson-v0.6.6+commit.6c089d02.js
     # if blockchain_validator.send_ethereum_erc20_from_account_to_account(body_params):  
     
     amount_in_wei = web3.toWei(body_params['amount'],'ether')
-    # if body_params['nonce'] :
-    #     nonce = body_params['nonce']
-    # else:
     nonce = web3.eth.getTransactionCount('0x0C0db1Eeb7c420eBebf34C50c80da0C6361688d7')
-
+    # kde získám nonce nebo adresu smlouvy?
     txn_dict = {
             'to': body_params['to'],
             'value': amount_in_wei,
@@ -171,27 +167,27 @@ def send_ethereum_erc20_from_account_to_account(body_params):
             'gasPrice': web3.toWei(body_params['fee']['gasPrice'], 'gwei'),
             'nonce': nonce,
             'chainId': 3, #https://ethereum.stackexchange.com/questions/17051/how-to-select-a-network-id-or-is-there-a-list-of-network-ids
+            # nastavit pro testnet a mainnet
     }
 
     signed_txn = web3.eth.account.signTransaction(txn_dict, body_params['fromPrivateKey'])
 
     txn_hash = web3.eth.sendRawTransaction(signed_txn.rawTransaction)
-
-    txn_receipt = None
+    txn_hash = '0x{}'.format(binascii.hexlify(txn_hash).decode("utf-8"))
     count = 0
-    while txn_receipt is None and (count < 30):
+    while (count < 30):
+        count=+1
+        conn.request("GET", "/v3/ethereum/transaction/{}".format(txn_hash), headers=headers())
+        res = conn.getresponse()
+        transaction = res.read().decode("utf-8")
+        if json.loads(transaction)['hash'] == txn_hash:
+            return({'txId': txn_hash,"failed": 'false'})
+        time.sleep(5)
+    if json.loads(transaction)['hash'] != txn_hash:
+            return({'txId': txn_hash,"failed": 'true'})
+    # txId je txhash?
 
-        txn_receipt = web3.eth.getTransactionReceipt(txn_hash)
 
-        print('txn_receipt', txn_receipt)
-
-        time.sleep(10)
-
-
-    if txn_receipt is None:
-        return {'status': 'failed', 'error': 'timeout'}
-
-    return {'status': 'added', 'txn_receipt': txn_receipt}
 
 def invoke_smart_contract_method(body_params):
     # if blockchain_validator.invoke_smart_contract_method(body_params):
@@ -206,10 +202,7 @@ def invoke_smart_contract_method(body_params):
 
 def deploy_ethereum_erc20_smart_contract(): #body_params
     # if blockchain_validator.deploy_ethereum_erc20_smart_contract(body_params):
-    t = Token[0]
-    recipients = json.load('recipients.json').read()
-    for address, value in recipients.items():
-        t.transfer(address, value, {'from': accounts[0]})
+    Token.deploy("Test Token", "TST", 18, 1e23, {'from': accounts[0]})
     # https://eth-brownie.readthedocs.io/en/stable/quickstart.html
     # https://medium.com/better-programming/part-1-brownie-smart-contracts-framework-for-ethereum-basics-5efc80205413
 

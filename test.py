@@ -371,18 +371,18 @@ import json
 #________________________________ BLOCKCHAIN/ BITCOIN ________________________________________________
 
 
-query_params = {'mnemonic': "maze truly suit grape buzz vessel coil broken photo rain material bind struggle hybrid cargo bench trash want ecology black enroll kid birth hurt"}
+# query_params = {'mnemonic': "maze truly suit grape buzz vessel coil broken photo rain material bind struggle hybrid cargo bench trash want ecology black enroll kid birth hurt"}
 # print(bitcoin.generate_bitcoin_wallet(query_params))
 
-path_params = {
-    'xpub': 'xpub6DpCM32AcgzzBYZifBYC9BvecxvhSGwtGLmnMdkqmUmVHr59NwT2Qan8MpHUahP57o7Fyekv2r6gUXXKcdSZDxofjd9qBRVxmfNsdqMKq6D', 
-    'index': 9}
+# path_params = {
+#     'xpub': 'xpub6DpCM32AcgzzBYZifBYC9BvecxvhSGwtGLmnMdkqmUmVHr59NwT2Qan8MpHUahP57o7Fyekv2r6gUXXKcdSZDxofjd9qBRVxmfNsdqMKq6D', 
+#     'index': 9}
 # print(bitcoin.generate_bitcoin_deposit_address_from_extended_public_key(path_params))
 
-body_params = {
-"index": 9,
-"mnemonic": "maze truly suit grape buzz vessel coil broken photo rain material bind struggle hybrid cargo bench trash want ecology black enroll kid birth hurt"
-}
+# body_params = {
+# "index": 9,
+# "mnemonic": "maze truly suit grape buzz vessel coil broken photo rain material bind struggle hybrid cargo bench trash want ecology black enroll kid birth hurt"
+# }
 # print(bitcoin.generate_bitcoin_private_key(body_params))
 
 # bitcoin.get_blockchain_information()
@@ -417,18 +417,18 @@ body_params = {
 
 
 #________________________________ BLOCKCHAIN/ ETHEREUM ________________________________________________
-query_params = {'mnemonic': "maze truly suit grape buzz vessel coil broken photo rain material bind struggle hybrid cargo bench trash want ecology black enroll kid birth hurt"}
+# query_params = {'mnemonic': "maze truly suit grape buzz vessel coil broken photo rain material bind struggle hybrid cargo bench trash want ecology black enroll kid birth hurt"}
 # print(ethereum.generate_ethereum_wallet(query_params))
 
-path_params = {
-    'xpub': 'xpub6CWUBUjhkC9ZrF2pfWpGJdqSzwcAZ5tCvRBwyLaS86fYGmD3ZHEZiEr1sUi6bL18UGMJuHLEg1JFrkqgLbJxuvdY8oXUdXoA22u45UanhPn', 
-    'index': 9}
+# path_params = {
+#     'xpub': 'xpub6CWUBUjhkC9ZrF2pfWpGJdqSzwcAZ5tCvRBwyLaS86fYGmD3ZHEZiEr1sUi6bL18UGMJuHLEg1JFrkqgLbJxuvdY8oXUdXoA22u45UanhPn', 
+#     'index': 5}
 # print(ethereum.generate_ethereum_account_address_from_extended_public_key(path_params))
 
-body_params = {
-"index": 9,
-"mnemonic": "maze truly suit grape buzz vessel coil broken photo rain material bind struggle hybrid cargo bench trash want ecology black enroll kid birth hurt"
-}
+# body_params = {
+# "index": 5,
+# "mnemonic": "maze truly suit grape buzz vessel coil broken photo rain material bind struggle hybrid cargo bench trash want ecology black enroll kid birth hurt"
+# }
 
 # print(ethereum.generate_ethereum_private_key(body_params))
 
@@ -450,8 +450,8 @@ body_params = {
 # query_params = {'contractAddress': '0x494394c74bFF7f93C8EB390D4Ab3586Aa2BcAb0C'}
 # print(ethereum.get_ethereum_erc20_account_balance(path_params, query_params))
 
-# path_params = {'hash': '0xdb44e82ba5bdf5d323c766e3bdbd835e6e9a31ccfd7742b4cfc013d869dd6da'}
-# ethereum.get_ethereum_transaction(path_params)
+# path_params = {'hash': '0xde2d49d3a941f34230cfefc0c130e059081935f071fc2f976f59d5ec73540dcd'}
+# print(ethereum.get_ethereum_transaction(path_params))
 
 # path_params = {'address': '0x8078ac412ee3791c08a5fe8bb8695c5ed678cb6a'}
 # ethereum.get_count_of_outgoing_ethereum_transactions(path_params)
@@ -463,43 +463,43 @@ body_params = {
 body_params = {
     "to": "0x5911774BC465d36135516D60bDAA361bb8587aF1",
     "currency": "ETH",
-    "amount": "1",
+    "amount": "0.00001",
     "fromPrivateKey": "0xe2879181abb96aea2c03a32cbf859901884d81963cf23a5ef957b7edf8adeba6",
-    "fee": {"gasLimit":'2000000', "gasPrice":"0.1"},
+    "fee": {"gasLimit":'2000000', "gasPrice":"0.00001"},
 }
 
-# print(ethereum.send_ethereum_erc20_from_account_to_account(body_params))
+print(ethereum.send_ethereum_erc20_from_account_to_account(body_params))
 
 
-body_params = {
-    "fromPrivateKey":"0x192afdb39073e202f200117b609e8d40c1c8f50c3baebe1bda4773db48df81a0",
-    "contractAddress":"0x63227dca323055dbc8de09d7371987ce184e626d",
-    "methodName":"balanceOf",
-    "methodABI":{
-        "constant": True,
-        "inputs": [
-            {
-                "name": "owner",
-                "type": "address"
-            }
-        ],
-        "name": "balanceOf",
-        "outputs": [
-            {
-                "name": "",
-                "type": "uint256"
-            }
-        ],
-        "payable": False,
-        "stateMutability": "view",
-        "type": "function"
-    },
-    "params":["0x8c76887d2e738371bd750362fb55887343472346"]
-}
+# body_params = {
+#     "fromPrivateKey":"0x192afdb39073e202f200117b609e8d40c1c8f50c3baebe1bda4773db48df81a0",
+#     "contractAddress":"0x63227dca323055dbc8de09d7371987ce184e626d",
+#     "methodName":"balanceOf",
+#     "methodABI":{
+#         "constant": True,
+#         "inputs": [
+#             {
+#                 "name": "owner",
+#                 "type": "address"
+#             }
+#         ],
+#         "name": "balanceOf",
+#         "outputs": [
+#             {
+#                 "name": "",
+#                 "type": "uint256"
+#             }
+#         ],
+#         "payable": False,
+#         "stateMutability": "view",
+#         "type": "function"
+#     },
+#     "params":["0x8c76887d2e738371bd750362fb55887343472346"]
+# }
 
 # print(ethereum.invoke_smart_contract_method(body_params))
 
-print(ethereum.deploy_ethereum_erc20_smart_contract())
+# print(ethereum.deploy_ethereum_erc20_smart_contract())
 
 #________________________________ BLOCKCHAIN/ BITCOIN CASH ________________________________________________
 # print(bitcoin_cash.generate_bitcoin_cash_wallet())
@@ -535,17 +535,17 @@ print(ethereum.deploy_ethereum_erc20_smart_contract())
 
 #________________________________ BLOCKCHAIN/ LITECOIN ________________________________________________
 
-query_params = {'mnemonic': "maze truly suit grape buzz vessel coil broken photo rain material bind struggle hybrid cargo bench trash want ecology black enroll kid birth hurt"}
+# query_params = {'mnemonic': "maze truly suit grape buzz vessel coil broken photo rain material bind struggle hybrid cargo bench trash want ecology black enroll kid birth hurt"}
 # print(litecoin.generate_litecoin_wallet(query_params))
 
 
 # path_params = {'index': 1,'xpub': 'ttub4gLJbfAoX8GS9s1ih2eu68M8XhPLRFy6tZyQQ6Ua1tF3WUyG6tGEGzEir7sxB2A2fp567qXFsr8pCjMrNRopFx2gAJmPgxiwVQYB4tWwQrD'}
 # litecoin.generate_litecoin_deposit_address_from_extended_public_key(path_params)
 
-body_params = {
-    "index": 1,
-    'mnemonic': "maze truly suit grape buzz vessel coil broken photo rain material bind struggle hybrid cargo bench trash want ecology black enroll kid birth hurt"
- }
+# body_params = {
+#     "index": 1,
+#     'mnemonic': "maze truly suit grape buzz vessel coil broken photo rain material bind struggle hybrid cargo bench trash want ecology black enroll kid birth hurt"
+#  }
 # print(litecoin.generate_litecoin_private_key(body_params))
 
 # litecoin.get_litecoin_blockchain_information()
