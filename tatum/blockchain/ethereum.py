@@ -14,11 +14,50 @@ import bip32utils
 import hashlib
 import base58
 import time
-# from brownie import Token, accounts
 
 from web3 import Web3, IPCProvider
-web3 = Web3(Web3.HTTPProvider('https://ropsten.infura.io/v3/0fb2f5e906884367b08fdec2e556b4c1'))
+# web3 = Web3(Web3.HTTPProvider('https://ropsten.infura.io/v3/0fb2f5e906884367b08fdec2e556b4c1'))
+ganahce_url = "HTTP://127.0.0.1:7545"
+web3 = Web3(Web3.HTTPProvider(ganahce_url))
+
 # print(web3.isConnected())
+
+account_1 = "0xbc0eeF3EA8D30588a2d73AaAa8BA63267F03F66d"
+account_2 = "0x3d57AFe9Ee276D6E502Dee0D431133410A24d745"
+private_key_1 = "f846ca52e73d4edb43f12fcad3e47712700efa2d342c701e50188ca271e5f8fd"
+
+nonce = web3.eth.getTransactionCount(account_1)
+
+tx = {
+        'to': account_2,
+        'value': web3.toWei(1, 'ether'),
+        'gas': 2000000,
+        'gasPrice': web3.toWei('50', 'gwei'),
+        'nonce': nonce,
+        'chainId': 3, #https://ethereum.stackexchange.com/questions/17051/how-to-select-a-network-id-or-is-there-a-list-of-network-ids
+        # nastavit pro testnet a mainnet
+}
+
+# signed_txn = web3.eth.account.signTransaction(tx, private_key_1)
+# tx_hash = web3.eth.sendRawTransaction(signed_txn.rawTransaction)
+# print(web3.toHex(tx_hash))
+
+address = web3.toChecksumAddress('0xCce01eD49A624F4F5206dc2cCb908075547306eb')
+
+web3.eth.defaultAccount = web3.eth.accounts[0] #who create contract
+abi = json.loads('[{"constant":true,"inputs":[],"name":"getCurrentOpinion","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"_soapboxer","type":"address"}],"name":"isApproved","outputs":[{"name":"approved","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_opinion","type":"string"}],"name":"broadcastOpinion","outputs":[{"name":"success","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"inputs":[],"payable":false,"stateMutability":"nonpayable","type":"constructor"},{"payable":true,"stateMutability":"payable","type":"fallback"},{"anonymous":false,"inputs":[{"indexed":false,"name":"_soapboxer","type":"address"},{"indexed":false,"name":"_opinion","type":"string"}],"name":"OpinionBroadcast","type":"event"}]')
+byte_code= '608060405260043610610057576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff1680635f1d90ae146100c0578063673448dd14610150578063805c2b6c146101ab575b66470de4df8200003411156100be5760016000803373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060006101000a81548160ff0219169083151502179055505b005b3480156100cc57600080fd5b506100d561022c565b6040518080602001828103825283818151815260200191508051906020019080838360005b838110156101155780820151818401526020810190506100fa565b50505050905090810190601f1680156101425780820380516001836020036101000a031916815260200191505b509250505060405180910390f35b34801561015c57600080fd5b50610191600480360381019080803573ffffffffffffffffffffffffffffffffffffffff1690602001909291905050506102ce565b604051808215151515815260200191505060405180910390f35b3480156101b757600080fd5b50610212600480360381019080803590602001908201803590602001908080601f0160208091040260200160405190810160405280939291908181526020018383808284378201915050505050509192919290505050610323565b604051808215151515815260200191505060405180910390f35b606060018054600181600116156101000203166002900480601f0160208091040260200160405190810160405280929190818152602001828054600181600116156101000203166002900480156102c45780601f10610299576101008083540402835291602001916102c4565b820191906000526020600020905b8154815290600101906020018083116102a757829003601f168201915b5050505050905090565b60008060008373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060009054906101000a900460ff169050919050565b60008060003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060009054906101000a900460ff161561048457816001908051906020019061038c92919061048e565b507fcda4350c176dee701be26e34bb6ddef641e5f6847b5ff6ca83ccca7faa85ddaf336001604051808373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020018060200182810382528381815460018160011615610100020316600290048152602001915080546001816001161561010002031660029004801561046c5780601f106104415761010080835404028352916020019161046c565b820191906000526020600020905b81548152906001019060200180831161044f57829003601f168201915b5050935050505060405180910390a160019050610489565b600090505b919050565b828054600181600116156101000203166002900490600052602060002090601f016020900481019282601f106104cf57805160ff19168380011785556104fd565b828001600101855582156104fd579182015b828111156104fc5782518255916020019190600101906104e1565b5b50905061050a919061050e565b5090565b61053091905b8082111561052c576000816000905550600101610514565b5090565b905600a165627a7a72305820e1048c48b1c3fdcb61f121c5dc1c2db485b2a98d1461a28be351104f41063e5a0029'
+Contract = web3.eth.contract(abi=abi, bytecode=byte_code)
+# deploy s mými argumenty a pak už si volám metody ze smlouvy
+tx_hash = Contract.constructor().transact()
+tx_receipt = web3.eth.waitForTransactionReceipt(tx_hash)
+# print(tx_receipt)
+
+
+
+
+
+
 
 contract_address = '0x0C0db1Eeb7c420eBebf34C50c80da0C6361688d7'
 wallet_private_key = '0xc2b15388fcc36ce104842dcf9c18dcd5dd87f765f511e569a4037965afd92845'
@@ -171,21 +210,9 @@ def send_ethereum_erc20_from_account_to_account(body_params):
     }
 
     signed_txn = web3.eth.account.signTransaction(txn_dict, body_params['fromPrivateKey'])
-
-    txn_hash = web3.eth.sendRawTransaction(signed_txn.rawTransaction)
-    txn_hash = '0x{}'.format(binascii.hexlify(txn_hash).decode("utf-8"))
-    count = 0
-    while (count < 30):
-        count=+1
-        conn.request("GET", "/v3/ethereum/transaction/{}".format(txn_hash), headers=headers())
-        res = conn.getresponse()
-        transaction = res.read().decode("utf-8")
-        if json.loads(transaction)['hash'] == txn_hash:
-            return({'txId': txn_hash,"failed": 'false'})
-        time.sleep(5)
-    if json.loads(transaction)['hash'] != txn_hash:
-            return({'txId': txn_hash,"failed": 'true'})
-    # txId je txhash?
+    # broadcast na tatum api
+    # txn_hash = web3.eth.sendRawTransaction(signed_txn.rawTransaction)
+   
 
 
 

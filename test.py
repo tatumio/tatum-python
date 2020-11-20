@@ -450,7 +450,7 @@ import json
 # query_params = {'contractAddress': '0x494394c74bFF7f93C8EB390D4Ab3586Aa2BcAb0C'}
 # print(ethereum.get_ethereum_erc20_account_balance(path_params, query_params))
 
-# path_params = {'hash': '0xde2d49d3a941f34230cfefc0c130e059081935f071fc2f976f59d5ec73540dcd'}
+# path_params = {'hash': '0x62c9749bac1a9a3f36b4ad4bc464bb91359dc9100d85f87071ef1bb5983d1151'}
 # print(ethereum.get_ethereum_transaction(path_params))
 
 # path_params = {'address': '0x8078ac412ee3791c08a5fe8bb8695c5ed678cb6a'}
