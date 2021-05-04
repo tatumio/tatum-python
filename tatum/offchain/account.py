@@ -37,6 +37,14 @@ def get_all_deposit_addresses_for_account(path_params):
         data = res.read()
         return data.decode("utf-8")
 
+def create_new_deposit_address_in_a_batch_call(body_params):
+    if offchain_validator.create_new_deposit_address_in_a_batch_call(body_params):
+        body_params=json.dumps(body_params)
+        conn.request("POST", "/v3/offchain/account/address/batch", body_params, headers=headers(for_post=True))
+        res = conn.getresponse()
+        data = res.read()
+        return data.decode("utf-8")
+        
 def check_if_deposit_address_is_asigned(path_params, query_params = {}):
     if offchain_validator.check_if_deposit_address_is_asigned(path_params, query_params):
         index = ''

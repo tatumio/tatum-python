@@ -400,7 +400,7 @@ def invoke_smart_contract_method(body_params):
             "contractAddress": {"required": True, "type" : "string", "minlength": 42, "maxlength": 42},
             "methodName": {"required": True, "type" : "string", "minlength": 1, "maxlength": 500},
             "methodABI": {"required": True, "type" : "dict"},
-            "params": {"required": True, "type" : "dict"},
+            "params": {"required": True, "type" : "list"},
             "fromPrivateKey": {"type" : "string", "minlength": 66, "maxlength": 66},
             "signatureId": {"type" : "string", "minlength": 36, "maxlength": 36},
             "nonce": {"type" : "string",  "minlength": 0},
@@ -471,7 +471,6 @@ def deploy_ethereum_erc721_smart_contract(body_params):
     v.validate(body_params, body_schema)
     result = result & erros_print(v)
     if result:
-        result = result & check_allowed_chars('^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'supply', body_params['supply'])    
         result = result & check_allowed_chars('^[a-zA-Z0-9_]+$', 'name', body_params['name'])
         if 'fee' in body_params.keys():
             result = result & check_allowed_chars('^[+]?\d+$', 'gasLimit', body_params['fee']['gasLimit'])
@@ -523,6 +522,7 @@ def mint_ethereum_erc721_multiple_tokens(body_params):
             "to": {"required": True, "type" : "list"},
             "tokenId": {"required": True, "type" : "list"},
             "contractAddress": {"required": True, "type" : "string", "minlength": 42, "maxlength": 42},
+            "url":{"required": True, "type" : "list"},
             "fromPrivateKey": {"type" : "string", "minlength": 66, "maxlength": 66},
             "signatureId": {"type" : "string", "minlength": 36, "maxlength": 36},
             "nonce": {"type" : "number",  "min": 0},
@@ -578,3 +578,19 @@ def get_ethereum_erc721_token_metadata(path_params):
     }
     v.validate(path_params, path_schema)
     return erros_print(v)
+
+def estimate_ethereum_transaction_fees(body_params):
+    result = True
+    body_schema ={
+        "from":{"required":True,"type":"string","maxlength":42},
+        "to":{"required":True,"type":"string","maxlength":42},
+        "amount":{"required":True,"type":"string"},
+        "data":{"type" : "string","maxlength":50000}     
+    }
+    v.validate(body_params,body_schema)
+    result = result & erros_print(v)
+    if "amount" in body_params.keys():
+        result = result & check_allowed_chars('^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'Amount', body_params['amount'])
+    if "data" in body_params.keys():
+        result = result & check_allowed_chars('^(0x|0h)?[0-9A-F]+$', 'Data', body_params['data'])
+    return result

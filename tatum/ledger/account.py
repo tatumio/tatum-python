@@ -28,6 +28,13 @@ def create_new_account(body_params):
         data = res.read()
         return data.decode("utf-8")
 
+def create_multiple_accounts_in_batch_call(body_params):
+    if ledger_validator.create_multiple_accounts_in_batch_call(body_params):
+        body_params=json.dumps(body_params)
+        conn.request("POST", "/v3/ledger/account/batch", body_params, headers=headers(for_post=True))
+        res = conn.getresponse()
+        data = res.read()
+        return data.decode("utf-8")
 
 def list_all_accounts(query_params):
     if ledger_validator.page_size_query_params(query_params):
@@ -57,6 +64,14 @@ def get_account_by_ID(path_params):
         data = res.read()
         return data.decode("utf-8")
 
+def update_account(path_params,body_params):
+    if ledger_validator.update_account(path_params,body_params):
+        body_params = json.dumps(body_params)
+        conn.request("PUT", "/v3/ledger/account/{}".format(path_params['id']) ,body_params, headers=headers(for_post=True))
+        res = conn.getresponse()
+        data = res.read()
+        return data.decode("utf-8")
+        
 def get_account_balance(path_params):
     if ledger_validator.id_path_param(path_params):
         conn.request("GET", "/v3/ledger/account/{}/balance".format(path_params['id']), headers=headers())

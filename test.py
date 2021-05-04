@@ -22,6 +22,10 @@ import json
 
 
 
+# body_params = {'accounts': [{"currency": "ETH","customer":{"externalId":"3dss4"}}]}
+# resp=account.create_multiple_accounts_in_batch_call(body_params)
+# print(resp)
+
 # path_params = {'id': '5f85570dd8b99aaea674040a'}
 # query_params = {'pageSize': 10}
 # resp = account.list_all_customer_accounts(path_params,query_params)
@@ -273,8 +277,13 @@ import json
 
 # print(order_book.store_buy_sell_trade(body_params))
 
-
-
+# body_params = {
+#     "pair": "BTC/EUR",
+#     "from": 1613654998398,
+#     "to": 1613654998398,
+#     "timeFrame": "MIN_5"
+# }
+# print(order_book.obtain_chart_data_from_historical_closed_trades(body_params))
 
 #________________________________LEDGER/ KEY MANAGEMENT________________________________________________
 
@@ -318,7 +327,9 @@ import json
 # print(offchainAccount.create_new_deposit_address(path_params, query_params))
 # print(offchainAccount.get_all_deposit_addresses_for_account(path_params))
 
-
+# body_params = {"addresses":[{"accountId":"5e6be8e9e6aa436299950c41","derivationKey":0}]}
+# resp = offchainAccount.create_new_deposit_address_in_a_batch_call(body_params)
+# print(resp)
 
 
 # path_params = {'address': 'mrj2QoM9j6JrcAW8JiVfx8M6noK6i8REr9', 'currency': 'BTC'}
@@ -418,11 +429,13 @@ import json
 
 #________________________________ BLOCKCHAIN/ ETHEREUM ________________________________________________
 # query_params = {'mnemonic': "maze truly suit grape buzz vessel coil broken photo rain material bind struggle hybrid cargo bench trash want ecology black enroll kid birth hurt"}
+# query_params = {'mnemonic': "agent brick select film scrap wheat blind december wool identify athlete orbit"}
 # print(ethereum.generate_ethereum_wallet(query_params))
 
 # path_params = {
-#     'xpub': 'xpub6CWUBUjhkC9ZrF2pfWpGJdqSzwcAZ5tCvRBwyLaS86fYGmD3ZHEZiEr1sUi6bL18UGMJuHLEg1JFrkqgLbJxuvdY8oXUdXoA22u45UanhPn', 
-#     'index': 5}
+    # 'xpub': 'xpub6CWUBUjhkC9ZrF2pfWpGJdqSzwcAZ5tCvRBwyLaS86fYGmD3ZHEZiEr1sUi6bL18UGMJuHLEg1JFrkqgLbJxuvdY8oXUdXoA22u45UanhPn', 
+#     'xpub': 'xpub6DQfEjEwzh8XgTcTtmFuTHbLbxLoxKW7gbwZJggNEF5j3jpLUMXt45wRcJMd3RKB5oATojgb1BEPVZyMBVdDPc5WBZaZRxVt8msPwq2pwyt',
+#     'index': 0}
 # print(ethereum.generate_ethereum_account_address_from_extended_public_key(path_params))
 
 # body_params = {
@@ -443,7 +456,7 @@ import json
 # path_params = {'hash': '0x3f7268804257cfb4dbf8c5051ada42709a45bd04f713883dc1ed114ecd3f85d2'}
 # print(ethereum.get_block_by_hash(path_params)) 
 
-# path_params = {'address': '0x0c0db1eeb7c420ebebf34c50c80da0c6361688d7'}
+# path_params = {'address': '0xaE0835EC16922Bd9993EEF5cDa04606D53075c9c'}
 # print(ethereum.get_ethereum_account_balance(path_params))
 
 # path_params = {'address': '0x811dfbff13adfbc3cf653dcc373c03616d3471c9'}
@@ -460,22 +473,22 @@ import json
 # query_params = {'pageSize': 10}
 # print(ethereum.get_ethereum_transactions_by_address(path_params, query_params))
 
-body_params = {
-    "to": "0x5911774BC465d36135516D60bDAA361bb8587aF1",
-    "currency": "ETH",
-    "amount": "0.00001",
-    "fromPrivateKey": "0xe2879181abb96aea2c03a32cbf859901884d81963cf23a5ef957b7edf8adeba6",
-    "fee": {"gasLimit":'2000000', "gasPrice":"0.00001"},
-}
+# body_params = {
+#     "to": "0x6DB0BD42e405CF8d4295be1cC280a6250ff8C128",
+#     "currency": "ETH",
+#     "amount": "0.00001",
+#     "fromPrivateKey": "0xe2879181abb96aea2c03a32cbf859901884d81963cf23a5ef957b7edf8adeba6",
+#     "fee": {"gasLimit":'2000000', "gasPrice":"10"},
+# }
 
-print(ethereum.send_ethereum_erc20_from_account_to_account(body_params))
+# print(ethereum.send_ethereum_erc20_from_account_to_account(body_params))
 
 
 # body_params = {
-#     "fromPrivateKey":"0x192afdb39073e202f200117b609e8d40c1c8f50c3baebe1bda4773db48df81a0",
-#     "contractAddress":"0x63227dca323055dbc8de09d7371987ce184e626d",
+#     "fromPrivateKey":"0x8c99665b1dc6a63e3583097f55478c2302ebcdeaf1311362d46f0cfa4ae1ac6d",
+#     "contractAddress":"0x1458cc2ccc9dd98abdf50bba9eea410ebf8dd325",
 #     "methodName":"balanceOf",
-#     "methodABI":{
+#     "methodABI":  {
 #         "constant": True,
 #         "inputs": [
 #             {
@@ -494,12 +507,109 @@ print(ethereum.send_ethereum_erc20_from_account_to_account(body_params))
 #         "stateMutability": "view",
 #         "type": "function"
 #     },
-#     "params":["0x8c76887d2e738371bd750362fb55887343472346"]
+#     "params":["0xaE0835EC16922Bd9993EEF5cDa04606D53075c9c"]
 # }
 
 # print(ethereum.invoke_smart_contract_method(body_params))
 
-# print(ethereum.deploy_ethereum_erc20_smart_contract())
+
+# body_params = {
+#     "name":"Token",
+#     "symbol":"TKN",
+#     "supply":'210000000000',
+#     "digits":18,
+#     "address":"0xaE0835EC16922Bd9993EEF5cDa04606D53075c9c",
+#     "fromPrivateKey": "0x8c99665b1dc6a63e3583097f55478c2302ebcdeaf1311362d46f0cfa4ae1ac6d",
+#     "fee":{"gasLimit":"6000000","gasPrice":"20"}
+# }
+# print(ethereum.deploy_ethereum_erc20_smart_contract(body_params))
+
+
+# body_params ={
+#     "to": "0x6DB0BD42e405CF8d4295be1cC280a6250ff8C128",
+#     "amount": "1000",
+#     "contractAddress": "0x1458Cc2CcC9Dd98AbDF50bBA9eea410EBF8DD325",
+#     "digits": 18,
+#     "fromPrivateKey": "0x8c99665b1dc6a63e3583097f55478c2302ebcdeaf1311362d46f0cfa4ae1ac6d",
+#     "fee":{"gasLimit":"2000000","gasPrice":"20"}
+# }
+# print(ethereum.transfer_ethereum_erc20(body_params))
+
+# body_params = {
+#     "name":"MyErc721",
+#     "symbol":"ERC",
+#     "fromPrivateKey": "0x8c99665b1dc6a63e3583097f55478c2302ebcdeaf1311362d46f0cfa4ae1ac6d"
+# }
+# print(ethereum.deploy_ethereum_erc721_smart_contract(body_params))
+
+# body_params = {
+#     "tokenId":"100",
+#     "to":"0xaE0835EC16922Bd9993EEF5cDa04606D53075c9c",
+#     "contractAddress":"0xbe728D5a0E56F72278Bbc62a003fDEe456a15338",
+#     "url":"https://my_token_data.com",
+#     "fromPrivateKey": "0x8c99665b1dc6a63e3583097f55478c2302ebcdeaf1311362d46f0cfa4ae1ac6d",
+#     "fee":{"gasLimit":"800000","gasPrice":"20"}
+# }
+# print(ethereum.mint_ethereum_erc721(body_params))
+
+
+# body_params = {
+#     "to":"0x6DB0BD42e405CF8d4295be1cC280a6250ff8C128",
+#     "tokenId":"100",
+#     "contractAddress":"0xbe728D5a0E56F72278Bbc62a003fDEe456a15338",
+#     "fromPrivateKey": "0x8c99665b1dc6a63e3583097f55478c2302ebcdeaf1311362d46f0cfa4ae1ac6d"
+# }
+# print(ethereum.transfer_ethereum_erc721_token(body_params))
+
+# body_params = {
+#     "to":['0xaE0835EC16922Bd9993EEF5cDa04606D53075c9c'],
+#     "tokenId":['101'], 
+#     "url":["https://my_token_data.com"],
+#     "contractAddress":"0xbe728D5a0E56F72278Bbc62a003fDEe456a15338",
+#     "fromPrivateKey": "0x8c99665b1dc6a63e3583097f55478c2302ebcdeaf1311362d46f0cfa4ae1ac6d"
+# }
+# print(ethereum.mint_ethereum_erc721_multiple_tokens(body_params))
+
+
+# body_params = {
+#     "tokenId":'101', 
+#     "contractAddress":"0xbe728D5a0E56F72278Bbc62a003fDEe456a15338",
+#     "fromPrivateKey": "0x8c99665b1dc6a63e3583097f55478c2302ebcdeaf1311362d46f0cfa4ae1ac6d"
+# }
+# print(ethereum.burn_ethereum_erc721(body_params))
+
+# path_params = {
+#     "address":"0x6DB0BD42e405CF8d4295be1cC280a6250ff8C128", 
+#     "contractAddress":"0xbe728D5a0E56F72278Bbc62a003fDEe456a15338"
+# }
+# print(ethereum.get_ethereum_erc721_account_balance(path_params))
+
+# path_params = {
+#     "address":"0x6DB0BD42e405CF8d4295be1cC280a6250ff8C128",
+#     "index": 0, 
+#     "contractAddress":"0xbe728D5a0E56F72278Bbc62a003fDEe456a15338"
+# }
+# print(ethereum.get_ethereum_erc721_token(path_params))
+
+# path_params = {
+#     "token":"100",
+#     "contractAddress":"0xbe728D5a0E56F72278Bbc62a003fDEe456a15338"
+# }
+# print(ethereum.get_ethereum_erc721_token_metadata(path_params))
+
+# path_params = {
+#     "token":"101",
+#     "contractAddress":"0xE8836F1D3ADdCFE27CD9276b8D2C288D91476C9A"
+# }
+# print(ethereum.get_ethereum_erc721_token_owner(path_params))
+
+# body_params = {
+# "from": "0x75CBd5e8477fB7b7503E0cD377252b236cd166D9",
+# "to": "0xecF1210c083ebE92D7Bf4bB145b2322813c4D0ef",
+# "amount": "106"
+# }
+# print(ethereum.estimate_ethereum_transaction_fees(body_params))
+
 
 #________________________________ BLOCKCHAIN/ BITCOIN CASH ________________________________________________
 # print(bitcoin_cash.generate_bitcoin_cash_wallet())
