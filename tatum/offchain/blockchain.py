@@ -115,3 +115,19 @@ def create_xrp_based_asset(body_params):
         res = conn.getresponse()
         data = res.read()
         return data.decode("utf-8")
+
+def send_BNB_from_tatum_ledget_to_blockchain(body_params):
+    if offchain_validator.send_BNB_from_tatum_ledget_to_blockchain(body_params):
+        body_params = json.dumps(body_params)
+        conn.request("POST","/v3/offchain/bnb/transfer",body_params,headers=headers(for_post=True))
+        res = conn.getresponse()
+        data = res.read()
+        return data.decode("utf-8")
+
+def create_BNB_based_asset(body_params):
+    if offchain_validator.create_BNB_based_asset(body_params):
+        body_params = json.dumps(body_params)
+        conn.request("POST","/v3/offchain/bnb/asset", body_params,headers=headers(for_post=True))
+        res = conn.getresponse()
+        data = res.read()
+        return data.decode("utf-8")

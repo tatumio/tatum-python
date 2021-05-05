@@ -90,3 +90,11 @@ def store_buy_sell_trade(body_params):
         res = conn.getresponse()
         data = res.read()
         return data.decode("utf-8")
+
+def obtain_chart_data_from_historical_closed_trades(body_params):
+    if ledger_validator.obtain_chart_data_from_historical_closed_trades(body_params):
+        body_params = json.dumps(body_params)
+        conn.request("POST", "/v3/trade/chart", body_params, headers=headers(for_post=True))
+        res = conn.getresponse()
+        data = res.read()
+        return data.decode("utf-8")

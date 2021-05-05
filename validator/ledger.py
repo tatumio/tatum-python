@@ -62,6 +62,11 @@ def create_new_account(body_params):
     v.validate(body_params, body_schema)
     return erros_print(v)
 
+def create_multiple_accounts_in_batch_call(body_params):
+    Body_schema = {'accounts': {'type': 'list', 'schema': {'type': 'dict', 'schema': {'currency': {"required":True,'type': 'string',"minlength":2,"maxlength":40},'xpub': {'type': 'string',"minlength":1,"maxlength":192},"accountNumber":{"type":"string","minlength":1,"maxlength":50},"accountingCurrency":{"type":"string","minlength":3,"maxlength":3},"accountCode":{"type":"string","minlength":1,"maxlength":50},"compliant":{"type":"boolean"},"customer":{"type":"dict","schema":{"externalId":{"required":True,"type":"string","minlength":1,"maxlength":40},"accountingCurrency":{"type":"string","minlength":3,"maxlength":3},"customerCountry":{"type":"string","minlength":2,"maxlength":2},"providerCountry":{"type":"string","minlength":2,"maxlength":2}}}}}}}
+    v.validate(body_params,Body_schema)
+    return erros_print(v)
+
 def list_all_customer_accounts(path_params, query_params):
     return id_path_param(path_params) & page_size_query_params(query_params) & True
 
@@ -79,7 +84,17 @@ def block_amount_on_account(path_params, body_params):
         result = result & check_allowed_chars('^^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'amount', body_params['amount'])
         return  result
     
-
+def update_account(path_params,body_params):
+    result = True
+    result = result & id_path_param(path_params)
+    body_schema = {
+        "accountCode" : {"type":"string","minlength":1,"maxlength":50},
+        "accountNumber" : {"type":"string","minlength":1,"maxlength":50}
+    }
+    v.validate(body_params,body_schema)
+    result = result & erros_print(v)
+    return result
+    
 def unlock_amount_on_account_and_perform_transaction(path_params, body_params):
     result = True
     result = result & id_path_param(path_params)
@@ -391,4 +406,20 @@ def store_buy_sell_trade(body_params):
         result = result & check_allowed_chars('^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'amount', body_params['amount'])
         result = result & check_allowed_chars('^[A-a-zZ0-9_\-]+\/[A-Za-z0-9_\-]+$', 'pair', body_params['pair'])
 
+        return result
+
+def obtain_chart_data_from_historical_closed_trades(body_params):
+    result = True
+    body_schema = {
+        "pair" : {"required": True, "type" : "string", "minlength": 3, "maxlength": 30},
+        "from" : {"required":True, "type": "number", "min":0},
+        "to" : {"required":True, "type":"number","min":0},
+        "timeFrame" : {"required":True, "type":"string"},
+    }
+    v.validate(body_params, body_schema)
+    result = result & erros_print(v)
+    if result:
+        timeFrames = ["MIN_1","MIN_3","MIN_5","MIN_15","MIN_30","HOUR_1","HOUR_4","HOUR_12","DAY","WEEK","MONTH","YEAR"]
+        result = result & check_correct_value_from_define_list(timeFrames, 'timeFrame', body_params['timeFrame'])
+        result = result & check_allowed_chars('^[A-a-zZ0-9_\-]+\/[A-Za-z0-9_\-]+$', 'pair', body_params['pair'])
         return result

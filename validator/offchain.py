@@ -65,6 +65,14 @@ def create_new_deposit_address(path_params, query_params):
         result = result & erros_print(v)
     return result
 
+def create_new_deposit_address_in_a_batch_call(body_params):
+    result=True
+    Body_schema = {
+    'addresses': {'type': 'list', 'schema': {'type': 'dict', 'schema': {'accountId': {"required":True,'type': 'string',"minlength":24,"maxlength":24},'derivationKey': {'type': 'integer','min':0,'max': 2147483647}}}}
+    }
+    v.validate(body_params,Body_schema)
+    return result & erros_print(v)
+
 def check_if_deposit_address_is_asigned(path_params, query_params):
     result = True
     path_schema = {
@@ -345,6 +353,39 @@ def create_xrp_based_asset(body_params):
             "token": {"required": True, "type" : "string", "minlength": 40, "maxlength": 40},
             "basePair" : {"required": True, "type" : "string", "minlength": 3, "maxlength": 5}
         }
+    v.validate(body_params, body_schema)
+    result = result & erros_print(v)
+    if result:
+        result = result & check_allowed_chars('^[a-zA-Z0-9]{1,12}$', 'token', body_params['token'])
+        currencies = ["AED", "AFN", "ALL", "AMD", "ANG", "AOA", "ARS", "AUD", "AWG", "AZN", "BAM", "BAT", "BBD", "BCH", "BDT", "BGN", "BHD", "BIF", "BMD", "BND", "BOB", "BRL", "BSD", "BTC", "BTN", "BWP", "BYN", "BYR", "BZD", "CAD", "CDF", "CHF", "CLF", "CLP", "CNY", "COP", "CRC", "CUC", "CUP", "CVE", "CZK", "DJF", "DKK", "DOP", "DZD", "EGP", "ERN", "ETB", "ETH", "EUR", "FJD", "FKP", "FREE", "GBP", "GEL", "GGP", "GHS", "GIP", "GMD", "GNF", "GTQ", "GYD", "HKD", "HNL", "HRK", "HTG", "HUF", "IDR", "ILS", "IMP", "INR", "IQD", "IRR", "ISK", "JEP", "JMD", "JOD", "JPY", "KES", "KGS", "KHR", "KMF", "KPW", "KRW", "KWD", "KYD", "KZT", "LAK", "LBP", "LEO", "LINK", "LKR", "LRD", "LSL", "LTC", "LTL", "LVL", "LYD", "MAD", "MDL", "MGA", "MKD", "MKR", "MMK", "MMY", "MNT", "MOP", "MRO", "MUR", "MVR", "MWK", "MXN", "MYR", "MZN", "NAD", "NGN", "NIO", "NOK", "NPR", "NZD", "OMR", "PAB", "PAX", "PAXG", "PEN", "PGK", "PHP", "PKR", "PLN", "PLTC", "PYG", "QAR", "RON", "RSD", "RUB", "RWF", "SAR", "SBD", "SCR", "SDG", "SEK", "SGD", "SHP", "SLL", "SOS", "SRD", "STD", "SVC", "SYP", "SZL", "THB", "TJS", "TMT", "TND", "TOP", "TRY", "TTD", "TUSD", "TWD", "TZS", "UAH", "UGX", "USD", "USDC", "USDT", "UYU", "UZS", "VEF", "VND", "VUV", "WST", "XAF", "XAG", "XAU", "XCD", "XCON", "XDR", "XLM", "XOF", "XPF", "XRP", "YER", "ZAR", "ZMK", "ZMW", "ZWL"]
+        result = result & check_correct_value_from_define_list(currencies, 'basePair', body_params['basePair'])
+        return result
+
+def send_BNB_from_tatum_ledget_to_blockchain(body_params):
+    result = True
+    body_schema = {
+        "senderAccountId" : {"required": True, "type" : "string", "minlength": 24, "maxlength": 24},
+        "address": {"required": True, "type" : "string", "minlength": 1, "maxlength": 100},
+        "amount" : {"required": True, "type" : "string", "maxlength": 38},
+        "compliant": {"type": "boolean"},
+        "attr": {"type" : "string", "maxlength": 64},
+        "paymentId":{"type" : "string","minlength": 1, "maxlength": 100},
+        "privateKey": {"type": "string", "minlength": 66, "maxlength": 66},
+        "senderNote":{"type" : "string","minlength": 1, "maxlength": 500},
+        "signatureId": {"type" : "string", "minlength": 36, "maxlength": 36}
+    }
+    v.validate(body_params, body_schema)
+    result = result & erros_print(v)
+    if result:
+        result = result & check_allowed_chars('^[+]?((\d+(\.\d*)?)|(\.\d+))$', 'amount', body_params['amount'])
+        return result
+
+def create_BNB_based_asset(body_params):
+    result = True
+    body_schema = {
+        "token": {"required": True, "type" : "string", "minlength": 40, "maxlength": 40},
+        "basePair" : {"required": True, "type" : "string", "minlength": 3, "maxlength": 5}
+    }
     v.validate(body_params, body_schema)
     result = result & erros_print(v)
     if result:
